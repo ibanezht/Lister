@@ -1,0 +1,341 @@
+﻿#region usings
+
+using System;
+using System.ComponentModel;
+using System.Windows.Input;
+using GalaSoft.MvvmLight.Command;
+using Heath.Lister.Configuration;
+using Heath.Lister.Infrastructure;
+using Heath.Lister.Infrastructure.Models;
+using Heath.Lister.Localization;
+using Telerik.Windows.Controls;
+using ViewModelBase = GalaSoft.MvvmLight.ViewModelBase;
+
+#endregion
+
+namespace Heath.Lister.ViewModels.Abstract
+{
+    public abstract class ItemViewModelBase : ViewModelBase
+    {
+        protected const string CompletedPropertyName = "Completed";
+        protected const string CreatedDatePropertyName = "CreatedDate";
+        protected const string DueDatePropertyName = "DueDate";
+        protected const string DueTimePropertyName = "DueTime";
+        protected const string IdPropertyName = "Id";
+        protected const string ListColorPropertyName = "ListColor";
+        protected const string ListIdPropertyName = "ListId";
+        protected const string ListTitlePropertyName = "ListTitle";
+        protected const string NotesPropertyName = "Notes";
+        protected const string PriorityPropertyName = "Priority";
+        protected const string TitlePropertyName = "Title";
+        protected const string DueDateTimePropertyName = "DueDateTime";
+        private const string SelectedPropertyName = "Selected";
+
+        private readonly INavigationService _navigationService;
+
+        private bool _completed;
+        private DateTime _createdDate;
+        private DateTime? _dueDate;
+        private DateTime? _dueTime;
+        private Guid _id;
+        private ColorViewModel _listColor;
+        private Guid _listId;
+        private string _listTitle;
+        private string _notes;
+        private Priority _priority;
+        private bool _selected;
+        private string _title;
+
+        protected ItemViewModelBase(INavigationService navigationService)
+        {
+            if (IsInDesignMode)
+            {
+                Completed = false;
+                DueDate = DateTime.Today.Date;
+                DueTime = DateTime.Parse("10:00 PM");
+                ListTitle = "design";
+                Notes = "This is design mode data.";
+                Title = "design mode";
+            }
+
+            _navigationService = navigationService;
+
+            CompleteCommand = new RelayCommand(Complete, () => !Completed);
+            DeleteCommand = new RelayCommand(Delete);
+            EditCommand = new RelayCommand(Edit);
+            IncompleteCommand = new RelayCommand(Incomplete, () => Completed);
+            ReminderCommand = new RelayCommand(Reminder, () => !Completed && !ScheduleReminderHelper.HasReminder(Id.ToString()));
+        }
+
+        public ICommand CompleteCommand { get; private set; }
+
+        public bool Completed
+        {
+            get { return _completed; }
+            set
+            {
+                _completed = value;
+                RaisePropertyChanged(CompletedPropertyName);
+                ((RelayCommand)CompleteCommand).RaiseCanExecuteChanged();
+                ((RelayCommand)IncompleteCommand).RaiseCanExecuteChanged();
+                ((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
+            }
+        }
+
+        public DateTime CreatedDate
+        {
+            get { return _createdDate; }
+            set
+            {
+                _createdDate = value;
+                RaisePropertyChanged(CreatedDatePropertyName);
+            }
+        }
+
+        public ICommand DeleteCommand { get; private set; }
+
+        public DateTime? DueDate
+        {
+            get { return _dueDate; }
+            set
+            {
+                _dueDate = value;
+                RaisePropertyChanged(DueDatePropertyName);
+                RaisePropertyChanged(DueDateTimePropertyName);
+            }
+        }
+
+        public string DueDateTime
+        {
+            get
+            {
+                var today = DateTime.Now.Date;
+                var retval = AppResources.NotDueText;
+
+                if (DueDate.HasValue && DueTime.HasValue)
+                {
+                    if (DueDate.Value.Date == today.Date)
+                        retval = (DueDate.Value.Date + DueTime.Value.TimeOfDay).ToString("t");
+                    else
+                        retval = DueDate.Value.Date.ToString("M/dd");
+                }
+                else if (DueDate.HasValue)
+                    retval = DueDate.Value.Date.ToString("M/dd");
+
+                return retval;
+            }
+        }
+
+        public DateTime? DueTime
+        {
+            get { return _dueTime; }
+            set
+            {
+                _dueTime = value;
+
+                if (_dueTime != null && _dueDate == null)
+                    _dueDate = DateTime.Today.Date;
+
+                RaisePropertyChanged(DueTimePropertyName);
+                RaisePropertyChanged(DueDatePropertyName);
+                RaisePropertyChanged(DueDateTimePropertyName);
+            }
+        }
+
+        public ICommand EditCommand { get; private set; }
+
+        public Guid Id
+        {
+            get { return _id; }
+            set
+            {
+                _id = value;
+                RaisePropertyChanged(IdPropertyName);
+                ((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
+            }
+        }
+
+        public ICommand IncompleteCommand { get; private set; }
+
+        public ColorViewModel ListColor
+        {
+            get { return _listColor; }
+            set
+            {
+                _listColor = value;
+                RaisePropertyChanged(ListColorPropertyName);
+            }
+        }
+
+        public Guid ListId
+        {
+            get { return _listId; }
+            set
+            {
+                _listId = value;
+                RaisePropertyChanged(ListIdPropertyName);
+            }
+        }
+
+        public string ListTitle
+        {
+            get { return _listTitle; }
+            set
+            {
+                _listTitle = value;
+                RaisePropertyChanged(ListTitlePropertyName);
+            }
+        }
+
+        public string Notes
+        {
+            get { return _notes; }
+            set
+            {
+                _notes = value;
+                RaisePropertyChanged(NotesPropertyName);
+            }
+        }
+
+        public Priority Priority
+        {
+            get { return _priority; }
+            set
+            {
+                _priority = value;
+                RaisePropertyChanged(PriorityPropertyName);
+            }
+        }
+
+        public ICommand ReminderCommand { get; private set; }
+
+        public bool Selected
+        {
+            get { return _selected; }
+            set
+            {
+                _selected = value;
+                RaisePropertyChanged(SelectedPropertyName);
+            }
+        }
+
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                RaisePropertyChanged(TitlePropertyName);
+            }
+        }
+
+        public void Complete()
+        {
+            Completed = true;
+
+            var backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork +=
+                (sender, args) =>
+                {
+                    using (var data = new ListerData())
+                        data.UpdateItem(Id, Completed);
+
+                    ScheduleReminderHelper.RemoveReminder(Id.ToString());
+                };
+            backgroundWorker.RunWorkerCompleted += CompleteCompleted;
+            backgroundWorker.RunWorkerAsync();
+        }
+
+        protected abstract void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args);
+
+        public void Delete()
+        {
+            Action delete =
+                () =>
+                {
+                    var backgroundWorker = new BackgroundWorker();
+                    backgroundWorker.DoWork +=
+                        (sender, args) =>
+                        {
+                            using (var data = new ListerData())
+                                data.DeleteItem(Id);
+
+                            ScheduleReminderHelper.RemoveReminder(Id.ToString());
+                        };
+                    backgroundWorker.RunWorkerCompleted += DeleteCompleted;
+                    backgroundWorker.RunWorkerAsync();
+                };
+
+            if (Selected)
+                delete();
+
+            else
+            {
+                Action<MessageBoxClosedEventArgs> closedHandler =
+                    e =>
+                    {
+                        if (e.Result != DialogResult.OK)
+                            return;
+
+                        delete();
+                    };
+
+                RadMessageBox.Show(AppResources.DeleteText, MessageBoxButtons.YesNo, AppResources.DeleteItemMessage, closedHandler: closedHandler);
+            }
+        }
+
+        protected abstract void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args);
+
+        private void Edit()
+        {
+            _navigationService.Navigate(new Uri(string.Format("/EditItem/{0}/{1}", Id, ListId), UriKind.Relative));
+        }
+
+        public void Incomplete()
+        {
+            Completed = false;
+
+            var backgroundWorker = new BackgroundWorker();
+            backgroundWorker.DoWork +=
+                (sender, args) =>
+                {
+                    using (var data = new ListerData())
+                        data.UpdateItem(Id, Completed);
+
+                    ScheduleReminderHelper.RemoveReminder(Id.ToString());
+                };
+            backgroundWorker.RunWorkerCompleted += IncompleteCompleted;
+            backgroundWorker.RunWorkerAsync();
+        }
+
+        protected abstract void IncompleteCompleted(object sender, RunWorkerCompletedEventArgs args);
+
+        private void Reminder()
+        {
+            var attemptedDate = DateTime.Now;
+
+            if (DueDate.HasValue && DueTime.HasValue)
+                attemptedDate = DueDate.Value.Date + DueTime.Value.TimeOfDay;
+            else if (DueDate.HasValue)
+                attemptedDate = DueDate.Value.Date;
+
+            var fallbackDate = DateTime.Now.AddMinutes(5);
+
+            var reminderDate = fallbackDate > attemptedDate ? fallbackDate : attemptedDate;
+            var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
+
+            Action<MessageBoxClosedEventArgs> closedHandler =
+                e =>
+                {
+                    if (e.Result == DialogResult.OK)
+                    {
+                        ScheduleReminderHelper.AddReminder(Id.ToString(), uri, Title, Notes ?? string.Empty, reminderDate);
+
+                        ((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
+                    }
+                };
+
+            RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.OK, string.Format(AppResources.ReminderMessageText, reminderDate), closedHandler: closedHandler);
+        }
+    }
+}

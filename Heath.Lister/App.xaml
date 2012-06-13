@@ -1,0 +1,62 @@
+﻿<Application x:Class="Heath.Lister.App" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:listerConverters="clr-namespace:Heath.Lister.Converters" 
+             xmlns:listerInfrastructure="clr-namespace:Heath.Lister.Infrastructure;assembly=Heath.Lister.Infrastructure" 
+             xmlns:listerLocalization="clr-namespace:Heath.Lister.Localization" 
+             xmlns:listerViewModels="clr-namespace:Heath.Lister.ViewModels" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
+             xmlns:system="clr-namespace:System;assembly=mscorlib" mc:Ignorable="d">
+
+    <Application.Resources>
+        <listerViewModels:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />
+
+        <listerLocalization:Localization x:Key="LocalizedStrings" />
+
+        <listerConverters:BooleanToTextValueConverter x:Key="CompletedBooleanToTextValueConverter" FalseText="{Binding LocalizedResources.NoText, Source={StaticResource LocalizedStrings}}" TrueText="{Binding LocalizedResources.YesText, Source={StaticResource LocalizedStrings}}" />
+        <listerConverters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
+        <listerConverters:EnumValuesConverter x:Key="EnumValuesConverter" />
+        <listerConverters:PriorityToSolidColorBrushConverter x:Key="PriorityToSolidColorBrushConverter" />
+        <listerConverters:PriorityToStringConverter x:Key="PriorityToStringConverter" />
+        
+        <listerConverters:ValueEqualToVisibilityConverter x:Key="ZeroToVisibilityConverter">
+            <listerConverters:ValueEqualToVisibilityConverter.Value>
+                <system:Int32>0</system:Int32>
+            </listerConverters:ValueEqualToVisibilityConverter.Value>
+        </listerConverters:ValueEqualToVisibilityConverter>
+
+        <listerConverters:ValueEqualToVisibilityConverter x:Key="TrueToVisibilityConverter">
+            <listerConverters:ValueEqualToVisibilityConverter.Value>
+                <system:Boolean>True</system:Boolean>
+            </listerConverters:ValueEqualToVisibilityConverter.Value>
+        </listerConverters:ValueEqualToVisibilityConverter>
+
+        <listerConverters:ValueEqualToVisibilityConverter x:Key="FalseToVisibilityConverter">
+            <listerConverters:ValueEqualToVisibilityConverter.Value>
+                <system:Boolean>False</system:Boolean>
+            </listerConverters:ValueEqualToVisibilityConverter.Value>
+        </listerConverters:ValueEqualToVisibilityConverter>
+        
+        <listerInfrastructure:ValueProvider x:Key="NoNotesValueProvider" Value="{Binding LocalizedResources.NoNotesText, Source={StaticResource LocalizedStrings}}" />
+
+        <SolidColorBrush x:Key="LiveTileForegroundBrush" Color="#FFFFFFFF" />
+
+        <Style x:Key="TitlePanelStyle" TargetType="StackPanel">
+            <Setter Property="Margin" Value="12,17,0,28" />
+        </Style>
+
+        <Style x:Key="PageTitleStyle" BasedOn="{StaticResource PhoneTextTitle1Style}" TargetType="TextBlock">
+            <Setter Property="Margin" Value="9,-7,0,0" />
+        </Style>
+
+        <Style x:Key="ListTitleStyle" BasedOn="{StaticResource PhoneTextLargeStyle}" TargetType="TextBlock">
+            <Setter Property="Margin" Value="12,0,12,12" />
+        </Style>
+    </Application.Resources>
+
+    <Application.ApplicationLifetimeObjects>
+        <shell:PhoneApplicationService Activated="ApplicationActivated" Closing="ApplicationClosing" Deactivated="ApplicationDeactivated" Launching="ApplicationLaunching" />
+    </Application.ApplicationLifetimeObjects>
+</Application>

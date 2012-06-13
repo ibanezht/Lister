@@ -1,0 +1,14 @@
+﻿<Heath_Lister_ViewModels:ListItemViewModel xmlns:Heath_Lister_ViewModels="clr-namespace:Heath.Lister.ViewModels" xmlns:System="clr-namespace:System;assembly=mscorlib" Completed="True" IsInDesignMode="False" IsInDesignModeStatic="True" ListTitle="Nam aliquam" Notes="Facilisi faucibus habitant inceptos interdum lobortis nascetur pharetra placerat pulvinar sagittis senectus sociosqu" Title="Cras sed vestibulum">
+	<Heath_Lister_ViewModels:ListItemViewModel.Id>
+		<System:Guid/>
+	</Heath_Lister_ViewModels:ListItemViewModel.Id>
+	<Heath_Lister_ViewModels:ListItemViewModel.ListId>
+		<System:Guid/>
+	</Heath_Lister_ViewModels:ListItemViewModel.ListId>
+	<Heath_Lister_ViewModels:ListItemViewModel.DueDate>
+		<System:DateTime>1/1/2012</System:DateTime>
+	</Heath_Lister_ViewModels:ListItemViewModel.DueDate>
+		<Heath_Lister_ViewModels:ListItemViewModel.DueTime>
+		<System:DateTime>10:00 AM</System:DateTime>
+	</Heath_Lister_ViewModels:ListItemViewModel.DueTime>
+</Heath_Lister_ViewModels:ListItemViewModel>

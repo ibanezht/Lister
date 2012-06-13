@@ -1,0 +1,19 @@
+﻿<UserControl x:Class="Heath.Lister.Views.HubItemView" 
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:listerControls="clr-namespace:Heath.Lister.Controls;assembly=Heath.Lister.Controls" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" 
+             mc:Ignorable="d">
+
+    <listerControls:HubTile Title="{Binding Title}" Background="{Binding Color.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" MessageLarge="{Binding Remaining}" MessageSmall="{Binding LocalizedResources.RemainingText, Source={StaticResource LocalizedStrings}}">
+        <telerikPrimitives:RadContextMenu.ContextMenu>
+            <telerikPrimitives:RadContextMenu>
+                <telerikPrimitives:RadContextMenuItem Command="{Binding EditCommand}" Content="{Binding LocalizedResources.EditText, Source={StaticResource LocalizedStrings}}" />
+                <telerikPrimitives:RadContextMenuItem Command="{Binding DeleteCommand}" Content="{Binding LocalizedResources.DeleteText, Source={StaticResource LocalizedStrings}}" />
+                <telerikPrimitives:RadContextMenuItem Command="{Binding PinCommand}" Content="{Binding LocalizedResources.PinToStartText, Source={StaticResource LocalizedStrings}}" />
+            </telerikPrimitives:RadContextMenu>
+        </telerikPrimitives:RadContextMenu.ContextMenu>
+    </listerControls:HubTile>
+</UserControl>
