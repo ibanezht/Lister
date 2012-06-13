@@ -23,12 +23,14 @@ namespace Heath.Lister.Views
         {
             InitializeComponent();
 
-            _newInstance = true;
             _itemDetails = (ItemDetailsViewModel)DataContext;
+
+            InitializeApplicationBar();
+
+            _newInstance = true;
 
             Loaded += (sender, args) =>
                       {
-                          InitializeApplicationBar();
                           RateReminderHelper.Notify();
                           TrialReminderHelper.Notify();
                       };

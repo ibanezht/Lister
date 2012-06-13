@@ -25,15 +25,15 @@ namespace Heath.Lister
 
             InitializePhoneApplication();
 
-            ApplicationUsageHelper.Init("1.0.0");
-
             var radDiagnostics = new RadDiagnostics();
             radDiagnostics.EmailTo = "listerapp@hotmail.com";
             radDiagnostics.Init();
 
             UriMappings.Configure();
-
+            
             ListerContainer.Configure(new ListerModule());
+            
+            DispatcherHelper.Initialize();
 
             using (var data = new ListerData())
                 data.Initialize();
@@ -41,8 +41,6 @@ namespace Heath.Lister
             InteractionEffectManager.AllowedTypes.Add(typeof(Button));
             InteractionEffectManager.AllowedTypes.Add(typeof(ListBoxItem));
             InteractionEffectManager.AllowedTypes.Add(typeof(RadDataBoundListBoxItem));
-
-            DispatcherHelper.Initialize();
 
             if (Debugger.IsAttached)
             {
@@ -72,11 +70,16 @@ namespace Heath.Lister
 
         private void ApplicationLaunching(object sender, LaunchingEventArgs e)
         {
+            ApplicationUsageHelper.Init("1.1");
+
             ApplicationStartup = AppOpenState.Launching;
         }
 
         private void ApplicationActivated(object sender, ActivatedEventArgs e)
         {
+            if (!e.IsApplicationInstancePreserved)
+                ApplicationUsageHelper.OnApplicationActivated();
+
             ApplicationStartup = AppOpenState.Activated;
         }
 

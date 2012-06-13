@@ -18,7 +18,9 @@ namespace Heath.Lister.Views
         public HubView()
         {
             InitializeComponent();
+
             InitializeApplicationBar();
+
             SetValue(RadTileAnimation.ContainerToAnimateProperty, hubItemsListBox);
 
             Loaded += (sender, args) =>

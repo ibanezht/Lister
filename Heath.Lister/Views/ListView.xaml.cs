@@ -21,7 +21,7 @@ namespace Heath.Lister.Views
     public partial class ListView
     {
         private readonly ListViewModel _listView;
-        private readonly PivotBlocker _pivotBlocker;
+        private readonly PivotBlocker _pivotBlocker = new PivotBlocker();
 
         public ListView()
         {
@@ -29,17 +29,18 @@ namespace Heath.Lister.Views
 
             _listView = (ListViewModel)DataContext;
             _listView.IsCheckModeActiveChanged += IsCheckModeActiveChanged;
-            _pivotBlocker = new PivotBlocker();
 
-            Loaded += (sender, args) =>
-            {
-                InitializeDefaultApplicationBar();
-                AnimateSelectedListBox();
-                RateReminderHelper.Notify();
-                TrialReminderHelper.Notify();
-            };
+            InitializeDefaultApplicationBar();
 
             listPivot.LoadedPivotItem += (sender, args) => AnimateSelectedListBox(args.Item);
+
+            Loaded += (sender, args) =>
+                      {                         
+                          AnimateSelectedListBox();
+
+                          RateReminderHelper.Notify();
+                          TrialReminderHelper.Notify();
+                      };
         }
 
         private void IsCheckModeActiveChanged(object sender, IsCheckModeActiveChangedEventArgs e)
