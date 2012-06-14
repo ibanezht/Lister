@@ -65,7 +65,7 @@
                 <TextBlock x:Name="dueDateTime" Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding DueDateTime}" />
             </Grid>
 
-            <TextBlock x:Name="notes" Margin="12,-6,12,0" Style="{StaticResource PhoneTextSmallStyle}" Text="{Binding Notes, TargetNullValue={StaticResource NoNotesValueProvider}}" />
+            <TextBlock x:Name="notes" Margin="12,-3,12,0" Style="{StaticResource PhoneTextSmallStyle}" Text="{Binding Notes, TargetNullValue={StaticResource NoNotesValueProvider}}" />
         </StackPanel>
 
         <Rectangle x:Name="priority" Grid.Column="1" Width="15" Fill="{Binding Priority, Converter={StaticResource PriorityToSolidColorBrushConverter}}" Margin="0,6,0,3" />

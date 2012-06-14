@@ -60,6 +60,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationState.cs" />
+    <Compile Include="Interactivity\RadDataBoundListBoxPivotBlockBehavior.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="RateReminderHelper.cs" />
     <Compile Include="TrialReminderHelper.cs" />

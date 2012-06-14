@@ -12,7 +12,6 @@ using Heath.Lister.ViewModels;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
-using PivotBlocker = Heath.Lister.Infrastructure.PivotBlocker;
 
 #endregion
 
@@ -21,7 +20,6 @@ namespace Heath.Lister.Views
     public partial class ListView
     {
         private readonly ListViewModel _listView;
-        private readonly PivotBlocker _pivotBlocker = new PivotBlocker();
 
         public ListView()
         {
@@ -47,12 +45,10 @@ namespace Heath.Lister.Views
         {
             if (!e.CheckBoxesVisible)
             {
-                _pivotBlocker.End();
                 InitializeDefaultApplicationBar();
             }
             else
             {
-                _pivotBlocker.Start(listPivot);
                 InitializeSelectApplicationBar();
             }
         }
