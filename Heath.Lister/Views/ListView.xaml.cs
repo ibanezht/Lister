@@ -33,7 +33,7 @@ namespace Heath.Lister.Views
             listPivot.LoadedPivotItem += (sender, args) => AnimateSelectedListBox(args.Item);
 
             Loaded += (sender, args) =>
-                      {                         
+                      {
                           AnimateSelectedListBox();
 
                           RateReminderHelper.Notify();

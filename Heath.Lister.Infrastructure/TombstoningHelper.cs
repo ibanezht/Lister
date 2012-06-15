@@ -1,5 +1,6 @@
 ﻿#region usings
 
+using System.Collections.Generic;
 using Microsoft.Phone.Shell;
 
 #endregion
@@ -8,20 +9,22 @@ namespace Heath.Lister.Infrastructure
 {
     public static class TombstoningHelper
     {
+        private static readonly IDictionary<string, object> _state = PhoneApplicationService.Current.State;
+
         public static void Save(string key, object value)
         {
-            if (PhoneApplicationService.Current.State.ContainsKey(key))
-                PhoneApplicationService.Current.State.Remove(key);
+            if (_state.ContainsKey(key))
+                _state.Remove(key);
 
-            PhoneApplicationService.Current.State.Add(key, value);
+            _state.Add(key, value);
         }
 
         public static T Load<T>(string key)
         {
             object result;
 
-            if (PhoneApplicationService.Current.State.TryGetValue(key, out result))
-                PhoneApplicationService.Current.State.Remove(key);
+            if (_state.TryGetValue(key, out result))
+                _state.Remove(key);
             else
                 result = default(T);
 
@@ -30,7 +33,7 @@ namespace Heath.Lister.Infrastructure
 
         public static void Clear()
         {
-            PhoneApplicationService.Current.State.Clear();
+            _state.Clear();
         }
     }
 }
