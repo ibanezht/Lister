@@ -33,8 +33,6 @@ namespace Heath.Lister.ViewModels
 
         private ListPivotViewModel _selectedListPivotItem;
 
-        public event EventHandler<IsCheckModeActiveChangedEventArgs> IsCheckModeActiveChanged;
-
         public ListViewModel(Func<ListPivotViewModel> createListPivot, Func<ListItemViewModel> createListItem, INavigationService navigationService)
             : base(navigationService)
         {
@@ -173,6 +171,8 @@ namespace Heath.Lister.ViewModels
 
         #endregion
 
+        public event EventHandler<IsCheckModeActiveChangedEventArgs> IsCheckModeActiveChanged;
+
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {
             _navigationService.GoBack();
@@ -180,11 +180,11 @@ namespace Heath.Lister.ViewModels
 
         private void ListItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName == "Selected")
-            {
-                ((RelayCommand)CompleteSelectedCommand).RaiseCanExecuteChanged();
-                ((RelayCommand)DeleteSelectedCommand).RaiseCanExecuteChanged();
-            }
+            if (e.PropertyName != "Selected") 
+                return;
+
+            ((RelayCommand)CompleteSelectedCommand).RaiseCanExecuteChanged();
+            ((RelayCommand)DeleteSelectedCommand).RaiseCanExecuteChanged();
         }
 
         private void ListItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)

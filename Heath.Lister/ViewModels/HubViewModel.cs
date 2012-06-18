@@ -6,12 +6,14 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Infrastructure.ViewModels;
+using Telerik.Windows.Controls;
+using GestureEventArgs = System.Windows.Input.GestureEventArgs;
+using ViewModelBase = GalaSoft.MvvmLight.ViewModelBase;
 
 #endregion
 
@@ -31,7 +33,7 @@ namespace Heath.Lister.ViewModels
 
             AboutCommand = new RelayCommand(About);
             AddCommand = new RelayCommand(Add, () => !TrialReminderHelper.IsTrialExpired);
-            ItemTappedCommand = new RelayCommand<GestureEventArgs>(ItemTapped);
+            ItemTappedCommand = new RelayCommand<ListBoxItemTapEventArgs>(ItemTapped);
 
             Messenger.Default.Register<NotificationMessage<HubItemViewModel>>(
                 this, nm =>
@@ -94,11 +96,11 @@ namespace Heath.Lister.ViewModels
             _navigationService.Navigate(new Uri(string.Format("/EditList/{0}", Guid.Empty), UriKind.Relative));
         }
 
-        private void ItemTapped(GestureEventArgs e)
+        private void ItemTapped(ListBoxItemTapEventArgs e)
         {
-            var hubItemViewModel = ((FrameworkElement)e.OriginalSource).DataContext as HubItemViewModel;
-            if (hubItemViewModel != null)
-                _navigationService.Navigate(new Uri(string.Format("/List/{0}", hubItemViewModel.Id), UriKind.Relative));
+            var hubItemViewModel = (HubItemViewModel)e.Item.DataContext;
+
+            _navigationService.Navigate(new Uri(string.Format("/List/{0}", hubItemViewModel.Id), UriKind.Relative));
         }
     }
 }

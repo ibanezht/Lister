@@ -60,8 +60,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationState.cs" />
+    <Compile Include="Interactivity\RadDataBoundListBoxAnimateBehavior.cs" />
     <Compile Include="Interactivity\RadDataBoundListBoxPivotBlockBehavior.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Interactivity\RadDataBoundListBoxTapBehavior.cs" />
     <Compile Include="RateReminderHelper.cs" />
     <Compile Include="TrialReminderHelper.cs" />
     <Compile Include="ViewModels\IHaveHeader.cs" />

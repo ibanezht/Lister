@@ -34,7 +34,7 @@
         <Grid Grid.Row="1" Margin="12,0,12,0">
             <telerikPrimitives:RadDataBoundListBox x:Name="hubItemsListBox" ItemsSource="{Binding HubItems}" ItemTap="HubItemsListBoxItemTap">
                 <interactivity:Interaction.Triggers>
-                    <interactivity:EventTrigger EventName="Tap">
+                    <interactivity:EventTrigger EventName="ItemTap">
                         <command:EventToCommand Command="{Binding ItemTappedCommand}" PassEventArgsToCommand="True" />
                     </interactivity:EventTrigger>
                 </interactivity:Interaction.Triggers>

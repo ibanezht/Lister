@@ -15,8 +15,8 @@ namespace Heath.Lister.Views
 
         private void ListItemsRadDataBoundListBoxItemTap(object sender, ListBoxItemTapEventArgs e)
         {
-            var listView = ElementTreeHelper.FindLastVisualAncestor<ListView>(this);
-
+            var listView = ElementTreeHelper.FindVisualAncestor<ListView>(this);
+            
             listView.SetValue(RadTileAnimation.ElementToDelayProperty, e.Item);
         }
     }

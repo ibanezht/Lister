@@ -18,13 +18,11 @@ namespace Heath.Lister.ViewModels
 {
     public class ListPivotViewModel : ViewModelBase, IHaveHeader
     {
-        private const string CanTapPropertyName = "CanTap";
         private const string IsCheckModeActivePropertyName = "IsCheckModeActive";
         private const string HeaderPropertyName = "Header";
 
         private readonly INavigationService _navigationService;
 
-        private bool _canTap;
         private string _header;
         private bool _isCheckModeActive;
 
@@ -32,11 +30,7 @@ namespace Heath.Lister.ViewModels
         {
             _navigationService = navigationService;
 
-            CheckModeChanged = new RelayCommand<IsCheckModeActiveChangedEventArgs>(IsCheckModeActiveChanged);
-            CheckModeChanging = new RelayCommand<IsCheckModeActiveChangingEventArgs>(IsCheckModeActiveChanging);
-            ItemTappedCommand = new RelayCommand<ListBoxItemTapEventArgs>(ListBoxItemTap, e => CanTap);
-
-            CanTap = true;
+            ItemTappedCommand = new RelayCommand<ListBoxItemTapEventArgs>(ItemTapped);
 
             Messenger.Default.Register<NotificationMessage<IEnumerable<ListItemViewModel>>>(
                 this, nm =>
@@ -55,17 +49,6 @@ namespace Heath.Lister.ViewModels
             ListItems = new ObservableCollection<ListItemViewModel>();
         }
 
-        public bool CanTap
-        {
-            get { return _canTap; }
-            set
-            {
-                _canTap = value;
-                RaisePropertyChanged(CanTapPropertyName);
-                ((RelayCommand<ListBoxItemTapEventArgs>)ItemTappedCommand).RaiseCanExecuteChanged();
-            }
-        }
-
         public bool IsCheckModeActive
         {
             get { return _isCheckModeActive; }
@@ -79,10 +62,6 @@ namespace Heath.Lister.ViewModels
         public ObservableCollection<ListItemViewModel> ListItems { get; private set; }
 
         public Func<ListItemViewModel, bool> Filter { get; set; }
-
-        public ICommand CheckModeChanged { get; private set; }
-
-        public ICommand CheckModeChanging { get; private set; }
 
         public ICommand ItemTappedCommand { get; private set; }
 
@@ -102,17 +81,7 @@ namespace Heath.Lister.ViewModels
 
         #endregion
 
-        private void IsCheckModeActiveChanged(IsCheckModeActiveChangedEventArgs e)
-        {
-            CanTap = !e.CheckBoxesVisible;
-        }
-
-        private void IsCheckModeActiveChanging(IsCheckModeActiveChangingEventArgs e)
-        {
-            CanTap = false;
-        }
-
-        private void ListBoxItemTap(ListBoxItemTapEventArgs e)
+        private void ItemTapped(ListBoxItemTapEventArgs e)
         {
             var listItemViewModel = (ListItemViewModel)e.Item.DataContext;
 

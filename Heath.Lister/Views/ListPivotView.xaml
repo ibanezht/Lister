@@ -18,7 +18,7 @@
     </UserControl.Resources>
 
     <telerikPrimitives:RadDataBoundListBox x:Name="listItemsRadDataBoundListBox" Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActive="{Binding IsCheckModeActive, Mode=TwoWay}" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemsSource="{Binding ListItems}" ItemTap="ListItemsRadDataBoundListBoxItemTap">
-        <interactivity:Interaction.Triggers>
+        <!--<interactivity:Interaction.Triggers>
             <interactivity:EventTrigger EventName="ItemTap">
                 <command:EventToCommand Command="{Binding ItemTappedCommand}" PassEventArgsToCommand="True" />
             </interactivity:EventTrigger>
@@ -30,7 +30,7 @@
             <interactivity:EventTrigger EventName="IsCheckModeActiveChanging">
                 <command:EventToCommand Command="{Binding CheckModeChanging}" PassEventArgsToCommand="True" />
             </interactivity:EventTrigger>
-        </interactivity:Interaction.Triggers>
+        </interactivity:Interaction.Triggers>-->
 
         <telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
             <DataTemplate>
@@ -45,7 +45,9 @@
         </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
 
         <interactivity:Interaction.Behaviors>
+            <listerInteractivity:RadDataBoundListBoxAnimateBehavior />
             <listerInteractivity:RadDataBoundListBoxPivotBlockBehavior />
+            <listerInteractivity:RadDataBoundListBoxTapBehavior CommandBinding="{Binding ItemTappedCommand}" />
         </interactivity:Interaction.Behaviors>
     </telerikPrimitives:RadDataBoundListBox>
 </UserControl>
