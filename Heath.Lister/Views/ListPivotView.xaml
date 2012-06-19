@@ -18,20 +18,6 @@
     </UserControl.Resources>
 
     <telerikPrimitives:RadDataBoundListBox x:Name="listItemsRadDataBoundListBox" Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActive="{Binding IsCheckModeActive, Mode=TwoWay}" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemsSource="{Binding ListItems}" ItemTap="ListItemsRadDataBoundListBoxItemTap">
-        <!--<interactivity:Interaction.Triggers>
-            <interactivity:EventTrigger EventName="ItemTap">
-                <command:EventToCommand Command="{Binding ItemTappedCommand}" PassEventArgsToCommand="True" />
-            </interactivity:EventTrigger>
-
-            <interactivity:EventTrigger EventName="IsCheckModeActiveChanged">
-                <command:EventToCommand Command="{Binding CheckModeChanged}" PassEventArgsToCommand="True" />
-            </interactivity:EventTrigger>
-
-            <interactivity:EventTrigger EventName="IsCheckModeActiveChanging">
-                <command:EventToCommand Command="{Binding CheckModeChanging}" PassEventArgsToCommand="True" />
-            </interactivity:EventTrigger>
-        </interactivity:Interaction.Triggers>-->
-
         <telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
             <DataTemplate>
                 <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LocalizedResources.NoItemsText, Source={StaticResource LocalizedStrings}}" />
@@ -47,7 +33,7 @@
         <interactivity:Interaction.Behaviors>
             <listerInteractivity:RadDataBoundListBoxAnimateBehavior />
             <listerInteractivity:RadDataBoundListBoxPivotBlockBehavior />
-            <listerInteractivity:RadDataBoundListBoxTapBehavior CommandBinding="{Binding ItemTappedCommand}" />
+            <listerInteractivity:RadDataBoundListBoxTapBehavior Command="{Binding ItemTappedCommand}" />
         </interactivity:Interaction.Behaviors>
     </telerikPrimitives:RadDataBoundListBox>
 </UserControl>

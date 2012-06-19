@@ -12,21 +12,21 @@ namespace Heath.Lister.Infrastructure.Interactivity
 {
     public class RadDataBoundListBoxTapBehavior : Behavior<RadDataBoundListBox>
     {
-        private const string CommandBindingPropertyName = "CommandBinding";
+        private const string CommandPropertyName = "Command";
 
-        public static readonly DependencyProperty CommandBindingProperty =
+        public static readonly DependencyProperty CommandProperty =
             DependencyProperty.Register(
-                CommandBindingPropertyName,
+                CommandPropertyName,
                 typeof(ICommand),
                 typeof(RadDataBoundListBoxTapBehavior),
                 null);
 
         private bool _canTap = true;
 
-        public ICommand CommandBinding
+        public ICommand Command
         {
-            get { return (ICommand)GetValue(CommandBindingProperty); }
-            set { SetValue(CommandBindingProperty, value); }
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
         }
 
         protected override void OnAttached()
@@ -52,7 +52,7 @@ namespace Heath.Lister.Infrastructure.Interactivity
         {
             if (_canTap)
             {
-                CommandBinding.Execute(e);
+                Command.Execute(e);
             }
         }
     }

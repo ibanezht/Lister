@@ -32,7 +32,7 @@ namespace Heath.Lister.Infrastructure.Extensions
             binding.Path = commandPath;
             binding.Source = page.DataContext;
 
-            BindingOperations.SetBinding(behavior, ApplicationBarMenuItemBehavior.CommandBindingProperty, binding);
+            BindingOperations.SetBinding(behavior, ApplicationBarMenuItemBehavior.CommandProperty, binding);
 
             behaviors.Add(behavior);
         }
@@ -53,7 +53,7 @@ namespace Heath.Lister.Infrastructure.Extensions
             binding.Path = commandPath;
             binding.Source = page.DataContext;
 
-            BindingOperations.SetBinding(behavior, ApplicationBarMenuItemBehavior.CommandBindingProperty, binding);
+            BindingOperations.SetBinding(behavior, ApplicationBarMenuItemBehavior.CommandProperty, binding);
 
             behaviors.Add(behavior);
         }
