@@ -61,19 +61,16 @@
   <ItemGroup>
     <Compile Include="ApplicationState.cs" />
     <Compile Include="Interactivity\RadDataBoundListBoxAnimateBehavior.cs" />
-    <Compile Include="Interactivity\RadDataBoundListBoxPivotBlockBehavior.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Interactivity\RadDataBoundListBoxTapBehavior.cs" />
     <Compile Include="RateReminderHelper.cs" />
     <Compile Include="TrialReminderHelper.cs" />
-    <Compile Include="ViewModels\IHaveHeader.cs" />
     <Compile Include="EnumValueCache.cs" />
     <Compile Include="ListerData.cs" />
     <Compile Include="Extensions\PhoneApplicationPageExtensions.cs" />
     <Compile Include="Interactivity\ApplicationBarMenuItemBehavior.cs" />
     <Compile Include="Models\Color.cs" />
     <Compile Include="Models\Priority.cs" />
-    <Compile Include="PivotBlocker.cs" />
     <Compile Include="ValueProvider.cs" />
     <Compile Include="ViewModels\IHaveListId.cs" />
     <Compile Include="ViewModels\IHaveId.cs" />

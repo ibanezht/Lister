@@ -3,7 +3,6 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -14,6 +13,7 @@ using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.ViewModels;
 using Heath.Lister.Localization;
 using Heath.Lister.ViewModels.Abstract;
+using Microsoft.Phone.Controls;
 using Microsoft.Phone.Tasks;
 using Telerik.Windows.Controls;
 using MediaColor = System.Windows.Media.Color;
@@ -24,30 +24,27 @@ namespace Heath.Lister.ViewModels
 {
     public class ListViewModel : ListViewModelBase, IHaveId, IViewModel
     {
-        private const string SelectedListPivotItemPropertyName = "SelectedListPivotItem";
+        private const string SelectedPivotItemPropertyName = "SelectedPivotItem";
 
         private readonly Func<ListItemViewModel> _createListItem;
-        private readonly Func<ListPivotViewModel> _createListPivot;
         private readonly List<ListItemViewModel> _listItems = new List<ListItemViewModel>();
         private readonly INavigationService _navigationService;
 
-        private ListPivotViewModel _selectedListPivotItem;
+        private ICommand _addCommand;
+        private ICommand _completeAllCommand;
+        private ICommand _completeSelectedCommand;
+        private ICommand _deleteSelectedCommand;
+        private ICommand _selectCommand;
+        private PivotItem _selectedPivotItem;
+        private ICommand _shareCommand;
 
-        public ListViewModel(Func<ListPivotViewModel> createListPivot, Func<ListItemViewModel> createListItem, INavigationService navigationService)
+        public ListViewModel(Func<ListItemViewModel> createListItem, INavigationService navigationService)
             : base(navigationService)
         {
-            _createListPivot = createListPivot;
             _createListItem = createListItem;
             _navigationService = navigationService;
 
             ApplicationTitle = "LISTER";
-
-            AddCommand = new RelayCommand(Add, () => !TrialReminderHelper.IsTrialExpired);
-            DeleteSelectedCommand = new RelayCommand(DeleteSelected, () => _listItems.Any(l => l.Selected));
-            CompleteAllCommand = new RelayCommand(CompleteAll);
-            CompleteSelectedCommand = new RelayCommand(CompleteSelected, () => _listItems.Any(l => l.Selected));
-            SelectCommand = new RelayCommand(Select, () => _selectedListPivotItem != null && _selectedListPivotItem.ListItems.Any());
-            ShareCommand = new RelayCommand(Share);
 
             Messenger.Default.Register<NotificationMessage<ListItemViewModel>>(
                 this, nm =>
@@ -62,67 +59,64 @@ namespace Heath.Lister.ViewModels
                               Remaining++;
                       });
 
-            ListPivotItems = new ObservableCollection<ListPivotViewModel>();
+            AllListItems = new ObservableCollection<ListItemViewModel>();
+            TodayListItems = new ObservableCollection<ListItemViewModel>();
+            OverdueListItems = new ObservableCollection<ListItemViewModel>();
         }
 
-        public ICommand AddCommand { get; private set; }
+        public ICommand AddCommand
+        {
+            get { return _addCommand ?? (_addCommand = new RelayCommand(Add, CanAdd)); }
+        }
+
+        public ObservableCollection<ListItemViewModel> AllListItems { get; private set; }
 
         public string ApplicationTitle { get; private set; }
 
-        public ICommand CompleteAllCommand { get; private set; }
-
-        public ICommand CompleteSelectedCommand { get; private set; }
-
-        public ICommand DeleteSelectedCommand { get; private set; }
-
-        public ObservableCollection<ListPivotViewModel> ListPivotItems { get; private set; }
-
-        public ICommand SelectCommand { get; private set; }
-
-        public ListPivotViewModel SelectedListPivotItem
+        public ICommand CompleteAllCommand
         {
-            get { return _selectedListPivotItem; }
+            get { return _completeAllCommand ?? (_completeAllCommand = new RelayCommand(CompleteAll)); }
+        }
+
+        public ICommand CompleteSelectedCommand
+        {
+            get { return _completeSelectedCommand ?? (_completeSelectedCommand = new RelayCommand(CompleteSelected, CanCompleteSelected)); }
+        }
+
+        public ICommand DeleteSelectedCommand
+        {
+            get { return _deleteSelectedCommand ?? (_deleteSelectedCommand = new RelayCommand(DeleteSelected, CanDeleteSelected)); }
+        }
+
+        public ObservableCollection<ListItemViewModel> OverdueListItems { get; private set; }
+
+        public ICommand SelectCommand
+        {
+            get { return _selectCommand ?? (_selectCommand = new RelayCommand(Select, CanSelect)); }
+        }
+
+        public PivotItem SelectedPivotItem
+        {
+            get { return _selectedPivotItem; }
             set
             {
-                _selectedListPivotItem = value;
-
-                RaisePropertyChanged(SelectedListPivotItemPropertyName);
+                _selectedPivotItem = value;
                 ((RelayCommand)SelectCommand).RaiseCanExecuteChanged();
+                RaisePropertyChanged(SelectedPivotItemPropertyName);
             }
         }
 
-        public ICommand ShareCommand { get; private set; }
+        public ICommand ShareCommand
+        {
+            get { return _shareCommand ?? (_shareCommand = new RelayCommand(Share)); }
+        }
+
+        public ObservableCollection<ListItemViewModel> TodayListItems { get; private set; }
 
         #region IViewModel Members
 
         public void Activate()
         {
-            ListPivotItems.Clear();
-
-            var today = DateTime.Now.Date;
-
-            var allListPivot = _createListPivot();
-            allListPivot.Header = AppResources.AllText;
-            allListPivot.Filter = _ => { return true; };
-            allListPivot.ListItems.CollectionChanged += ListItemsCollectionChanged;
-            allListPivot.PropertyChanged += PivotItemPropertyChanged;
-
-            ListPivotItems.Add(allListPivot);
-
-            var todayListPivot = _createListPivot();
-            todayListPivot.Header = AppResources.TodayText;
-            todayListPivot.Filter = li => { return li.DueDate.HasValue && li.DueDate.Value.Date == today; };
-            todayListPivot.PropertyChanged += PivotItemPropertyChanged;
-
-            ListPivotItems.Add(todayListPivot);
-
-            var overdueListPivot = _createListPivot();
-            overdueListPivot.Header = AppResources.OverdueText;
-            overdueListPivot.Filter = li => { return li.DueDate.HasValue && li.DueDate.Value.Date < today; };
-            overdueListPivot.PropertyChanged += PivotItemPropertyChanged;
-
-            ListPivotItems.Add(overdueListPivot);
-
             _listItems.Clear();
 
             using (var data = new ListerData())
@@ -159,9 +153,15 @@ namespace Heath.Lister.ViewModels
                     });
             }
 
-            Messenger.Default.Send(new NotificationMessage<IEnumerable<ListItemViewModel>>(_listItems, "Load"));
+            var today = DateTime.Now.Date;
 
-            SelectedListPivotItem = allListPivot;
+            AllListItems.Clear();
+            TodayListItems.Clear();
+            OverdueListItems.Clear();
+
+            _listItems.ForEach(AllListItems.Add);
+            _listItems.Where(li => li.DueDate.HasValue && li.DueDate.Value.Date == today).ToList().ForEach(TodayListItems.Add);
+            _listItems.Where(li => li.DueDate.HasValue && li.DueDate.Value.Date < today).ToList().ForEach(OverdueListItems.Add);
         }
 
         public void Deactivate(bool isNavigationInitiator)
@@ -171,8 +171,6 @@ namespace Heath.Lister.ViewModels
 
         #endregion
 
-        public event EventHandler<IsCheckModeActiveChangedEventArgs> IsCheckModeActiveChanged;
-
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {
             _navigationService.GoBack();
@@ -180,32 +178,37 @@ namespace Heath.Lister.ViewModels
 
         private void ListItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
-            if (e.PropertyName != "Selected") 
+            if (e.PropertyName != "Selected")
                 return;
 
             ((RelayCommand)CompleteSelectedCommand).RaiseCanExecuteChanged();
             ((RelayCommand)DeleteSelectedCommand).RaiseCanExecuteChanged();
         }
 
-        private void ListItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        {
-            if (e.Action == NotifyCollectionChangedAction.Remove)
-                ((RelayCommand)SelectCommand).RaiseCanExecuteChanged();
-        }
+        //private void ListItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+        //{
+        //    if (e.Action == NotifyCollectionChangedAction.Remove)
+        //        ((RelayCommand)SelectCommand).RaiseCanExecuteChanged();
+        //}
 
-        private void PivotItemPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName == "IsCheckModeActive")
-            {
-                _listItems.ForEach(li => li.Selected = false);
+        //private void PivotItemPropertyChanged(object sender, PropertyChangedEventArgs e)
+        //{
+        //    if (e.PropertyName == "IsCheckModeActive")
+        //    {
+        //        _listItems.ForEach(li => li.Selected = false);
 
-                OnIsCheckModeActiveChanged(new IsCheckModeActiveChangedEventArgs(((ListPivotViewModel)sender).IsCheckModeActive));
-            }
-        }
+        //        OnIsCheckModeActiveChanged(new IsCheckModeActiveChangedEventArgs(((ListPivotViewModel)sender).IsCheckModeActive));
+        //    }
+        //}
 
         private void Add()
         {
             _navigationService.Navigate(new Uri(string.Format("/EditItem/{0}/{1}", Guid.Empty, Id), UriKind.Relative));
+        }
+
+        private static bool CanAdd()
+        {
+            return !TrialReminderHelper.IsTrialExpired;
         }
 
         private void CompleteAll()
@@ -217,7 +220,12 @@ namespace Heath.Lister.ViewModels
         {
             _listItems.Where(l => l.Selected).ToList().ForEach(CompleteItem);
 
-            _selectedListPivotItem.IsCheckModeActive = false;
+            ElementTreeHelper.FindVisualDescendant<RadDataBoundListBox>(SelectedPivotItem).IsCheckModeActive = false;
+        }
+
+        private bool CanCompleteSelected()
+        {
+            return _listItems.Any(l => l.Selected);
         }
 
         private static void CompleteItem(ListItemViewModel listItem)
@@ -238,7 +246,7 @@ namespace Heath.Lister.ViewModels
                     if (e.Result == DialogResult.OK)
                         selectedItems.ForEach(listItem => listItem.Delete());
 
-                    _selectedListPivotItem.IsCheckModeActive = false;
+                    ElementTreeHelper.FindVisualDescendant<RadDataBoundListBox>(SelectedPivotItem).IsCheckModeActive = false;
                 };
 
             string deleteItemsMessage;
@@ -251,9 +259,24 @@ namespace Heath.Lister.ViewModels
             RadMessageBox.Show(AppResources.DeleteText, MessageBoxButtons.YesNo, deleteItemsMessage, closedHandler: closedHandler);
         }
 
+        private bool CanDeleteSelected()
+        {
+            return _listItems.Any(l => l.Selected);
+        }
+
         private void Select()
         {
-            _selectedListPivotItem.IsCheckModeActive = true;
+            ElementTreeHelper.FindVisualDescendant<RadDataBoundListBox>(SelectedPivotItem).IsCheckModeActive = true;
+        }
+
+        private bool CanSelect()
+        {
+            var radDataBoundListBox = ElementTreeHelper.FindVisualDescendant<RadDataBoundListBox>(SelectedPivotItem);
+
+            if (radDataBoundListBox == null)
+                return false;
+
+            return radDataBoundListBox.ItemCount > 0;
         }
 
         private void Share()
@@ -272,14 +295,6 @@ namespace Heath.Lister.ViewModels
             var task = new SmsComposeTask();
             task.Body = builder.ToString();
             task.Show();
-        }
-
-        protected void OnIsCheckModeActiveChanged(IsCheckModeActiveChangedEventArgs e)
-        {
-            if (IsCheckModeActiveChanged != null)
-            {
-                IsCheckModeActiveChanged(this, e);
-            }
         }
     }
 }

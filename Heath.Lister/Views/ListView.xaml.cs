@@ -19,22 +19,16 @@ namespace Heath.Lister.Views
 {
     public partial class ListView
     {
-        private readonly ListViewModel _listView;
-
         public ListView()
         {
             InitializeComponent();
 
-            _listView = (ListViewModel)DataContext;
-            _listView.IsCheckModeActiveChanged += IsCheckModeActiveChanged;
-
-            InitializeDefaultApplicationBar();
-
+            SetValue(RadTileAnimation.ContainerToAnimateProperty, allListItemsListBox);
             listPivot.LoadedPivotItem += (sender, args) => AnimateSelectedListBox(args.Item);
 
             Loaded += (sender, args) =>
                       {
-                          AnimateSelectedListBox();
+                          InitializeDefaultApplicationBar();
 
                           RateReminderHelper.Notify();
                           TrialReminderHelper.Notify();
@@ -85,25 +79,16 @@ namespace Heath.Lister.Views
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.delete.rest.png", UriKind.Relative), AppResources.DeleteText, new PropertyPath("DeleteSelectedCommand"));
         }
 
-        private void AnimateSelectedListBox(PivotItem pivotItem = null)
+        private void AnimateSelectedListBox(PivotItem pivotItem)
         {
-            var listBox = GetSelectedPivotItemListBox(pivotItem);
+            var listBox = ElementTreeHelper.FindVisualDescendant<RadDataBoundListBox>(pivotItem);
 
             SetValue(RadTileAnimation.ContainerToAnimateProperty, listBox);
         }
 
-        private RadDataBoundListBox GetSelectedPivotItemListBox(PivotItem pivotItem = null)
+        private void ListItemsRadDataBoundListBoxItemTap(object sender, ListBoxItemTapEventArgs e)
         {
-            DependencyObject dependencyObject;
-
-            if (pivotItem == null)
-                dependencyObject = listPivot;
-            else
-                dependencyObject = pivotItem;
-
-            return ElementTreeHelper.EnumVisualDescendants(dependencyObject, obj => obj is RadDataBoundListBox)
-                .Cast<RadDataBoundListBox>()
-                .FirstOrDefault(lb => lb.DataContext == listPivot.SelectedItem);
+            SetValue(RadTileAnimation.ElementToDelayProperty, e.Item);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

@@ -49,7 +49,7 @@ namespace Heath.Lister.ViewModels
             get
             {
                 return IsInDesignMode
-                           ? new ListViewModel(null, null, null)
+                           ? new ListViewModel(null, null)
                            : ListerContainer.Instance.Get<ListViewModel>();
             }
         }

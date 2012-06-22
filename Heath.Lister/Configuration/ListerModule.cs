@@ -22,9 +22,6 @@ namespace Heath.Lister.Configuration
             Kernel.Bind<Func<HubItemViewModel>>()
                 .ToMethod(c => () => new HubItemViewModel(c.Kernel.Get<INavigationService>()));
 
-            Kernel.Bind<Func<ListPivotViewModel>>()
-                .ToMethod(c => () => new ListPivotViewModel(c.Kernel.Get<INavigationService>()));
-
             Kernel.Bind<Func<ListItemViewModel>>()
                 .ToMethod(c => () => new ListItemViewModel(c.Kernel.Get<INavigationService>()));
         }

@@ -64,7 +64,7 @@ namespace Heath.Lister
             }
         }
 
-        public PhoneApplicationFrame RootFrame { get; private set; }
+        public RadPhoneApplicationFrame RootFrame { get; private set; }
 
         internal static AppOpenState ApplicationStartup { get; set; }
 

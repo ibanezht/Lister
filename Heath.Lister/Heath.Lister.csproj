@@ -107,7 +107,6 @@
     <Compile Include="ViewModels\Abstract\ItemViewModelBase.cs" />
     <Compile Include="ViewModels\ItemDetailsViewModel.cs" />
     <Compile Include="ViewModels\ListItemViewModel.cs" />
-    <Compile Include="ViewModels\ListPivotViewModel.cs" />
     <Compile Include="ViewModels\ListViewModel.cs" />
     <Compile Include="ViewModels\Abstract\ListViewModelBase.cs" />
     <Compile Include="ViewModels\EditListViewModel.cs" />
@@ -131,9 +130,6 @@
     </Compile>
     <Compile Include="Views\ListItemView.xaml.cs">
       <DependentUpon>ListItemView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\ListPivotView.xaml.cs">
-      <DependentUpon>ListPivotView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\ListView.xaml.cs">
       <DependentUpon>ListView.xaml</DependentUpon>
@@ -231,10 +227,6 @@
     <Page Include="Views\ListItemView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ListPivotView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\ListView.xaml">
       <SubType>Designer</SubType>
