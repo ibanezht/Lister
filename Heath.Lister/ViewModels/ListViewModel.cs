@@ -34,6 +34,7 @@ namespace Heath.Lister.ViewModels
         private ICommand _completeAllCommand;
         private ICommand _completeSelectedCommand;
         private ICommand _deleteSelectedCommand;
+        private ICommand _itemTappedCommand;
         private ICommand _selectCommand;
         private PivotItem _selectedPivotItem;
         private ICommand _shareCommand;
@@ -46,18 +47,7 @@ namespace Heath.Lister.ViewModels
 
             ApplicationTitle = "LISTER";
 
-            Messenger.Default.Register<NotificationMessage<ListItemViewModel>>(
-                this, nm =>
-                      {
-                          if (nm.Notification == "Complete")
-                              Remaining--;
-
-                          if (nm.Notification == "Delete" && !nm.Content.Completed)
-                              Remaining--;
-
-                          if (nm.Notification == "Incomplete")
-                              Remaining++;
-                      });
+            Messenger.Default.Register<NotificationMessage<ListItemViewModel>>(this, ListItemNotificationMessageReceived);
 
             AllListItems = new ObservableCollection<ListItemViewModel>();
             TodayListItems = new ObservableCollection<ListItemViewModel>();
@@ -86,6 +76,11 @@ namespace Heath.Lister.ViewModels
         public ICommand DeleteSelectedCommand
         {
             get { return _deleteSelectedCommand ?? (_deleteSelectedCommand = new RelayCommand(DeleteSelected, CanDeleteSelected)); }
+        }
+
+        public ICommand ItemTappedCommand
+        {
+            get { return _itemTappedCommand ?? (_itemTappedCommand = new RelayCommand<ListBoxItemTapEventArgs>(ItemTapped)); }
         }
 
         public ObservableCollection<ListItemViewModel> OverdueListItems { get; private set; }
@@ -146,7 +141,6 @@ namespace Heath.Lister.ViewModels
                         listItem.Notes = i.Notes;
                         listItem.Priority = i.Priority;
                         listItem.Title = i.Title;
-
                         listItem.PropertyChanged += ListItemPropertyChanged;
 
                         _listItems.Add(listItem);
@@ -176,6 +170,31 @@ namespace Heath.Lister.ViewModels
             _navigationService.GoBack();
         }
 
+        private void ListItemNotificationMessageReceived(NotificationMessage<ListItemViewModel> notificationMessage)
+        {
+            if (notificationMessage.Notification == "Complete")
+                Remaining--;
+
+            if (notificationMessage.Notification == "Delete")
+            {
+                var listItem = notificationMessage.Content;
+
+                if (!listItem.Completed)
+                    Remaining--;
+
+                _listItems.Remove(listItem);
+
+                AllListItems.Remove(listItem);
+                TodayListItems.Remove(listItem);
+                OverdueListItems.Remove(listItem);
+
+                ((RelayCommand)SelectCommand).RaiseCanExecuteChanged();
+            }
+
+            if (notificationMessage.Notification == "Incomplete")
+                Remaining++;
+        }
+
         private void ListItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName != "Selected")
@@ -184,12 +203,6 @@ namespace Heath.Lister.ViewModels
             ((RelayCommand)CompleteSelectedCommand).RaiseCanExecuteChanged();
             ((RelayCommand)DeleteSelectedCommand).RaiseCanExecuteChanged();
         }
-
-        //private void ListItemsCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-        //{
-        //    if (e.Action == NotifyCollectionChangedAction.Remove)
-        //        ((RelayCommand)SelectCommand).RaiseCanExecuteChanged();
-        //}
 
         //private void PivotItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         //{
@@ -262,6 +275,13 @@ namespace Heath.Lister.ViewModels
         private bool CanDeleteSelected()
         {
             return _listItems.Any(l => l.Selected);
+        }
+
+        private void ItemTapped(ListBoxItemTapEventArgs e)
+        {
+            var listItemViewModel = (ListItemViewModel)e.Item.DataContext;
+
+            _navigationService.Navigate(new Uri(string.Format("/Item/{0}/{1}", listItemViewModel.Id, listItemViewModel.ListId), UriKind.Relative));
         }
 
         private void Select()
