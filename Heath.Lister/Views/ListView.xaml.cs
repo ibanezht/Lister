@@ -1,14 +1,12 @@
 ﻿#region usings
 
 using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Navigation;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Localization;
-using Heath.Lister.ViewModels;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
@@ -23,13 +21,13 @@ namespace Heath.Lister.Views
         {
             InitializeComponent();
 
+            InitializeDefaultApplicationBar();
+
             SetValue(RadTileAnimation.ContainerToAnimateProperty, allListItemsListBox);
             listPivot.LoadedPivotItem += (sender, args) => AnimateSelectedListBox(args.Item);
 
             Loaded += (sender, args) =>
                       {
-                          InitializeDefaultApplicationBar();
-
                           RateReminderHelper.Notify();
                           TrialReminderHelper.Notify();
                       };

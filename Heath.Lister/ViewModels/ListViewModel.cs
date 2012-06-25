@@ -34,6 +34,7 @@ namespace Heath.Lister.ViewModels
         private ICommand _completeAllCommand;
         private ICommand _completeSelectedCommand;
         private ICommand _deleteSelectedCommand;
+        private ICommand _isCheckModeActiveChangedCommand;
         private ICommand _itemTappedCommand;
         private ICommand _selectCommand;
         private PivotItem _selectedPivotItem;
@@ -76,6 +77,11 @@ namespace Heath.Lister.ViewModels
         public ICommand DeleteSelectedCommand
         {
             get { return _deleteSelectedCommand ?? (_deleteSelectedCommand = new RelayCommand(DeleteSelected, CanDeleteSelected)); }
+        }
+
+        public ICommand IsCheckModeActiveChangedCommand
+        {
+            get { return _isCheckModeActiveChangedCommand ?? (_isCheckModeActiveChangedCommand = new RelayCommand(IsCheckModeActiveChanged)); }
         }
 
         public ICommand ItemTappedCommand
@@ -172,29 +178,34 @@ namespace Heath.Lister.ViewModels
 
         private void ListItemNotificationMessageReceived(NotificationMessage<ListItemViewModel> notificationMessage)
         {
-            if (notificationMessage.Notification == "Complete")
-                Remaining--;
-
-            if (notificationMessage.Notification == "Delete")
+            switch (notificationMessage.Notification)
             {
-                var listItem = notificationMessage.Content;
-
-                if (!listItem.Completed)
+                case "Complete":
                     Remaining--;
+                    break;
 
-                _listItems.Remove(listItem);
+                case "Incomplete":
+                    Remaining++;
+                    break;
 
-                AllListItems.Remove(listItem);
-                TodayListItems.Remove(listItem);
-                OverdueListItems.Remove(listItem);
+                case "Delete":
+                    var listItem = notificationMessage.Content;
 
-                ((RelayCommand)SelectCommand).RaiseCanExecuteChanged();
+                    if (!listItem.Completed)
+                        Remaining--;
+
+                    _listItems.Remove(listItem);
+
+                    AllListItems.Remove(listItem);
+                    TodayListItems.Remove(listItem);
+                    OverdueListItems.Remove(listItem);
+
+                    ((RelayCommand)SelectCommand).RaiseCanExecuteChanged();
+                    break;
             }
-
-            if (notificationMessage.Notification == "Incomplete")
-                Remaining++;
         }
 
+        // TODO: I think there's an event on the RDBLB that can do this now.
         private void ListItemPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             if (e.PropertyName != "Selected")
@@ -203,16 +214,6 @@ namespace Heath.Lister.ViewModels
             ((RelayCommand)CompleteSelectedCommand).RaiseCanExecuteChanged();
             ((RelayCommand)DeleteSelectedCommand).RaiseCanExecuteChanged();
         }
-
-        //private void PivotItemPropertyChanged(object sender, PropertyChangedEventArgs e)
-        //{
-        //    if (e.PropertyName == "IsCheckModeActive")
-        //    {
-        //        _listItems.ForEach(li => li.Selected = false);
-
-        //        OnIsCheckModeActiveChanged(new IsCheckModeActiveChangedEventArgs(((ListPivotViewModel)sender).IsCheckModeActive));
-        //    }
-        //}
 
         private void Add()
         {
@@ -275,6 +276,11 @@ namespace Heath.Lister.ViewModels
         private bool CanDeleteSelected()
         {
             return _listItems.Any(l => l.Selected);
+        }
+
+        private void IsCheckModeActiveChanged()
+        {
+            _listItems.ForEach(li => li.Selected = false);
         }
 
         private void ItemTapped(ListBoxItemTapEventArgs e)

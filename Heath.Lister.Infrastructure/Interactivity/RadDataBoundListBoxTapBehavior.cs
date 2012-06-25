@@ -33,22 +33,22 @@ namespace Heath.Lister.Infrastructure.Interactivity
         {
             base.OnAttached();
 
-            AssociatedObject.IsCheckModeActiveChanged += OnIsCheckModeActiveChanged;
-            AssociatedObject.IsCheckModeActiveChanging += OnIsCheckModeActiveChanging;
-            AssociatedObject.ItemTap += OnItemTap;
+            AssociatedObject.IsCheckModeActiveChanged += IsCheckModeActiveChanged;
+            AssociatedObject.IsCheckModeActiveChanging += IsCheckModeActiveChanging;
+            AssociatedObject.ItemTap += ItemTap;
         }
 
-        private void OnIsCheckModeActiveChanged(object sender, IsCheckModeActiveChangedEventArgs e)
+        private void IsCheckModeActiveChanged(object sender, IsCheckModeActiveChangedEventArgs e)
         {
             _canTap = !e.CheckBoxesVisible;
         }
 
-        private void OnIsCheckModeActiveChanging(object sender, IsCheckModeActiveChangingEventArgs e)
+        private void IsCheckModeActiveChanging(object sender, IsCheckModeActiveChangingEventArgs e)
         {
             _canTap = false;
         }
 
-        private void OnItemTap(object sender, ListBoxItemTapEventArgs e)
+        private void ItemTap(object sender, ListBoxItemTapEventArgs e)
         {
             if (_canTap)
             {
