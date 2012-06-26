@@ -171,7 +171,13 @@ namespace Heath.Lister.ViewModels
 
         #endregion
 
-        protected override void Loaded() {}
+        protected override void Loaded()
+        {
+            RateReminderHelper.Notify();
+            TrialReminderHelper.Notify();
+
+            ((RelayCommand)SelectCommand).RaiseCanExecuteChanged();
+        }
 
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {

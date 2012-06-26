@@ -7,7 +7,6 @@ using System.Windows.Navigation;
 using GalaSoft.MvvmLight.Threading;
 using Heath.Lister.Configuration;
 using Heath.Lister.Infrastructure;
-using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
 
@@ -30,9 +29,9 @@ namespace Heath.Lister
             radDiagnostics.Init();
 
             UriMappings.Configure();
-            
+
             ListerContainer.Configure(new ListerModule());
-            
+
             DispatcherHelper.Initialize();
 
             using (var data = new ListerData())

@@ -19,7 +19,7 @@ using MediaColor = System.Windows.Media.Color;
 
 namespace Heath.Lister.ViewModels
 {
-    public class EditListViewModel : Abstract.ListViewModelBase, IHaveId, IPageViewModel
+    public class EditListViewModel : ListViewModelBase, IHaveId, IPageViewModel
     {
         private const string PageNamePropertyName = "PageName";
 

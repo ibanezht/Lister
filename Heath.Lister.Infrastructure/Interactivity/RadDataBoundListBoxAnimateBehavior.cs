@@ -1,8 +1,6 @@
 ﻿#region usings
 
-using System.Linq;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 using Microsoft.Phone.Controls;
@@ -30,10 +28,10 @@ namespace Heath.Lister.Infrastructure.Interactivity
         {
             _pivot = ElementTreeHelper.FindVisualAncestor<Pivot>(AssociatedObject);
             _pivotItemIndex = _pivot.Items.IndexOf(ElementTreeHelper.FindVisualAncestor<PivotItem>(AssociatedObject).DataContext);
-            _pivot.ManipulationCompleted += OnPivotManipulationCompleted;
+            _pivot.ManipulationCompleted += ManipulationCompleted;
         }
 
-        private void OnPivotManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
+        private void ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
         {
             if (_pivotItemIndex != _pivot.SelectedIndex)
                 return;

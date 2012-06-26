@@ -9,7 +9,7 @@ using Heath.Lister.ViewModels.Abstract;
 
 namespace Heath.Lister.ViewModels
 {
-    public class HubItemViewModel : Abstract.ListViewModelBase
+    public class HubItemViewModel : ListViewModelBase
     {
         public HubItemViewModel(INavigationService navigationService)
             : base(navigationService) {}

@@ -25,12 +25,6 @@ namespace Heath.Lister.Views
 
             SetValue(RadTileAnimation.ContainerToAnimateProperty, allListItemsListBox);
             listPivot.LoadedPivotItem += (sender, args) => AnimateSelectedListBox(args.Item);
-
-            Loaded += (sender, args) =>
-                      {
-                          RateReminderHelper.Notify();
-                          TrialReminderHelper.Notify();
-                      };
         }
 
         private void IsCheckModeActiveChanged(object sender, IsCheckModeActiveChangedEventArgs e)
