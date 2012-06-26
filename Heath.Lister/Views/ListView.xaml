@@ -25,6 +25,11 @@
             <Setter Property="Margin" Value="0,15,0,0" />
         </Style>
     </phone:PhoneApplicationPage.Resources>
+	<interactivity:Interaction.Triggers>
+		<interactivity:EventTrigger>
+			<command:EventToCommand Command="{Binding LoadedCommand, Mode=OneWay}"/>
+		</interactivity:EventTrigger>
+	</interactivity:Interaction.Triggers>
 
     <phone:PhoneApplicationPage.DataContext>
         <Binding Path="List" Source="{StaticResource Locator}" />

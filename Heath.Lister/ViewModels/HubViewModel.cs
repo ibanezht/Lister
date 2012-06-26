@@ -3,7 +3,6 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using GalaSoft.MvvmLight.Command;
@@ -12,14 +11,12 @@ using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Infrastructure.ViewModels;
 using Telerik.Windows.Controls;
-using GestureEventArgs = System.Windows.Input.GestureEventArgs;
-using ViewModelBase = GalaSoft.MvvmLight.ViewModelBase;
 
 #endregion
 
 namespace Heath.Lister.ViewModels
 {
-    public class HubViewModel : ViewModelBase, IViewModel
+    public class HubViewModel : ViewModel, IPageViewModel
     {
         private readonly Func<HubItemViewModel> _createHubItem;
         private readonly INavigationService _navigationService;
@@ -55,7 +52,7 @@ namespace Heath.Lister.ViewModels
 
         public ICommand ItemTappedCommand { get; private set; }
 
-        #region IViewModel Members
+        #region IPageViewModel Members
 
         public void Activate()
         {
@@ -85,6 +82,8 @@ namespace Heath.Lister.ViewModels
         public void Deactivate(bool isNavigationInitiator) {}
 
         #endregion
+
+        protected override void Loaded() {}
 
         private void About()
         {

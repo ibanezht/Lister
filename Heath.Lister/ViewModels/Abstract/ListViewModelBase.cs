@@ -7,16 +7,16 @@ using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
 using Heath.Lister.Configuration;
 using Heath.Lister.Infrastructure;
+using Heath.Lister.Infrastructure.ViewModels;
 using Heath.Lister.Localization;
 using Heath.Lister.Views;
 using Telerik.Windows.Controls;
-using ViewModelBase = GalaSoft.MvvmLight.ViewModelBase;
 
 #endregion
 
 namespace Heath.Lister.ViewModels.Abstract
 {
-    public abstract class ListViewModelBase : ViewModelBase
+    public abstract class ListViewModelBase : ViewModel
     {
         protected const string ColorPropertyName = "Color";
         protected const string ColorIdPropertyName = "ColorId";
@@ -156,7 +156,7 @@ namespace Heath.Lister.ViewModels.Abstract
 
             hubItem.DataContext = this;
 
-            LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData { VisualElement = hubItem }, uri);
+            LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData {VisualElement = hubItem}, uri);
         }
 
         protected void UpdatePin(bool isNavigationInitiator)
@@ -179,7 +179,7 @@ namespace Heath.Lister.ViewModels.Abstract
 
                 hubItem.DataContext = this;
 
-                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = hubItem });
+                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData {VisualElement = hubItem});
             }
         }
     }

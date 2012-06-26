@@ -68,14 +68,14 @@ namespace Heath.Lister.Infrastructure.Extensions
             if (haveListId != null)
                 haveListId.ListId = Guid.Parse(page.NavigationContext.QueryString["ListId"]);
 
-            var viewModel = page.DataContext as IViewModel;
+            var viewModel = page.DataContext as IPageViewModel;
             if (viewModel != null)
                 viewModel.Activate();
         }
 
         public static void DeactivateViewModel(this PhoneApplicationPage page, bool isNavigationInitiator)
         {
-            var viewModel = page.DataContext as IViewModel;
+            var viewModel = page.DataContext as IPageViewModel;
             if (viewModel != null)
                 viewModel.Deactivate(isNavigationInitiator);
         }

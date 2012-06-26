@@ -22,7 +22,7 @@ using MediaColor = System.Windows.Media.Color;
 
 namespace Heath.Lister.ViewModels
 {
-    public class ListViewModel : ListViewModelBase, IHaveId, IViewModel
+    public class ListViewModel : ListViewModelBase, IHaveId, IPageViewModel
     {
         private const string SelectedPivotItemPropertyName = "SelectedPivotItem";
 
@@ -114,7 +114,7 @@ namespace Heath.Lister.ViewModels
 
         public ObservableCollection<ListItemViewModel> TodayListItems { get; private set; }
 
-        #region IViewModel Members
+        #region IPageViewModel Members
 
         public void Activate()
         {
@@ -170,6 +170,8 @@ namespace Heath.Lister.ViewModels
         }
 
         #endregion
+
+        protected override void Loaded() {}
 
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {

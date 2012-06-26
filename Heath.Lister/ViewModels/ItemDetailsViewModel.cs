@@ -10,7 +10,7 @@ using Heath.Lister.ViewModels.Abstract;
 
 namespace Heath.Lister.ViewModels
 {
-    public class ItemDetailsViewModel : ItemViewModelBase, IHaveListId, IViewModel
+    public class ItemDetailsViewModel : ItemViewModelBase, IHaveListId, IPageViewModel
     {
         private readonly INavigationService _navigationService;
 
@@ -24,7 +24,7 @@ namespace Heath.Lister.ViewModels
 
         public string ApplicationTitle { get; private set; }
 
-        #region IViewModel Members
+        #region IPageViewModel Members
 
         public void Activate()
         {
@@ -52,6 +52,8 @@ namespace Heath.Lister.ViewModels
         public void Deactivate(bool isNavigationInitiator) {}
 
         #endregion
+
+        protected override void Loaded() {}
 
         protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {

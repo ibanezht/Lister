@@ -9,10 +9,12 @@ using Heath.Lister.ViewModels.Abstract;
 
 namespace Heath.Lister.ViewModels
 {
-    public class HubItemViewModel : ListViewModelBase
+    public class HubItemViewModel : Abstract.ListViewModelBase
     {
         public HubItemViewModel(INavigationService navigationService)
             : base(navigationService) {}
+
+        protected override void Loaded() {}
 
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {

@@ -6,7 +6,7 @@ using System;
 
 namespace Heath.Lister.Infrastructure.ViewModels
 {
-    public interface IHaveId //: IViewModel
+    public interface IHaveId
     {
         Guid Id { get; set; }
     }

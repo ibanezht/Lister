@@ -19,7 +19,7 @@ using MediaColor = System.Windows.Media.Color;
 
 namespace Heath.Lister.ViewModels
 {
-    public class EditListViewModel : ListViewModelBase, IHaveId, IViewModel
+    public class EditListViewModel : Abstract.ListViewModelBase, IHaveId, IPageViewModel
     {
         private const string PageNamePropertyName = "PageName";
 
@@ -80,7 +80,7 @@ namespace Heath.Lister.ViewModels
             }
         }
 
-        #region IViewModel Members
+        #region IPageViewModel Members
 
         public void Activate()
         {
@@ -145,6 +145,8 @@ namespace Heath.Lister.ViewModels
         }
 
         #endregion
+
+        protected override void Loaded() {}
 
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args) {}
 

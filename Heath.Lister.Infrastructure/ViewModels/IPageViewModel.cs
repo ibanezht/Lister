@@ -1,6 +1,6 @@
 ﻿namespace Heath.Lister.Infrastructure.ViewModels
 {
-    public interface IViewModel
+    public interface IPageViewModel
     {
         void Activate();
         void Deactivate(bool isNavigationInitiator);
