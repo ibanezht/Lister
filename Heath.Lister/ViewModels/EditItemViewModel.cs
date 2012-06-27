@@ -159,7 +159,7 @@ namespace Heath.Lister.ViewModels
 
         #endregion
 
-        protected override void Loaded() {}
+        public override void Loaded() {}
 
         protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args) {}
 

@@ -22,14 +22,14 @@ namespace Heath.Lister.Infrastructure.Interactivity
                 CommandPropertyName,
                 typeof(ICommand),
                 typeof(ApplicationBarMenuItemBehavior),
-                new PropertyMetadata(OnCommandChanged));
+                null);
 
         public static readonly DependencyProperty CommandParameterProperty =
             DependencyProperty.Register(
                 CommandParameterPropertyName,
                 typeof(object),
                 typeof(ApplicationBarMenuItemBehavior),
-                new PropertyMetadata(OnCommandChanged));
+                null);
 
         private ClickCommandBinding _binding;
 
@@ -52,13 +52,6 @@ namespace Heath.Lister.Infrastructure.Interactivity
             base.OnAttached();
 
             CreateBinding();
-        }
-
-        private static void OnCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var applicationBarIconButtonBehavior = (ApplicationBarMenuItemBehavior)sender;
-            if (applicationBarIconButtonBehavior != null)
-                applicationBarIconButtonBehavior.CreateBinding();
         }
 
         private void CreateBinding()

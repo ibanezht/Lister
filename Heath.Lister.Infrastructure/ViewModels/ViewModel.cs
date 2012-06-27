@@ -10,13 +10,6 @@ namespace Heath.Lister.Infrastructure.ViewModels
 {
     public abstract class ViewModel : ViewModelBase
     {
-        private ICommand _loadedCommand;
-
-        public ICommand LoadedCommand
-        {
-            get { return _loadedCommand ?? (_loadedCommand = new RelayCommand(Loaded)); }
-        }
-
-        protected abstract void Loaded();
+        public abstract void Loaded();
     }
 }

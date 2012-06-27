@@ -1,7 +1,7 @@
 ﻿#region usings
 
+using System.Reflection;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Interactivity;
 using Telerik.Windows.Controls;
 
@@ -11,21 +11,36 @@ namespace Heath.Lister.Infrastructure.Interactivity
 {
     public class RadDataBoundListBoxTapBehavior : Behavior<RadDataBoundListBox>
     {
-        private const string CommandPropertyName = "Command";
+        private const string MethodNamePropertyName = "MethodName";
+        private const string TargetPropertyName = "Target";
 
-        public static readonly DependencyProperty CommandProperty =
+        public static readonly DependencyProperty MethodNameProperty =
             DependencyProperty.Register(
-                CommandPropertyName,
-                typeof(ICommand),
+                MethodNamePropertyName,
+                typeof(string),
                 typeof(RadDataBoundListBoxTapBehavior),
-                null);
+                new PropertyMetadata(TargetChanged));
+
+        public static readonly DependencyProperty TargetObjectProperty =
+            DependencyProperty.Register(
+                TargetPropertyName,
+                typeof(object),
+                typeof(RadDataBoundListBoxTapBehavior),
+                new PropertyMetadata(TargetChanged));
 
         private bool _canTap = true;
+        private MethodInfo _methodInfo;
 
-        public ICommand Command
+        public object TargetObject
         {
-            get { return (ICommand)GetValue(CommandProperty); }
-            set { SetValue(CommandProperty, value); }
+            get { return GetValue(TargetObjectProperty); }
+            set { SetValue(TargetObjectProperty, value); }
+        }
+
+        public string MethodName
+        {
+            get { return (string)GetValue(MethodNameProperty); }
+            set { SetValue(MethodNameProperty, value); }
         }
 
         protected override void OnAttached()
@@ -35,6 +50,21 @@ namespace Heath.Lister.Infrastructure.Interactivity
             AssociatedObject.IsCheckModeActiveChanged += IsCheckModeActiveChanged;
             AssociatedObject.IsCheckModeActiveChanging += IsCheckModeActiveChanging;
             AssociatedObject.ItemTap += ItemTap;
+        }
+
+        private static void TargetChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+        {
+            var radDataBoundListBoxTapBehavior = sender as RadDataBoundListBoxTapBehavior;
+            if (radDataBoundListBoxTapBehavior != null)
+                radDataBoundListBoxTapBehavior.EnsureMethodInfo();
+        }
+
+        private void EnsureMethodInfo()
+        {
+            if (TargetObject == null || MethodName == null)
+                return;
+
+            _methodInfo = TargetObject.GetType().GetMethod(MethodName);
         }
 
         private void IsCheckModeActiveChanged(object sender, IsCheckModeActiveChangedEventArgs e)
@@ -51,7 +81,7 @@ namespace Heath.Lister.Infrastructure.Interactivity
         {
             if (_canTap)
             {
-                Command.Execute(e);
+                _methodInfo.Invoke(TargetObject, new[] { e });
             }
         }
     }

@@ -34,8 +34,6 @@ namespace Heath.Lister.ViewModels
         private ICommand _completeAllCommand;
         private ICommand _completeSelectedCommand;
         private ICommand _deleteSelectedCommand;
-        private ICommand _isCheckModeActiveChangedCommand;
-        private ICommand _itemTappedCommand;
         private ICommand _selectCommand;
         private PivotItem _selectedPivotItem;
         private ICommand _shareCommand;
@@ -77,16 +75,6 @@ namespace Heath.Lister.ViewModels
         public ICommand DeleteSelectedCommand
         {
             get { return _deleteSelectedCommand ?? (_deleteSelectedCommand = new RelayCommand(DeleteSelected, CanDeleteSelected)); }
-        }
-
-        public ICommand IsCheckModeActiveChangedCommand
-        {
-            get { return _isCheckModeActiveChangedCommand ?? (_isCheckModeActiveChangedCommand = new RelayCommand(IsCheckModeActiveChanged)); }
-        }
-
-        public ICommand ItemTappedCommand
-        {
-            get { return _itemTappedCommand ?? (_itemTappedCommand = new RelayCommand<ListBoxItemTapEventArgs>(ItemTapped)); }
         }
 
         public ObservableCollection<ListItemViewModel> OverdueListItems { get; private set; }
@@ -147,8 +135,6 @@ namespace Heath.Lister.ViewModels
                         listItem.Notes = i.Notes;
                         listItem.Priority = i.Priority;
                         listItem.Title = i.Title;
-                        listItem.PropertyChanged += ListItemPropertyChanged;
-
                         _listItems.Add(listItem);
                     });
             }
@@ -171,12 +157,30 @@ namespace Heath.Lister.ViewModels
 
         #endregion
 
-        protected override void Loaded()
+        public override void Loaded()
         {
             RateReminderHelper.Notify();
             TrialReminderHelper.Notify();
 
             ((RelayCommand)SelectCommand).RaiseCanExecuteChanged();
+        }
+
+        public void IsCheckModeActiveChanged()
+        {
+            _listItems.ForEach(li => li.Selected = false);
+        }
+
+        public void ItemCheckedStateChanged()
+        {
+            ((RelayCommand)CompleteSelectedCommand).RaiseCanExecuteChanged();
+            ((RelayCommand)DeleteSelectedCommand).RaiseCanExecuteChanged();
+        }
+
+        public void ItemTap(ListBoxItemTapEventArgs e)
+        {
+            var listItemViewModel = (ListItemViewModel)e.Item.DataContext;
+
+            _navigationService.Navigate(new Uri(string.Format("/Item/{0}/{1}", listItemViewModel.Id, listItemViewModel.ListId), UriKind.Relative));
         }
 
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
@@ -211,16 +215,6 @@ namespace Heath.Lister.ViewModels
                     ((RelayCommand)SelectCommand).RaiseCanExecuteChanged();
                     break;
             }
-        }
-
-        // TODO: I think there's an event on the RDBLB that can do this now.
-        private void ListItemPropertyChanged(object sender, PropertyChangedEventArgs e)
-        {
-            if (e.PropertyName != "Selected")
-                return;
-
-            ((RelayCommand)CompleteSelectedCommand).RaiseCanExecuteChanged();
-            ((RelayCommand)DeleteSelectedCommand).RaiseCanExecuteChanged();
         }
 
         private void Add()
@@ -284,18 +278,6 @@ namespace Heath.Lister.ViewModels
         private bool CanDeleteSelected()
         {
             return _listItems.Any(l => l.Selected);
-        }
-
-        private void IsCheckModeActiveChanged()
-        {
-            _listItems.ForEach(li => li.Selected = false);
-        }
-
-        private void ItemTapped(ListBoxItemTapEventArgs e)
-        {
-            var listItemViewModel = (ListItemViewModel)e.Item.DataContext;
-
-            _navigationService.Navigate(new Uri(string.Format("/Item/{0}/{1}", listItemViewModel.Id, listItemViewModel.ListId), UriKind.Relative));
         }
 
         private void Select()

@@ -83,7 +83,7 @@ namespace Heath.Lister.ViewModels
 
         #endregion
 
-        protected override void Loaded() {}
+        public override void Loaded() {}
 
         private void About()
         {

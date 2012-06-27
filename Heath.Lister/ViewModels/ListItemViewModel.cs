@@ -14,7 +14,7 @@ namespace Heath.Lister.ViewModels
         public ListItemViewModel(INavigationService navigationService)
             : base(navigationService) {}
 
-        protected override void Loaded() {}
+        public override void Loaded() {}
 
         protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {

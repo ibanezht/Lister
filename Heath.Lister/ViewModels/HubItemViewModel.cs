@@ -14,7 +14,7 @@ namespace Heath.Lister.ViewModels
         public HubItemViewModel(INavigationService navigationService)
             : base(navigationService) {}
 
-        protected override void Loaded() {}
+        public override void Loaded() {}
 
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {

@@ -1,6 +1,8 @@
 ﻿#region usings
 
+using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Interactivity;
 using Microsoft.Phone.Controls;
@@ -27,7 +29,7 @@ namespace Heath.Lister.Infrastructure.Interactivity
         private void OnAssociatedObjectLoaded(object sender, RoutedEventArgs e)
         {
             _pivot = ElementTreeHelper.FindVisualAncestor<Pivot>(AssociatedObject);
-            _pivotItemIndex = _pivot.Items.IndexOf(ElementTreeHelper.FindVisualAncestor<PivotItem>(AssociatedObject).DataContext);
+            _pivotItemIndex = _pivot.Items.IndexOf(ElementTreeHelper.FindVisualAncestor<PivotItem>(AssociatedObject));
             _pivot.ManipulationCompleted += ManipulationCompleted;
         }
 
@@ -38,7 +40,7 @@ namespace Heath.Lister.Infrastructure.Interactivity
 
             var fromRight = e.TotalManipulation.Translation.X <= 0;
 
-            //var virtualizingStackPanel = (VirtualizingStackPanel)ElementTreeHelper.EnumVisualDescendants(AssociatedObject, obj => obj is VirtualizingStackPanel).SingleOrDefault();
+            var virtualizingStackPanel = (VirtualizingStackPanel)ElementTreeHelper.EnumVisualDescendants(AssociatedObject, o => o is VirtualizingStackPanel).SingleOrDefault();
         }
     }
 }
