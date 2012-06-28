@@ -22,12 +22,6 @@ namespace Heath.Lister.Views
             InitializeApplicationBar();
 
             SetValue(RadTileAnimation.ContainerToAnimateProperty, hubItemsListBox);
-
-            Loaded += (sender, args) =>
-                      {
-                          RateReminderHelper.Notify();
-                          TrialReminderHelper.Notify();
-                      };
         }
 
         private void InitializeApplicationBar()

@@ -28,12 +28,6 @@ namespace Heath.Lister.Views
             InitializeApplicationBar();
 
             _newInstance = true;
-
-            Loaded += (sender, args) =>
-                      {
-                          RateReminderHelper.Notify();
-                          TrialReminderHelper.Notify();
-                      };
         }
 
         private void InitializeApplicationBar()

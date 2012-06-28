@@ -83,7 +83,11 @@ namespace Heath.Lister.ViewModels
 
         #endregion
 
-        public override void Loaded() {}
+        public override void Loaded()
+        {
+            RateReminderHelper.Notify();
+            TrialReminderHelper.Notify();
+        }
 
         private void About()
         {

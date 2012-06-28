@@ -10,6 +10,7 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Heath.Lister.Infrastructure;
+using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Infrastructure.ViewModels;
 using Heath.Lister.Localization;
 using Heath.Lister.ViewModels.Abstract;
@@ -121,7 +122,7 @@ namespace Heath.Lister.ViewModels
                 Remaining = list.Items.Count(i => !i.Completed);
                 Title = list.Title;
 
-                list.Items.ToList().ForEach(
+                list.Items.ForEach(
                     i =>
                     {
                         var listItem = _createListItem();
@@ -146,13 +147,13 @@ namespace Heath.Lister.ViewModels
             OverdueListItems.Clear();
 
             _listItems.ForEach(AllListItems.Add);
-            _listItems.Where(li => li.DueDate.HasValue && li.DueDate.Value.Date == today).ToList().ForEach(TodayListItems.Add);
-            _listItems.Where(li => li.DueDate.HasValue && li.DueDate.Value.Date < today).ToList().ForEach(OverdueListItems.Add);
+            _listItems.Where(li => li.DueDate.HasValue && li.DueDate.Value.Date == today).ForEach(TodayListItems.Add);
+            _listItems.Where(li => li.DueDate.HasValue && li.DueDate.Value.Date < today).ForEach(OverdueListItems.Add);
         }
 
         public void Deactivate(bool isNavigationInitiator)
         {
-            UpdatePin(isNavigationInitiator);
+            UpdatePin();
         }
 
         #endregion
@@ -234,7 +235,7 @@ namespace Heath.Lister.ViewModels
 
         private void CompleteSelected()
         {
-            _listItems.Where(l => l.Selected).ToList().ForEach(CompleteItem);
+            _listItems.Where(l => l.Selected).ForEach(CompleteItem);
 
             ElementTreeHelper.FindVisualDescendant<RadDataBoundListBox>(SelectedPivotItem).IsCheckModeActive = false;
         }
@@ -301,7 +302,7 @@ namespace Heath.Lister.ViewModels
             builder.Append(Title);
             builder.AppendLine();
 
-            _listItems.ToList().ForEach(
+            _listItems.ForEach(
                 i =>
                 {
                     builder.AppendFormat(" {0}", i.Title);

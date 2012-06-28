@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using GalaSoft.MvvmLight.Command;
 using Heath.Lister.Infrastructure;
+using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Infrastructure.ViewModels;
 using Heath.Lister.Localization;
 using Heath.Lister.ViewModels.Abstract;
@@ -95,7 +96,7 @@ namespace Heath.Lister.ViewModels
                                          Text = c.Text,
                                          Color = MediaColor.FromArgb(255, c.R, c.G, c.B)
                                      })
-                        .ToList().ForEach(Colors.Add);
+                        .ForEach(Colors.Add);
                 }
             }
 
@@ -141,7 +142,7 @@ namespace Heath.Lister.ViewModels
                 TombstoningHelper.Save(TitlePropertyName, Title);
             }
 
-            UpdatePin(isNavigationInitiator);
+            UpdatePin();
         }
 
         #endregion

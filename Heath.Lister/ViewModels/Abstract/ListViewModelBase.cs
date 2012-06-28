@@ -4,7 +4,6 @@ using System;
 using System.ComponentModel;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Threading;
 using Heath.Lister.Configuration;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.ViewModels;
@@ -143,6 +142,22 @@ namespace Heath.Lister.ViewModels.Abstract
 
         protected abstract void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args);
 
+        protected void UpdatePin()
+        {
+            var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative));
+
+            var shellTile = LiveTileHelper.GetTile(uri);
+            if (shellTile != null)
+            {
+                var hubItem = new HubItemView();
+
+                hubItem.DataContext = this;
+                hubItem.UpdateLayout();
+
+                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = hubItem });
+            }
+        }
+
         private void Edit()
         {
             _navigationService.Navigate(new Uri(string.Format("/EditList/{0}", Id), UriKind.Relative));
@@ -155,32 +170,9 @@ namespace Heath.Lister.ViewModels.Abstract
             var hubItem = new HubItemView();
 
             hubItem.DataContext = this;
+            hubItem.UpdateLayout();
 
-            LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData {VisualElement = hubItem}, uri);
-        }
-
-        protected void UpdatePin(bool isNavigationInitiator)
-        {
-            if (isNavigationInitiator)
-                DispatcherHelper.UIDispatcher.BeginInvoke(UpdatePin);
-
-            else
-                UpdatePin();
-        }
-
-        private void UpdatePin()
-        {
-            var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative));
-
-            var shellTile = LiveTileHelper.GetTile(uri);
-            if (shellTile != null)
-            {
-                var hubItem = new HubItemView();
-
-                hubItem.DataContext = this;
-
-                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData {VisualElement = hubItem});
-            }
+            LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData { VisualElement = hubItem }, uri);
         }
     }
 }
