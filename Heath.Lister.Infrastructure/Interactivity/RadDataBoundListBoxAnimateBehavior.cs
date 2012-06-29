@@ -14,8 +14,6 @@ using Telerik.Windows.Controls;
 
 namespace Heath.Lister.Infrastructure.Interactivity
 {
-    // Use QuarticEase
-
     public class RadDataBoundListBoxAnimateBehavior : Behavior<RadDataBoundListBox>
     {
         private const string AnimateLevelPropertyName = "AnimateLevel";
@@ -29,6 +27,7 @@ namespace Heath.Lister.Infrastructure.Interactivity
 
         private Pivot _pivot;
         private int _pivotItemIndex;
+        private bool _selectionChanged;
 
         public static int GetAnimateLevel(DependencyObject obj)
         {
@@ -52,58 +51,49 @@ namespace Heath.Lister.Infrastructure.Interactivity
             _pivot = ElementTreeHelper.FindVisualAncestor<Pivot>(AssociatedObject);
             _pivotItemIndex = _pivot.Items.IndexOf(ElementTreeHelper.FindVisualAncestor<PivotItem>(AssociatedObject));
             _pivot.ManipulationCompleted += ManipulationCompleted;
+            _pivot.SelectionChanged += delegate { _selectionChanged = true; };
         }
 
         private void ManipulationCompleted(object sender, ManipulationCompletedEventArgs e)
         {
+            if (!_selectionChanged)
+                return;
+
+            _selectionChanged = false;
+
             if (_pivotItemIndex != _pivot.SelectedIndex)
                 return;
 
             var fromRight = e.TotalManipulation.Translation.X <= 0;
 
-            foreach (var item in AssociatedObject.ViewportItems)
+            var visibleDescendants = AssociatedObject.ViewportItems
+                .SelectMany(vi => ElementTreeHelper.EnumVisualDescendants(vi))
+                .Where(p => GetAnimateLevel(p) > -1);
+
+            foreach (UIElement visibleDescendant in visibleDescendants)
             {
-                var des = ElementTreeHelper.EnumVisualDescendants(item, o => o is FrameworkElement);
-
-                var ugh = des.FirstOrDefault();
+                GetAnimation(visibleDescendant, fromRight).Begin();
             }
-
-            //for (var index = firstVisibleItem; index <= firstVisibleItem + visibleItemCount; index++)
-            //{
-            //    // find all the item that have the AnimationLevel attached property set
-            //    var lbi = list.ItemContainerGenerator.ContainerFromIndex(index);
-            //    if (lbi == null)
-            //        continue;
-
-            //    vsp.Dispatcher.BeginInvoke(() =>
-            //    {
-            //        var animationTargets = lbi.Descendants().Where(p => GetAnimationLevel(p) > -1);
-            //        foreach (FrameworkElement target in animationTargets)
-            //        {
-            //            // trigger the required animation
-            //            GetAnimation(target, fromRight).Begin();
-            //        }
-            //    });
-            //}
         }
 
-        private static Storyboard GetAnimation(FrameworkElement element, bool fromRight)
+        private static Storyboard GetAnimation(UIElement uiElement, bool fromRight)
         {
+            var retval = new Storyboard();          
+
             double from = fromRight ? 80 : -80;
 
             var translateTransform = new TranslateTransform();
             translateTransform.X = from;
-            element.RenderTransform = translateTransform;
-
-            var retval = new Storyboard();
-            retval.BeginTime = TimeSpan.FromSeconds(GetAnimateLevel(element) * 0.1 + 0.1);
+            
+            uiElement.RenderTransform = translateTransform;
 
             var doubleAnimation = new DoubleAnimation();
             doubleAnimation.To = 0;
             doubleAnimation.From = from;
             doubleAnimation.EasingFunction = new SineEase();
 
-            retval.Duration = doubleAnimation.Duration = TimeSpan.FromSeconds(0.8);
+            retval.BeginTime = TimeSpan.FromSeconds(GetAnimateLevel(uiElement) * 0.1 + 0.1);
+            retval.Duration = doubleAnimation.Duration = TimeSpan.FromSeconds(0.4);
             retval.Children.Add(doubleAnimation);
 
             Storyboard.SetTarget(doubleAnimation, translateTransform);
