@@ -5,8 +5,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Interactivity;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
+using Heath.Lister.Infrastructure.Extensions;
 using Microsoft.Phone.Controls;
 using Telerik.Windows.Controls;
 
@@ -64,44 +64,22 @@ namespace Heath.Lister.Infrastructure.Interactivity
             if (_pivotItemIndex != _pivot.SelectedIndex)
                 return;
 
-            var fromRight = e.TotalManipulation.Translation.X <= 0;
-
-            var visibleDescendants = AssociatedObject.ViewportItems
+            AssociatedObject.ViewportItems
                 .SelectMany(vi => ElementTreeHelper.EnumVisualDescendants(vi))
-                .Where(p => GetAnimateLevel(p) > -1);
+                .Where(p => GetAnimateLevel(p) > -1)
+                .OfType<UIElement>()
+                .ForEach(uie =>
+                         {
+                             var radMoveAnimation = new RadMoveAnimation();
 
-            foreach (UIElement visibleDescendant in visibleDescendants)
-            {
-                GetAnimation(visibleDescendant, fromRight).Begin();
-            }
-        }
+                             radMoveAnimation.InitialDelay = TimeSpan.FromSeconds(GetAnimateLevel(uie) * 0.1 + 0.1);
+                             radMoveAnimation.StartPoint = new Point(e.TotalManipulation.Translation.X <= 0 ? 100 : -100, 0);
+                             radMoveAnimation.EndPoint = new Point(0, 0);
+                             radMoveAnimation.Easing = new SineEase();
 
-        private static Storyboard GetAnimation(UIElement uiElement, bool fromRight)
-        {
-            var retval = new Storyboard();          
-
-            double from = fromRight ? 80 : -80;
-
-            var translateTransform = new TranslateTransform();
-            translateTransform.X = from;
-
-            uiElement.RenderTransform = translateTransform;
-
-            var easingFunction = new SineEase();
-
-            var doubleAnimation = new DoubleAnimation();
-            doubleAnimation.To = 0;
-            doubleAnimation.From = from;
-            doubleAnimation.EasingFunction = easingFunction;
-
-            retval.BeginTime = TimeSpan.FromSeconds(GetAnimateLevel(uiElement) * 0.1 + 0.1);
-            retval.Duration = doubleAnimation.Duration = TimeSpan.FromSeconds(0.4);
-            retval.Children.Add(doubleAnimation);
-
-            Storyboard.SetTarget(doubleAnimation, translateTransform);
-            Storyboard.SetTargetProperty(doubleAnimation, new PropertyPath("X"));
-
-            return retval;
+                             RadAnimationManager.Play(uie, radMoveAnimation);
+                         }
+                );
         }
     }
 }
