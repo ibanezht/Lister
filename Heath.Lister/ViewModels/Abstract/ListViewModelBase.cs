@@ -29,17 +29,16 @@ namespace Heath.Lister.ViewModels.Abstract
         private ColorViewModel _color;
         private Guid _colorId;
         private DateTime _createdDate;
+        private ICommand _deleteCommand;
+        private ICommand _editCommand;
         private Guid _id;
+        private ICommand _pinCommand;
         private int _remaining;
         private string _title;
 
         protected ListViewModelBase(INavigationService navigationService)
         {
             _navigationService = navigationService;
-
-            DeleteCommand = new RelayCommand(Delete);
-            EditCommand = new RelayCommand(Edit);
-            PinCommand = new RelayCommand(Pin, () => LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative))) == null);
         }
 
         public ColorViewModel Color
@@ -76,6 +75,16 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
+        public ICommand DeleteCommand
+        {
+            get { return _deleteCommand ?? (_deleteCommand = new RelayCommand(Delete)); }
+        }
+
+        public ICommand EditCommand
+        {
+            get { return _editCommand ?? (_editCommand = new RelayCommand(Edit)); }
+        }
+
         public Guid Id
         {
             get { return _id; }
@@ -85,6 +94,11 @@ namespace Heath.Lister.ViewModels.Abstract
                 RaisePropertyChanged(IdPropertyName);
                 ((RelayCommand)PinCommand).RaiseCanExecuteChanged();
             }
+        }
+
+        public ICommand PinCommand
+        {
+            get { return _pinCommand ?? (_pinCommand = new RelayCommand(Pin, CanPin)); }
         }
 
         public int Remaining
@@ -106,12 +120,6 @@ namespace Heath.Lister.ViewModels.Abstract
                 RaisePropertyChanged(TitlePropertyName);
             }
         }
-
-        public ICommand DeleteCommand { get; private set; }
-
-        public ICommand EditCommand { get; private set; }
-
-        public ICommand PinCommand { get; private set; }
 
         private void Delete()
         {
@@ -173,6 +181,11 @@ namespace Heath.Lister.ViewModels.Abstract
             hubItem.UpdateLayout();
 
             LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData { VisualElement = hubItem }, uri);
+        }
+
+        private bool CanPin()
+        {
+            return LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative))) == null;
         }
     }
 }

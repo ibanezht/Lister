@@ -23,9 +23,9 @@ namespace Heath.Lister.Views
         {
             InitializeComponent();
 
-            _itemDetails = (ItemDetailsViewModel)DataContext;
+            _itemDetails = (ItemDetailsViewModel)DataContext;        
 
-            InitializeApplicationBar();
+            Loaded += (sender, args) => InitializeApplicationBar();
 
             _newInstance = true;
         }

@@ -25,8 +25,10 @@ namespace Heath.Lister.ViewModels
         private const string PageNamePropertyName = "PageName";
 
         private readonly INavigationService _navigationService;
+        private ICommand _cancelCommand;
 
         private string _pageName;
+        private ICommand _saveCommand;
 
         public EditListViewModel(INavigationService navigationService)
             : base(navigationService)
@@ -34,9 +36,6 @@ namespace Heath.Lister.ViewModels
             _navigationService = navigationService;
 
             ApplicationTitle = "LISTER";
-
-            CancelCommand = new RelayCommand(Cancel);
-            SaveCommand = new RelayCommand(Save, () => !string.IsNullOrWhiteSpace(Title));
 
             // TODO: Maybe make title overridable and put the Raise call in the setter?
             PropertyChanged += (sender, args) =>
@@ -52,7 +51,10 @@ namespace Heath.Lister.ViewModels
 
         public string ApplicationTitle { get; private set; }
 
-        public ICommand CancelCommand { get; private set; }
+        public ICommand CancelCommand
+        {
+            get { return _cancelCommand ?? (_cancelCommand = new RelayCommand(Cancel)); }
+        }
 
         public ObservableCollection<ColorViewModel> Colors { get; set; }
 
@@ -66,7 +68,10 @@ namespace Heath.Lister.ViewModels
             }
         }
 
-        public ICommand SaveCommand { get; private set; }
+        public ICommand SaveCommand
+        {
+            get { return _saveCommand ?? (_saveCommand = new RelayCommand(Save, CanSave)); }
+        }
 
         public IEnumerable<string> Suggestions
         {
@@ -167,6 +172,11 @@ namespace Heath.Lister.ViewModels
                 };
             backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
             backgroundWorker.RunWorkerAsync();
+        }
+
+        private bool CanSave()
+        {
+            return !string.IsNullOrWhiteSpace(Title);
         }
     }
 }

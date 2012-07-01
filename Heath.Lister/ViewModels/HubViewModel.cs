@@ -21,16 +21,16 @@ namespace Heath.Lister.ViewModels
         private readonly Func<HubItemViewModel> _createHubItem;
         private readonly INavigationService _navigationService;
 
+        private ICommand _aboutCommand;
+        private ICommand _addCommand;
+        private ICommand _itemTappedCommand;
+
         public HubViewModel(Func<HubItemViewModel> createHubItem, INavigationService navigationService)
         {
             _createHubItem = createHubItem;
             _navigationService = navigationService;
 
             ApplicationTitle = "LISTER";
-
-            AboutCommand = new RelayCommand(About);
-            AddCommand = new RelayCommand(Add, () => !TrialReminderHelper.IsTrialExpired);
-            ItemTappedCommand = new RelayCommand<ListBoxItemTapEventArgs>(ItemTapped);
 
             Messenger.Default.Register<NotificationMessage<HubItemViewModel>>(
                 this, nm =>
@@ -46,11 +46,20 @@ namespace Heath.Lister.ViewModels
 
         public ObservableCollection<HubItemViewModel> HubItems { get; private set; }
 
-        public ICommand AboutCommand { get; private set; }
+        public ICommand AboutCommand
+        {
+            get { return _aboutCommand ?? (_aboutCommand = new RelayCommand(About)); }
+        }
 
-        public ICommand AddCommand { get; private set; }
+        public ICommand AddCommand
+        {
+            get { return _addCommand ?? (_addCommand = new RelayCommand(Add, CanAdd)); }
+        }
 
-        public ICommand ItemTappedCommand { get; private set; }
+        public ICommand ItemTappedCommand
+        {
+            get { return _itemTappedCommand ?? (_itemTappedCommand = new RelayCommand<ListBoxItemTapEventArgs>(ItemTapped)); }
+        }
 
         #region IPageViewModel Members
 
@@ -97,6 +106,11 @@ namespace Heath.Lister.ViewModels
         private void Add()
         {
             _navigationService.Navigate(new Uri(string.Format("/EditList/{0}", Guid.Empty), UriKind.Relative));
+        }
+
+        private static bool CanAdd()
+        {
+            return !TrialReminderHelper.IsTrialExpired;
         }
 
         private void ItemTapped(ListBoxItemTapEventArgs e)

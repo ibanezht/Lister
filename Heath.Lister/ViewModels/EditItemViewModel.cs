@@ -21,8 +21,12 @@ namespace Heath.Lister.ViewModels
         private const string PageNamePropertyName = "PageName";
 
         private readonly INavigationService _navigationService;
+        private ICommand _cancelCommand;
+        private ICommand _clearDateCommand;
+        private ICommand _clearTimeCommand;
 
         private string _pageName;
+        private ICommand _saveCommand;
 
         public EditItemViewModel(INavigationService navigationService)
             : base(navigationService)
@@ -30,11 +34,6 @@ namespace Heath.Lister.ViewModels
             _navigationService = navigationService;
 
             ApplicationTitle = "LISTER";
-
-            CancelCommand = new RelayCommand(Cancel);
-            ClearDateCommand = new RelayCommand(ClearDate);
-            ClearTimeCommand = new RelayCommand(ClearTime);
-            SaveCommand = new RelayCommand(Save, () => !string.IsNullOrWhiteSpace(Title));
 
             // TODO: Maybe make title overridable and put the Raise call in the setter?
             PropertyChanged += (sender, args) =>
@@ -49,7 +48,10 @@ namespace Heath.Lister.ViewModels
 
         public string ApplicationTitle { get; private set; }
 
-        public ICommand CancelCommand { get; private set; }
+        public ICommand CancelCommand
+        {
+            get { return _cancelCommand ?? (_cancelCommand = new RelayCommand(Cancel)); }
+        }
 
         public string PageName
         {
@@ -74,11 +76,20 @@ namespace Heath.Lister.ViewModels
             }
         }
 
-        public ICommand ClearDateCommand { get; private set; }
+        public ICommand ClearDateCommand
+        {
+            get { return _clearDateCommand ?? (_clearDateCommand = new RelayCommand(ClearDate)); }
+        }
 
-        public ICommand ClearTimeCommand { get; private set; }
+        public ICommand ClearTimeCommand
+        {
+            get { return _clearTimeCommand ?? (_clearTimeCommand = new RelayCommand(ClearTime)); }
+        }
 
-        public ICommand SaveCommand { get; private set; }
+        public ICommand SaveCommand
+        {
+            get { return _saveCommand ?? (_saveCommand = new RelayCommand(Save, CanSave)); }
+        }
 
         #region IPageViewModel Members
 
@@ -194,6 +205,11 @@ namespace Heath.Lister.ViewModels
                 };
             backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
             backgroundWorker.RunWorkerAsync();
+        }
+
+        private bool CanSave()
+        {
+            return !string.IsNullOrWhiteSpace(Title);
         }
     }
 }

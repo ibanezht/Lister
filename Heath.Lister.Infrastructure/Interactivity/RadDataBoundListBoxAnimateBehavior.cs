@@ -84,13 +84,15 @@ namespace Heath.Lister.Infrastructure.Interactivity
 
             var translateTransform = new TranslateTransform();
             translateTransform.X = from;
-            
+
             uiElement.RenderTransform = translateTransform;
+
+            var easingFunction = new SineEase();
 
             var doubleAnimation = new DoubleAnimation();
             doubleAnimation.To = 0;
             doubleAnimation.From = from;
-            doubleAnimation.EasingFunction = new SineEase();
+            doubleAnimation.EasingFunction = easingFunction;
 
             retval.BeginTime = TimeSpan.FromSeconds(GetAnimateLevel(uiElement) * 0.1 + 0.1);
             retval.Duration = doubleAnimation.Duration = TimeSpan.FromSeconds(0.4);

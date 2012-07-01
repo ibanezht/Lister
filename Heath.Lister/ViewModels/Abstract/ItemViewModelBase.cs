@@ -33,16 +33,21 @@ namespace Heath.Lister.ViewModels.Abstract
 
         private readonly INavigationService _navigationService;
 
+        private ICommand _completeCommand;
         private bool _completed;
         private DateTime _createdDate;
+        private ICommand _deleteCommand;
         private DateTime? _dueDate;
         private DateTime? _dueTime;
+        private ICommand _editCommand;
         private Guid _id;
+        private ICommand _incompleteCommand;
         private ColorViewModel _listColor;
         private Guid _listId;
         private string _listTitle;
         private string _notes;
         private Priority _priority;
+        private ICommand _reminderCommand;
         private bool _selected;
         private string _title;
 
@@ -59,15 +64,12 @@ namespace Heath.Lister.ViewModels.Abstract
             }
 
             _navigationService = navigationService;
-
-            CompleteCommand = new RelayCommand(Complete, () => !Completed);
-            DeleteCommand = new RelayCommand(Delete);
-            EditCommand = new RelayCommand(Edit);
-            IncompleteCommand = new RelayCommand(Incomplete, () => Completed);
-            ReminderCommand = new RelayCommand(Reminder, () => !Completed && !ScheduleReminderHelper.HasReminder(Id.ToString()));
         }
 
-        public ICommand CompleteCommand { get; private set; }
+        public ICommand CompleteCommand
+        {
+            get { return _completeCommand ?? (_completeCommand = new RelayCommand(Complete, CanComplete)); }
+        }
 
         public bool Completed
         {
@@ -92,7 +94,10 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public ICommand DeleteCommand { get; private set; }
+        public ICommand DeleteCommand
+        {
+            get { return _deleteCommand ?? (_deleteCommand = new RelayCommand(Delete)); }
+        }
 
         public DateTime? DueDate
         {
@@ -142,7 +147,10 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public ICommand EditCommand { get; private set; }
+        public ICommand EditCommand
+        {
+            get { return _editCommand ?? (_editCommand = new RelayCommand(Edit)); }
+        }
 
         public Guid Id
         {
@@ -155,7 +163,10 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public ICommand IncompleteCommand { get; private set; }
+        public ICommand IncompleteCommand
+        {
+            get { return _incompleteCommand ?? (_incompleteCommand = new RelayCommand(Incomplete, CanIncomplete)); }
+        }
 
         public ColorViewModel ListColor
         {
@@ -207,7 +218,10 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public ICommand ReminderCommand { get; private set; }
+        public ICommand ReminderCommand
+        {
+            get { return _reminderCommand ?? (_reminderCommand = new RelayCommand(Remind, CanRemind)); }
+        }
 
         public bool Selected
         {
@@ -244,6 +258,11 @@ namespace Heath.Lister.ViewModels.Abstract
                 };
             backgroundWorker.RunWorkerCompleted += CompleteCompleted;
             backgroundWorker.RunWorkerAsync();
+        }
+
+        private bool CanComplete()
+        {
+            return !Completed;
         }
 
         protected abstract void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args);
@@ -291,7 +310,7 @@ namespace Heath.Lister.ViewModels.Abstract
             _navigationService.Navigate(new Uri(string.Format("/EditItem/{0}/{1}", Id, ListId), UriKind.Relative));
         }
 
-        public void Incomplete()
+        private void Incomplete()
         {
             Completed = false;
 
@@ -308,9 +327,14 @@ namespace Heath.Lister.ViewModels.Abstract
             backgroundWorker.RunWorkerAsync();
         }
 
+        private bool CanIncomplete()
+        {
+            return Completed;
+        }
+
         protected abstract void IncompleteCompleted(object sender, RunWorkerCompletedEventArgs args);
 
-        private void Reminder()
+        private void Remind()
         {
             var attemptedDate = DateTime.Now;
 
@@ -336,6 +360,11 @@ namespace Heath.Lister.ViewModels.Abstract
                 };
 
             RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.OK, string.Format(AppResources.ReminderMessageText, reminderDate), closedHandler: closedHandler);
+        }
+
+        private bool CanRemind()
+        {
+            return !Completed && !ScheduleReminderHelper.HasReminder(Id.ToString());
         }
     }
 }
