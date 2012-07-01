@@ -7,7 +7,7 @@ using Ninject.Modules;
 
 namespace Heath.Lister.Infrastructure
 {
-    public class ListerContainer
+    public static class ListerContainer
     {
         private static IKernel _instance;
 
