@@ -12,8 +12,7 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" 
-    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" 
-    d:DesignHeight="768" d:DesignWidth="480" 
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" xmlns:telerikBehaviors="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Behaviors" d:DesignHeight="768" d:DesignWidth="480" 
     DataContext="{Binding List, Source={StaticResource Locator}}" 
     shell:SystemTray.IsVisible="True" 
     SupportedOrientations="PortraitOrLandscape" 
@@ -55,8 +54,8 @@
                     </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
 
                     <interactivity:Interaction.Behaviors>
+                        <telerikBehaviors:DataBoundListBoxPivotBehavior />
                         <listerInteractivity:RadDataBoundListBoxAnimateBehavior />
-                        <listerInteractivity:RadDataBoundListBoxPivotBlockBehavior />
                         <listerInteractivity:RadDataBoundListBoxTapBehavior MethodName="ItemTap" TargetObject="{Binding}" />
                     </interactivity:Interaction.Behaviors>
 
@@ -87,8 +86,8 @@
                     </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
 
                     <interactivity:Interaction.Behaviors>
+                        <telerikBehaviors:DataBoundListBoxPivotBehavior />
                         <listerInteractivity:RadDataBoundListBoxAnimateBehavior />
-                        <listerInteractivity:RadDataBoundListBoxPivotBlockBehavior />
                         <listerInteractivity:RadDataBoundListBoxTapBehavior MethodName="ItemTap" TargetObject="{Binding}" />
                     </interactivity:Interaction.Behaviors>
 
@@ -119,8 +118,8 @@
                     </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
 
                     <interactivity:Interaction.Behaviors>
+                        <telerikBehaviors:DataBoundListBoxPivotBehavior />
                         <listerInteractivity:RadDataBoundListBoxAnimateBehavior />
-                        <listerInteractivity:RadDataBoundListBoxPivotBlockBehavior />
                         <listerInteractivity:RadDataBoundListBoxTapBehavior MethodName="ItemTap" TargetObject="{Binding}" />
                     </interactivity:Interaction.Behaviors>
 
