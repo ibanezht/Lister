@@ -69,7 +69,7 @@ namespace Heath.Lister.ViewModels
             {
                 IEnumerable<string> retval;
 
-                using (var data = new ListerData())
+                using (var data = new DataAccess())
                     retval = data.GetItemTitles();
 
                 return retval;
@@ -106,7 +106,7 @@ namespace Heath.Lister.ViewModels
             {
                 PageName = string.Format("{0} {1}", AppResources.EditText, AppResources.ItemText);
 
-                using (var data = new ListerData())
+                using (var data = new DataAccess())
                 {
                     var item = data.GetItem(Id);
 
@@ -130,7 +130,7 @@ namespace Heath.Lister.ViewModels
             {
                 PageName = string.Format("{0} {1}", AppResources.AddText, AppResources.ItemText);
 
-                using (var data = new ListerData())
+                using (var data = new DataAccess())
                 {
                     var list = data.GetList(ListId, false);
 
@@ -200,7 +200,7 @@ namespace Heath.Lister.ViewModels
             backgroundWorker.DoWork +=
                 (sender, args) =>
                 {
-                    using (var data = new ListerData())
+                    using (var data = new DataAccess())
                         data.UpsertItem(Id, ListId, Completed, DueDate, DueTime, Notes, Priority, Title);
                 };
             backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();

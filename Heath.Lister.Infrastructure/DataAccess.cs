@@ -11,15 +11,15 @@ using Color = Heath.Lister.Infrastructure.Models.Color;
 
 namespace Heath.Lister.Infrastructure
 {
-    public class ListerData : IDisposable
+    public class DataAccess : IDisposable
     {
-        private readonly ListerDataContext _dataContext;
+        private readonly Data _data;
 
         private bool _disposed;
 
-        public ListerData()
+        public DataAccess()
         {
-            _dataContext = new ListerDataContext();
+            _data = new Data();
         }
 
         #region IDisposable Members
@@ -34,12 +34,12 @@ namespace Heath.Lister.Infrastructure
 
         public void Initialize()
         {
-            if (_dataContext.DatabaseExists())
+            if (_data.DatabaseExists())
                 return;
 
-            _dataContext.CreateDatabase();
+            _data.CreateDatabase();
 
-            _dataContext.Colors.InsertAllOnSubmit(
+            _data.Colors.InsertAllOnSubmit(
                 new List<Color>
                 {
                     new Color { Id = Guid.NewGuid(), Text = "blue", R = 27, G = 161, B = 226 },
@@ -54,17 +54,17 @@ namespace Heath.Lister.Infrastructure
                     new Color { Id = Guid.NewGuid(), Text = "teal", R = 0, G = 171, B = 169 }
                 });
 
-            _dataContext.SubmitChanges();
+            _data.SubmitChanges();
 
-            if (_dataContext.Lists.Any())
+            if (_data.Lists.Any())
                 return;
 
-            var lime = _dataContext.Colors.Single(c => c.Text == "blue");
+            var lime = _data.Colors.Single(c => c.Text == "blue");
             var welcome = new List { Id = Guid.NewGuid(), Color = lime, Title = "welcome!", CreatedDate = DateTime.Now };
 
-            _dataContext.Lists.InsertOnSubmit(welcome);
+            _data.Lists.InsertOnSubmit(welcome);
 
-            _dataContext.Items.InsertOnSubmit(
+            _data.Items.InsertOnSubmit(
                 new Item
                 {
                     Id = Guid.NewGuid(), 
@@ -76,12 +76,12 @@ namespace Heath.Lister.Infrastructure
                     CreatedDate = DateTime.Now
                 });
 
-            _dataContext.SubmitChanges();
+            _data.SubmitChanges();
         }
 
         public IEnumerable<Color> GetColors()
         {
-            return _dataContext.Colors.ToList();
+            return _data.Colors.ToList();
         }
 
         public IEnumerable<List> GetLists()
@@ -91,14 +91,14 @@ namespace Heath.Lister.Infrastructure
             dataLoadOptions.LoadWith<List>(l => l.Items);
             dataLoadOptions.AssociateWith<List>(l => l.Items.Where(i => !i.Deleted));
 
-            _dataContext.LoadOptions = dataLoadOptions;
+            _data.LoadOptions = dataLoadOptions;
 
-            return _dataContext.Lists.Where(l => !l.Deleted).ToList();
+            return _data.Lists.Where(l => !l.Deleted).ToList();
         }
 
         public IEnumerable<string> GetListTitles()
         {
-            return _dataContext.Lists.Select(i => i.Title).Distinct().ToList();
+            return _data.Lists.Select(i => i.Title).Distinct().ToList();
         }
 
         public List GetList(Guid id, bool complete)
@@ -110,9 +110,9 @@ namespace Heath.Lister.Infrastructure
                 dataLoadOptions.LoadWith<List>(l => l.Items);
                 dataLoadOptions.AssociateWith<List>(l => l.Items.Where(i => !i.Deleted));
 
-                _dataContext.LoadOptions = dataLoadOptions;
+                _data.LoadOptions = dataLoadOptions;
             }
-            return _dataContext.Lists.Single(l => l.Id == id);
+            return _data.Lists.Single(l => l.Id == id);
         }
 
         public List UpsertList(Guid id, Guid colorId, string title)
@@ -120,43 +120,43 @@ namespace Heath.Lister.Infrastructure
             List retval;
 
             if (id != Guid.Empty)
-                retval = _dataContext.Lists.Single(l => l.Id == id);
+                retval = _data.Lists.Single(l => l.Id == id);
 
             else
             {
                 retval = new List();
                 retval.CreatedDate = DateTime.Now;
                 retval.Id = Guid.NewGuid();
-                _dataContext.Lists.InsertOnSubmit(retval);
+                _data.Lists.InsertOnSubmit(retval);
             }
 
-            retval.Color = _dataContext.Colors.Single(c => c.Id == colorId);
+            retval.Color = _data.Colors.Single(c => c.Id == colorId);
             retval.Title = title;
 
-            _dataContext.SubmitChanges();
+            _data.SubmitChanges();
 
             return retval;
         }
 
         public void DeleteList(Guid id)
         {
-            var list = _dataContext.Lists.Single(l => l.Id == id);
+            var list = _data.Lists.Single(l => l.Id == id);
 
             foreach (var item in list.Items)
                 item.Deleted = true;
 
             list.Deleted = true;
-            _dataContext.SubmitChanges();
+            _data.SubmitChanges();
         }
 
         public IEnumerable<string> GetItemTitles()
         {
-            return _dataContext.Items.Select(i => i.Title).Distinct().ToList();
+            return _data.Items.Select(i => i.Title).Distinct().ToList();
         }
 
         public Item GetItem(Guid id)
         {
-            return _dataContext.Items.Single(i => i.Id == id);
+            return _data.Items.Single(i => i.Id == id);
         }
 
         public Item UpsertItem(Guid id, Guid listId, bool completed, DateTime? dueDate, DateTime? dueTime, string notes, Priority priority, string title)
@@ -164,15 +164,15 @@ namespace Heath.Lister.Infrastructure
             Item retval;
 
             if (id != Guid.Empty)
-                retval = _dataContext.Items.Single(i => i.Id == id);
+                retval = _data.Items.Single(i => i.Id == id);
 
             else
             {
                 retval = new Item();
                 retval.Id = Guid.NewGuid();
                 retval.CreatedDate = DateTime.Now;
-                retval.List = _dataContext.Lists.Single(l => l.Id == listId);
-                _dataContext.Items.InsertOnSubmit(retval);
+                retval.List = _data.Lists.Single(l => l.Id == listId);
+                _data.Items.InsertOnSubmit(retval);
             }
 
             retval.Completed = completed;
@@ -182,28 +182,28 @@ namespace Heath.Lister.Infrastructure
             retval.Priority = priority;
             retval.Title = title;
 
-            _dataContext.SubmitChanges();
+            _data.SubmitChanges();
 
             return retval;
         }
 
         public void UpdateItem(Guid id, bool completed)
         {
-            var item = _dataContext.Items.Single(i => i.Id == id);
+            var item = _data.Items.Single(i => i.Id == id);
 
             item.Completed = completed;
-            _dataContext.SubmitChanges();
+            _data.SubmitChanges();
         }
 
         public void DeleteItem(Guid id)
         {
-            var item = _dataContext.Items.Single(i => i.Id == id);
+            var item = _data.Items.Single(i => i.Id == id);
 
             item.Deleted = true;
-            _dataContext.SubmitChanges();
+            _data.SubmitChanges();
         }
 
-        ~ListerData()
+        ~DataAccess()
         {
             Dispose(false);
         }
@@ -212,7 +212,7 @@ namespace Heath.Lister.Infrastructure
         {
             if (!_disposed && disposing)
             {
-                _dataContext.Dispose();
+                _data.Dispose();
             }
 
             _disposed = true;

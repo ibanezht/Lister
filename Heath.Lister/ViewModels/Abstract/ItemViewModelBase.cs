@@ -251,7 +251,7 @@ namespace Heath.Lister.ViewModels.Abstract
             backgroundWorker.DoWork +=
                 (sender, args) =>
                 {
-                    using (var data = new ListerData())
+                    using (var data = new DataAccess())
                         data.UpdateItem(Id, Completed);
 
                     ScheduleReminderHelper.RemoveReminder(Id.ToString());
@@ -276,7 +276,7 @@ namespace Heath.Lister.ViewModels.Abstract
                     backgroundWorker.DoWork +=
                         (sender, args) =>
                         {
-                            using (var data = new ListerData())
+                            using (var data = new DataAccess())
                                 data.DeleteItem(Id);
 
                             ScheduleReminderHelper.RemoveReminder(Id.ToString());
@@ -318,7 +318,7 @@ namespace Heath.Lister.ViewModels.Abstract
             backgroundWorker.DoWork +=
                 (sender, args) =>
                 {
-                    using (var data = new ListerData())
+                    using (var data = new DataAccess())
                         data.UpdateItem(Id, Completed);
 
                     ScheduleReminderHelper.RemoveReminder(Id.ToString());

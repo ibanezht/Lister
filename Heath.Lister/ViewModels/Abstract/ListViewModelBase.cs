@@ -133,7 +133,7 @@ namespace Heath.Lister.ViewModels.Abstract
                     backgroundWorker.DoWork +=
                         (sender, args) =>
                         {
-                            using (var data = new ListerData())
+                            using (var data = new DataAccess())
                                 data.DeleteList(Id);
 
                             var shellTile = LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative)));
@@ -155,15 +155,15 @@ namespace Heath.Lister.ViewModels.Abstract
             var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative));
 
             var shellTile = LiveTileHelper.GetTile(uri);
-            if (shellTile != null)
-            {
-                var hubItem = new HubItemView();
+            if (shellTile == null) 
+                return;
 
-                hubItem.DataContext = this;
-                hubItem.UpdateLayout();
+            var hubItem = new HubItemView();
 
-                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = hubItem });
-            }
+            hubItem.DataContext = this;
+            hubItem.UpdateLayout();
+
+            LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = hubItem });
         }
 
         private void Edit()

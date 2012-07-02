@@ -28,7 +28,7 @@ namespace Heath.Lister.ViewModels
 
         public void Activate()
         {
-            using (var data = new ListerData())
+            using (var data = new DataAccess())
             {
                 var item = data.GetItem(Id);
 

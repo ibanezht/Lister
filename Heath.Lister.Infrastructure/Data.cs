@@ -7,11 +7,11 @@ using Heath.Lister.Infrastructure.Models;
 
 namespace Heath.Lister.Infrastructure
 {
-    internal class ListerDataContext : DataContext
+    internal class Data : DataContext
     {
         private const string ConnectionString = "isostore:/lister.sdf";
 
-        public ListerDataContext()
+        public Data()
             : base(ConnectionString) {}
 
         public Table<Color> Colors

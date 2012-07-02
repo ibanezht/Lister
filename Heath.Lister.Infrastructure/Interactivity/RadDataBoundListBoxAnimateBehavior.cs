@@ -1,6 +1,7 @@
 ﻿#region usings
 
 using System;
+using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -73,7 +74,7 @@ namespace Heath.Lister.Infrastructure.Interactivity
                              var radMoveAnimation = new RadMoveAnimation();
 
                              radMoveAnimation.InitialDelay = TimeSpan.FromSeconds(GetAnimateLevel(uie) * 0.1 + 0.1);
-                             radMoveAnimation.StartPoint = new Point(e.TotalManipulation.Translation.X <= 0 ? 100 : -100, 0);
+                             radMoveAnimation.StartPoint = new Point(e.TotalManipulation.Translation.X <= 0 ? 75 : -75, 0);
                              radMoveAnimation.EndPoint = new Point(0, 0);
                              radMoveAnimation.Easing = new SineEase();
 

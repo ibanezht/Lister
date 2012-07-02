@@ -105,7 +105,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Configuration\ListerModule.cs" />
+    <Compile Include="Configuration\ViewDependenciesModule.cs" />
     <Compile Include="Configuration\UriMappings.cs" />
     <Compile Include="Converters\BooleanToTextValueConverter.cs" />
     <Compile Include="Converters\EnumValuesConverter.cs" />

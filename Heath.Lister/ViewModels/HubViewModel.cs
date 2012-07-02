@@ -67,7 +67,7 @@ namespace Heath.Lister.ViewModels
         {
             HubItems.Clear();
 
-            using (var data = new ListerData())
+            using (var data = new DataAccess())
             {
                 data.GetLists().OrderBy(l => l.CreatedDate).ForEach(
                     l =>

@@ -11,7 +11,7 @@ using Ninject.Modules;
 
 namespace Heath.Lister.Configuration
 {
-    internal class ListerModule : NinjectModule
+    internal class ViewDependenciesModule : NinjectModule
     {
         public override void Load()
         {

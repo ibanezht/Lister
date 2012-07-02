@@ -109,7 +109,7 @@ namespace Heath.Lister.ViewModels
         {
             _listItems.Clear();
 
-            using (var data = new ListerData())
+            using (var data = new DataAccess())
             {
                 var list = data.GetList(Id, true);
                 Color = new ColorViewModel

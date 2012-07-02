@@ -72,7 +72,7 @@
     <Compile Include="RateReminderHelper.cs" />
     <Compile Include="TrialReminderHelper.cs" />
     <Compile Include="EnumValueCache.cs" />
-    <Compile Include="ListerData.cs" />
+    <Compile Include="DataAccess.cs" />
     <Compile Include="Extensions\PhoneApplicationPageExtensions.cs" />
     <Compile Include="Interactivity\ApplicationBarMenuItemBehavior.cs" />
     <Compile Include="Models\Color.cs" />
@@ -82,10 +82,10 @@
     <Compile Include="ViewModels\IHaveId.cs" />
     <Compile Include="Interactivity\ExtendedDataTrigger.cs" />
     <Compile Include="ViewModels\IPageViewModel.cs" />
-    <Compile Include="ListerContainer.cs" />
+    <Compile Include="DependencyContainer.cs" />
     <Compile Include="Interactivity\UpdateSourceOnTextChangedBehavior.cs" />
     <Compile Include="INavigationService.cs" />
-    <Compile Include="ListerDataContext.cs" />
+    <Compile Include="Data.cs" />
     <Compile Include="MetroGridHelper.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\List.cs" />

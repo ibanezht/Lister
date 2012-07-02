@@ -30,11 +30,11 @@ namespace Heath.Lister
 
             UriMappings.Configure();
 
-            ListerContainer.Configure(new ListerModule());
+            DependencyContainer.Configure(new ViewDependenciesModule());
 
             DispatcherHelper.Initialize();
 
-            using (var data = new ListerData())
+            using (var data = new DataAccess())
                 data.Initialize();
 
             InteractionEffectManager.AllowedTypes.Add(typeof(Button));

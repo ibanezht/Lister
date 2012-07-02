@@ -79,7 +79,7 @@ namespace Heath.Lister.ViewModels
             {
                 IEnumerable<string> retval;
 
-                using (var data = new ListerData())
+                using (var data = new DataAccess())
                     retval = data.GetListTitles();
 
                 return retval;
@@ -92,7 +92,7 @@ namespace Heath.Lister.ViewModels
         {
             if (!Colors.Any())
             {
-                using (var data = new ListerData())
+                using (var data = new DataAccess())
                 {
                     data.GetColors()
                         .Select(c => new ColorViewModel
@@ -113,7 +113,7 @@ namespace Heath.Lister.ViewModels
             {
                 PageName = string.Format("{0} {1}", AppResources.EditText, AppResources.ListText);
 
-                using (var data = new ListerData())
+                using (var data = new DataAccess())
                 {
                     var list = data.GetList(Id, true);
 
@@ -167,7 +167,7 @@ namespace Heath.Lister.ViewModels
             backgroundWorker.DoWork +=
                 (sender, args) =>
                 {
-                    using (var data = new ListerData())
+                    using (var data = new DataAccess())
                         data.UpsertList(Id, ColorId, Title);
                 };
             backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
