@@ -1,9 +1,10 @@
 ﻿#region usings
 
-using System;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media.Animation;
 using Microsoft.Phone.Controls;
+using Telerik.Windows.Controls;
 
 #endregion
 
@@ -22,6 +23,9 @@ namespace Heath.Lister.Infrastructure
 
         public void End()
         {
+            if (_target == null)
+                return;
+
             _target.IsHitTestVisible = true;
             ShowPivotHeaders();
             UnsubscribeEvents(_target);
@@ -30,72 +34,100 @@ namespace Heath.Lister.Infrastructure
 
         private void SubscribeEvents(Pivot target)
         {
-            target.Unloaded -= Unloaded;
-            target.Unloaded += Unloaded;
-            target.ManipulationStarted -= ManipulationStarted;
-            target.ManipulationStarted += ManipulationStarted;
+            target.Unloaded -= TargetUnloaded;
+            target.Unloaded += TargetUnloaded;
+            target.ManipulationStarted -= TargetManipulationStarted;
+            target.ManipulationStarted += TargetManipulationStarted;
+        }
+
+        private void UnsubscribeEvents(Pivot target)
+        {
+            Touch.FrameReported -= TouchFrameReported;
+            target.Unloaded -= TargetUnloaded;
+            target.ManipulationStarted -= TargetManipulationStarted;
         }
 
         private void HidePivotHeaders()
         {
-            var currentItem = _target.SelectedItem as PivotItem;
+            var currentItem = (PivotItem)_target.SelectedItem;
 
             foreach (PivotItem item in _target.Items)
             {
                 if (!ReferenceEquals(item, currentItem))
                 {
-                    item.Tag = item.Header;
-                    item.Header = null;
+                    //item.Tag = item.Header;
+                    //item.Header = null;
+                    HideAnimate(item);
                 }
             }
         }
 
         private void ShowPivotHeaders()
         {
-            var currentItem = _target.SelectedItem as PivotItem;
+            var currentItem = (PivotItem)_target.SelectedItem;
 
             foreach (PivotItem item in _target.Items)
             {
                 if (!ReferenceEquals(item, currentItem) && item.Tag != null)
                 {
-                    item.Header = item.Tag;
-                    item.Tag = null;
+                    //item.Header = item.Tag;
+                    //item.Tag = null;
+                    ShowAnimate(item);
                 }
             }
         }
 
-        private void UnsubscribeEvents(Pivot target)
+        private static void HideAnimate(UIElement uiElement)
         {
-            Touch.FrameReported -= FrameReported;
-            target.Unloaded -= Unloaded;
-            target.ManipulationStarted -= ManipulationStarted;
+            var radMoveAndFadeAnimation = new RadMoveAndFadeAnimation();
+
+            radMoveAndFadeAnimation.FadeAnimation.StartOpacity = 1.0;
+            radMoveAndFadeAnimation.FadeAnimation.EndOpacity = 0.0;
+            radMoveAndFadeAnimation.MoveAnimation.StartPoint = new Point(0, 0);
+            radMoveAndFadeAnimation.MoveAnimation.EndPoint = new Point(75, 0);
+            radMoveAndFadeAnimation.Easing = new SineEase();
+
+            RadAnimationManager.Play(uiElement, radMoveAndFadeAnimation);
         }
 
-        private void ManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        private static void ShowAnimate(UIElement uiElement)
         {
-            Touch.FrameReported -= FrameReported;
-            Touch.FrameReported += FrameReported;
+            var radMoveAndFadeAnimation = new RadMoveAndFadeAnimation();
+
+            radMoveAndFadeAnimation.FadeAnimation.StartOpacity = 0.0;
+            radMoveAndFadeAnimation.FadeAnimation.EndOpacity = 1.0;
+            radMoveAndFadeAnimation.MoveAnimation.StartPoint = new Point(75, 0);
+            radMoveAndFadeAnimation.MoveAnimation.EndPoint = new Point(0, 0);
+            radMoveAndFadeAnimation.Easing = new SineEase();
+
+            RadAnimationManager.Play(uiElement, radMoveAndFadeAnimation);
+        }
+
+        private void TargetManipulationStarted(object sender, ManipulationStartedEventArgs e)
+        {
+            Touch.FrameReported -= TouchFrameReported;
+            Touch.FrameReported += TouchFrameReported;
             _target.IsHitTestVisible = false;
         }
 
-        private void Unloaded(object sender, RoutedEventArgs e)
+        private void TargetUnloaded(object sender, RoutedEventArgs e)
         {
             End();
         }
 
-        private void FrameReported(object sender, TouchFrameEventArgs e)
+        private void TouchFrameReported(object sender, TouchFrameEventArgs e)
         {
             var touchPoints = e.GetTouchPoints(_target);
 
             if (touchPoints.Count == 0)
             {
-                Touch.FrameReported -= FrameReported;
+                Touch.FrameReported -= TouchFrameReported;
                 _target.IsHitTestVisible = true;
             }
 
             if (touchPoints.Count == 1 && touchPoints[0].Action == TouchAction.Up)
             {
-                Touch.FrameReported -= FrameReported;
+                Touch.FrameReported -= TouchFrameReported;
                 _target.IsHitTestVisible = true;
             }
         }

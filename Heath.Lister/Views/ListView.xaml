@@ -11,7 +11,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
-    xmlns:telerikBehaviors="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Behaviors" 
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" 
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" 
     d:DesignHeight="768" d:DesignWidth="480" 
@@ -42,7 +41,7 @@
 
         <controls:Pivot x:Name="listPivot" Title="{Binding ApplicationTitle}" SelectedItem="{Binding SelectedPivotItem, Mode=TwoWay}">
             <controls:PivotItem Header="{Binding LocalizedResources.AllText, Source={StaticResource LocalizedStrings}}">
-                <telerikPrimitives:RadDataBoundListBox x:Name="allListItemsListBox" Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemsSource="{Binding AllListItems}" ItemTap="ListItemsRadDataBoundListBoxItemTap">    
+                <telerikPrimitives:RadDataBoundListBox x:Name="allListItemsListBox" Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemsSource="{Binding AllListItems}" ItemTap="ListItemsRadDataBoundListBoxItemTap">
                     <telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
                         <DataTemplate>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LocalizedResources.NoItemsText, Source={StaticResource LocalizedStrings}}" />
@@ -56,18 +55,18 @@
                     </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
 
                     <interactivity:Interaction.Behaviors>
-                        <telerikBehaviors:DataBoundListBoxPivotBehavior />
                         <listerInteractivity:RadDataBoundListBoxAnimateBehavior />
-                        <listerInteractivity:RadDataBoundListBoxTapBehavior TargetObject="{Binding}" MethodName="ItemTap" />
+                        <listerInteractivity:RadDataBoundListBoxPivotBlockBehavior />
+                        <listerInteractivity:RadDataBoundListBoxTapBehavior MethodName="ItemTap" TargetObject="{Binding}" />
                     </interactivity:Interaction.Behaviors>
 
                     <interactivity:Interaction.Triggers>
                         <interactivity:EventTrigger EventName="IsCheckModeActiveChanged">
-                            <interactions:CallMethodAction TargetObject="{Binding}" MethodName="IsCheckModeActiveChanged"/>
+                            <interactions:CallMethodAction MethodName="IsCheckModeActiveChanged" TargetObject="{Binding}" />
                         </interactivity:EventTrigger>
-                        
+
                         <interactivity:EventTrigger EventName="ItemCheckedStateChanged">
-                            <interactions:CallMethodAction TargetObject="{Binding}" MethodName="ItemCheckedStateChanged"/>
+                            <interactions:CallMethodAction MethodName="ItemCheckedStateChanged" TargetObject="{Binding}" />
                         </interactivity:EventTrigger>
                     </interactivity:Interaction.Triggers>
                 </telerikPrimitives:RadDataBoundListBox>
@@ -88,18 +87,18 @@
                     </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
 
                     <interactivity:Interaction.Behaviors>
-                        <telerikBehaviors:DataBoundListBoxPivotBehavior />
                         <listerInteractivity:RadDataBoundListBoxAnimateBehavior />
-                        <listerInteractivity:RadDataBoundListBoxTapBehavior TargetObject="{Binding}" MethodName="ItemTap" />
+                        <listerInteractivity:RadDataBoundListBoxPivotBlockBehavior />
+                        <listerInteractivity:RadDataBoundListBoxTapBehavior MethodName="ItemTap" TargetObject="{Binding}" />
                     </interactivity:Interaction.Behaviors>
 
                     <interactivity:Interaction.Triggers>
                         <interactivity:EventTrigger EventName="IsCheckModeActiveChanged">
-                            <interactions:CallMethodAction TargetObject="{Binding}" MethodName="IsCheckModeActiveChanged"/>
+                            <interactions:CallMethodAction MethodName="IsCheckModeActiveChanged" TargetObject="{Binding}" />
                         </interactivity:EventTrigger>
-                        
+
                         <interactivity:EventTrigger EventName="ItemCheckedStateChanged">
-                            <interactions:CallMethodAction TargetObject="{Binding}" MethodName="ItemCheckedStateChanged"/>
+                            <interactions:CallMethodAction MethodName="ItemCheckedStateChanged" TargetObject="{Binding}" />
                         </interactivity:EventTrigger>
                     </interactivity:Interaction.Triggers>
                 </telerikPrimitives:RadDataBoundListBox>
@@ -120,18 +119,18 @@
                     </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
 
                     <interactivity:Interaction.Behaviors>
-                        <telerikBehaviors:DataBoundListBoxPivotBehavior />
                         <listerInteractivity:RadDataBoundListBoxAnimateBehavior />
-                        <listerInteractivity:RadDataBoundListBoxTapBehavior TargetObject="{Binding}" MethodName="ItemTap" />
+                        <listerInteractivity:RadDataBoundListBoxPivotBlockBehavior />
+                        <listerInteractivity:RadDataBoundListBoxTapBehavior MethodName="ItemTap" TargetObject="{Binding}" />
                     </interactivity:Interaction.Behaviors>
 
                     <interactivity:Interaction.Triggers>
                         <interactivity:EventTrigger EventName="IsCheckModeActiveChanged">
-                            <interactions:CallMethodAction TargetObject="{Binding}" MethodName="IsCheckModeActiveChanged"/>
+                            <interactions:CallMethodAction MethodName="IsCheckModeActiveChanged" TargetObject="{Binding}" />
                         </interactivity:EventTrigger>
-                        
+
                         <interactivity:EventTrigger EventName="ItemCheckedStateChanged">
-                            <interactions:CallMethodAction TargetObject="{Binding}" MethodName="ItemCheckedStateChanged"/>
+                            <interactions:CallMethodAction MethodName="ItemCheckedStateChanged" TargetObject="{Binding}" />
                         </interactivity:EventTrigger>
                     </interactivity:Interaction.Triggers>
                 </telerikPrimitives:RadDataBoundListBox>
