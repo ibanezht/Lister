@@ -9,7 +9,7 @@ using System.Windows.Interactivity;
 
 namespace Heath.Lister.Infrastructure.Interactivity
 {
-    public class UpdateSourceOnTextChangedBehavior : Behavior<TextBox>
+    public class UpdateSourceTextChangedBehavior : Behavior<TextBox>
     {
         private BindingExpression _expression;
 
@@ -18,18 +18,19 @@ namespace Heath.Lister.Infrastructure.Interactivity
             base.OnAttached();
 
             _expression = AssociatedObject.GetBindingExpression(TextBox.TextProperty);
-            AssociatedObject.TextChanged += OnTextChanged;
+            AssociatedObject.TextChanged += TextChanged;
         }
 
+        // TODO: I don't do this for any of the rest of the Behaviors, needed?
         protected override void OnDetaching()
         {
             base.OnDetaching();
 
-            AssociatedObject.TextChanged -= OnTextChanged;
+            AssociatedObject.TextChanged -= TextChanged;
             _expression = null;
         }
 
-        private void OnTextChanged(object sender, EventArgs args)
+        private void TextChanged(object sender, EventArgs args)
         {
             _expression.UpdateSource();
         }

@@ -53,7 +53,7 @@
                 <TextBlock Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.TitleText, Source={StaticResource LocalizedStrings}}" />
                 <telerikInput:RadAutoCompleteBox Grid.Row="1" AutoCompleteMode="StartsWith" AutoCompletePopupDisplayMode="BelowTextBox" FilterDelay="0:0:0.350" GotFocus="TextBoxGotFocus" InputScope="Text" SuggestionsSource="{Binding Suggestions}" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=Explicit}">
                     <interactivity:Interaction.Behaviors>
-                        <listerInteractivity:UpdateSourceOnTextChangedBehavior />
+                        <listerInteractivity:UpdateSourceTextChangedBehavior />
                     </interactivity:Interaction.Behaviors>
                 </telerikInput:RadAutoCompleteBox>
 

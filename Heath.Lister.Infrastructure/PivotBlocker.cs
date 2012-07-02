@@ -13,16 +13,8 @@ namespace Heath.Lister.Infrastructure
     {
         private Pivot _target;
 
-        public Pivot Target
-        {
-            get { return _target; }
-        }
-
         public void Start(Pivot target)
         {
-            if (_target != null)
-                throw new InvalidOperationException("Blocking already started. Please end the blocking operation for the current target before starting a new one.");
-
             _target = target;
             HidePivotHeaders();
             SubscribeEvents(target);
@@ -30,9 +22,6 @@ namespace Heath.Lister.Infrastructure
 
         public void End()
         {
-            if (_target == null)
-                return;
-
             _target.IsHitTestVisible = true;
             ShowPivotHeaders();
             UnsubscribeEvents(_target);
@@ -53,11 +42,11 @@ namespace Heath.Lister.Infrastructure
 
             foreach (PivotItem item in _target.Items)
             {
-                if (ReferenceEquals(item, currentItem))
-                    continue;
-
-                item.Tag = item.Header;
-                item.Header = null;
+                if (!ReferenceEquals(item, currentItem))
+                {
+                    item.Tag = item.Header;
+                    item.Header = null;
+                }
             }
         }
 
@@ -67,11 +56,11 @@ namespace Heath.Lister.Infrastructure
 
             foreach (PivotItem item in _target.Items)
             {
-                if (ReferenceEquals(item, currentItem) || item.Tag == null)
-                    continue;
-
-                item.Header = item.Tag;
-                item.Tag = null;
+                if (!ReferenceEquals(item, currentItem) && item.Tag != null)
+                {
+                    item.Header = item.Tag;
+                    item.Tag = null;
+                }
             }
         }
 

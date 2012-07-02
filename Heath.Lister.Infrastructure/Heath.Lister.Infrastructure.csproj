@@ -84,7 +84,7 @@
     <Compile Include="Interactivity\ExtendedDataTrigger.cs" />
     <Compile Include="ViewModels\IPageViewModel.cs" />
     <Compile Include="DependencyContainer.cs" />
-    <Compile Include="Interactivity\UpdateSourceOnTextChangedBehavior.cs" />
+    <Compile Include="Interactivity\UpdateSourceTextChangedBehavior.cs" />
     <Compile Include="INavigationService.cs" />
     <Compile Include="Data.cs" />
     <Compile Include="MetroGridHelper.cs" />

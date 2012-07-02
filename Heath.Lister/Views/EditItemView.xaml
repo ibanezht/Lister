@@ -57,7 +57,7 @@
                 <TextBlock Grid.Row="1" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.TitleText, Source={StaticResource LocalizedStrings}}" />
                 <telerikInput:RadAutoCompleteBox Grid.Row="2" AutoCompleteMode="StartsWith" AutoCompletePopupDisplayMode="BelowTextBox" FilterDelay="0:0:0.350" GotFocus="TextBoxGotFocus" InputScope="Text" SuggestionsSource="{Binding Suggestions}" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=Explicit}">
                     <interactivity:Interaction.Behaviors>
-                        <listerInteractivity:UpdateSourceOnTextChangedBehavior />
+                        <listerInteractivity:UpdateSourceTextChangedBehavior />
                     </interactivity:Interaction.Behaviors>
                 </telerikInput:RadAutoCompleteBox>
 
@@ -88,7 +88,7 @@
                 <TextBlock Grid.Row="8" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.NotesText, Source={StaticResource LocalizedStrings}}" />
                 <TextBox Grid.Row="9" AcceptsReturn="True" GotFocus="TextBoxGotFocus" InputScope="Text" Text="{Binding Notes, Mode=TwoWay, UpdateSourceTrigger=Explicit}" TextWrapping="Wrap">
                     <interactivity:Interaction.Behaviors>
-                        <listerInteractivity:UpdateSourceOnTextChangedBehavior />
+                        <listerInteractivity:UpdateSourceTextChangedBehavior />
                     </interactivity:Interaction.Behaviors>
                 </TextBox>
             </Grid>
