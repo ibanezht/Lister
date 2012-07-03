@@ -133,6 +133,7 @@ namespace Heath.Lister.ViewModels
                         listItem.Id = i.Id;
                         listItem.ListColor = Color;
                         listItem.ListId = Id;
+                        listItem.ListTitle = Title;
                         listItem.Notes = i.Notes;
                         listItem.Priority = i.Priority;
                         listItem.Title = i.Title;

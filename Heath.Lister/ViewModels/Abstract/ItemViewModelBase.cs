@@ -9,6 +9,7 @@ using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Models;
 using Heath.Lister.Infrastructure.ViewModels;
 using Heath.Lister.Localization;
+using Heath.Lister.Views;
 using Telerik.Windows.Controls;
 
 #endregion
@@ -46,6 +47,7 @@ namespace Heath.Lister.ViewModels.Abstract
         private Guid _listId;
         private string _listTitle;
         private string _notes;
+        private ICommand _pinCommand;
         private Priority _priority;
         private ICommand _reminderCommand;
         private bool _selected;
@@ -208,6 +210,11 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
+        public ICommand PinCommand
+        {
+            get { return _pinCommand ?? (_pinCommand = new RelayCommand(Pin, CanPin)); }
+        }
+
         public Priority Priority
         {
             get { return _priority; }
@@ -365,6 +372,28 @@ namespace Heath.Lister.ViewModels.Abstract
         private bool CanRemind()
         {
             return !Completed && !ScheduleReminderHelper.HasReminder(Id.ToString());
+        }
+
+        private void Pin()
+        {
+            var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
+
+            var itemFront = new ItemFrontView();
+
+            itemFront.DataContext = this;
+            itemFront.UpdateLayout();
+
+            var itemBack = new ItemBackView();
+
+            itemBack.DataContext = this;
+            itemBack.UpdateLayout();
+
+            LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData { VisualElement = itemFront, BackVisualElement = itemBack }, uri);
+        }
+
+        private bool CanPin()
+        {
+            return LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative))) == null;
         }
     }
 }

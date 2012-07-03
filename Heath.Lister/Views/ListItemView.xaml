@@ -42,6 +42,7 @@
                 <telerikPrimitives:RadContextMenuItem Command="{Binding EditCommand}" Content="{Binding LocalizedResources.EditText, Source={StaticResource LocalizedStrings}}" />
                 <telerikPrimitives:RadContextMenuItem Command="{Binding DeleteCommand}" Content="{Binding LocalizedResources.DeleteText, Source={StaticResource LocalizedStrings}}" />
                 <telerikPrimitives:RadContextMenuItem Command="{Binding ReminderCommand}" Content="{Binding LocalizedResources.ItemReminderText, Source={StaticResource LocalizedStrings}}" />
+                <telerikPrimitives:RadContextMenuItem Command="{Binding PinCommand}" Content="{Binding LocalizedResources.PinToStartText, Source={StaticResource LocalizedStrings}}" />
             </telerikPrimitives:RadContextMenu>
         </telerikPrimitives:RadContextMenu.ContextMenu>
 
