@@ -23,8 +23,9 @@ namespace Heath.Lister.Views
 
             InitializeDefaultApplicationBar();
 
-            SetValue(RadTileAnimation.ContainerToAnimateProperty, allListItemsListBox);
-            listPivot.LoadedPivotItem += (sender, args) => AnimateSelectedListBox(args.Item);
+            AnimateSelectedListBox();
+
+            listPivot.LoadedPivotItem += (sender, args) => AnimateSelectedListBox();
         }
 
         private void IsCheckModeActiveChanged(object sender, IsCheckModeActiveChangedEventArgs e)
@@ -71,9 +72,28 @@ namespace Heath.Lister.Views
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.delete.rest.png", UriKind.Relative), AppResources.DeleteText, new PropertyPath("DeleteSelectedCommand"));
         }
 
-        private void AnimateSelectedListBox(PivotItem pivotItem)
+        private void AnimateSelectedListBox()
         {
-            var listBox = ElementTreeHelper.FindVisualDescendant<RadDataBoundListBox>(pivotItem);
+            RadDataBoundListBox listBox;
+
+            switch (listPivot.SelectedIndex)
+            {
+                case 0:
+                    listBox = allListItemsListBox;
+                    break;
+
+                case 1:
+                    listBox = todayListItemsListBox;
+                    break;
+
+                case 2:
+                    listBox = overdueListItemsListBox;
+                    break;
+
+                default:
+                    listBox = allListItemsListBox;
+                    break;
+            }
 
             SetValue(RadTileAnimation.ContainerToAnimateProperty, listBox);
         }

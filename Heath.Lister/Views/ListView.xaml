@@ -72,7 +72,7 @@
             </controls:PivotItem>
 
             <controls:PivotItem Header="{Binding LocalizedResources.TodayText, Source={StaticResource LocalizedStrings}}">
-                <telerikPrimitives:RadDataBoundListBox Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemsSource="{Binding TodayListItems}" ItemTap="ListItemsRadDataBoundListBoxItemTap">
+                <telerikPrimitives:RadDataBoundListBox x:Name="todayListItemsListBox" Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemsSource="{Binding TodayListItems}" ItemTap="ListItemsRadDataBoundListBoxItemTap">
                     <telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
                         <DataTemplate>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LocalizedResources.NoItemsText, Source={StaticResource LocalizedStrings}}" />
@@ -104,7 +104,7 @@
             </controls:PivotItem>
 
             <controls:PivotItem Header="{Binding LocalizedResources.OverdueText, Source={StaticResource LocalizedStrings}}">
-                <telerikPrimitives:RadDataBoundListBox Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemsSource="{Binding OverdueListItems}" ItemTap="ListItemsRadDataBoundListBoxItemTap">
+                <telerikPrimitives:RadDataBoundListBox x:Name="overdueListItemsListBox"  Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemsSource="{Binding OverdueListItems}" ItemTap="ListItemsRadDataBoundListBoxItemTap">
                     <telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
                         <DataTemplate>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LocalizedResources.NoItemsText, Source={StaticResource LocalizedStrings}}" />

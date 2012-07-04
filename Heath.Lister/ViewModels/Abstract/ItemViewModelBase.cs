@@ -383,12 +383,18 @@ namespace Heath.Lister.ViewModels.Abstract
             itemFront.DataContext = this;
             itemFront.UpdateLayout();
 
-            var itemBack = new ItemBackView();
+            if (!string.IsNullOrEmpty(Notes))
+            {
+                var itemBack = new ItemBackView();
 
-            itemBack.DataContext = this;
-            itemBack.UpdateLayout();
+                itemBack.DataContext = this;
+                itemBack.UpdateLayout();
 
-            LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData { VisualElement = itemFront, BackVisualElement = itemBack }, uri);
+                LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData { VisualElement = itemFront, BackVisualElement = itemBack }, uri);
+            }
+
+            else
+                LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData { VisualElement = itemFront }, uri);
         }
 
         private bool CanPin()

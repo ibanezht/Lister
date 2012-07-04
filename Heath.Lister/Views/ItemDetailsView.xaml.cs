@@ -50,6 +50,7 @@ namespace Heath.Lister.Views
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.edit.rest.png", UriKind.Relative), AppResources.EditText, new PropertyPath("EditCommand"));
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.delete.rest.png", UriKind.Relative), AppResources.DeleteText, new PropertyPath("DeleteCommand"));
             this.AddApplicationBarMenuItem(AppResources.ItemReminderText, new PropertyPath("ReminderCommand"));
+            this.AddApplicationBarMenuItem(AppResources.PinToStartText, new PropertyPath("PinCommand"));
         }
 
         private void InitializeIncompleteApplicationBar()
@@ -60,6 +61,7 @@ namespace Heath.Lister.Views
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.edit.rest.png", UriKind.Relative), AppResources.EditText, new PropertyPath("EditCommand"));
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.delete.rest.png", UriKind.Relative), AppResources.DeleteText, new PropertyPath("DeleteCommand"));
             this.AddApplicationBarMenuItem(AppResources.ItemReminderText, new PropertyPath("ReminderCommand"));
+            this.AddApplicationBarMenuItem(AppResources.PinToStartText, new PropertyPath("PinCommand"));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
