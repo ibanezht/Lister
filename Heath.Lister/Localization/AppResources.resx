@@ -248,4 +248,10 @@
   <data name="IncompleteText" xml:space="preserve">
     <value>incomplete</value>
   </data>
+  <data name="ReminderDateText" xml:space="preserve">
+    <value>Reminder Date</value>
+  </data>
+  <data name="ReminderTimeText" xml:space="preserve">
+    <value>Reminder Time</value>
+  </data>
 </root>

@@ -399,7 +399,7 @@ namespace Heath.Lister.ViewModels.Abstract
 
         private bool CanPin()
         {
-            return LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative))) == null;
+            return !Completed && LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative))) == null;
         }
     }
 }

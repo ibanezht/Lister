@@ -367,6 +367,15 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reminder Date.
+        /// </summary>
+        public static string ReminderDateText {
+            get {
+                return ResourceManager.GetString("ReminderDateText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Your reminder will be set for {0}.
         ///
         ///(Set a Due Date and Due Time to get a more accurate reminder.).
@@ -383,6 +392,15 @@ namespace Heath.Lister.Localization {
         public static string ReminderText {
             get {
                 return ResourceManager.GetString("ReminderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reminder Time.
+        /// </summary>
+        public static string ReminderTimeText {
+            get {
+                return ResourceManager.GetString("ReminderTimeText", resourceCulture);
             }
         }
         
