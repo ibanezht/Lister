@@ -25,8 +25,8 @@ namespace Heath.Lister.ViewModels
         private const string PageNamePropertyName = "PageName";
 
         private readonly INavigationService _navigationService;
-        private ICommand _cancelCommand;
 
+        private ICommand _cancelCommand;
         private string _pageName;
         private ICommand _saveCommand;
 
@@ -150,9 +150,9 @@ namespace Heath.Lister.ViewModels
             UpdatePin();
         }
 
-        #endregion
+        public void ViewReady() {}
 
-        public override void Loaded() {}
+        #endregion
 
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args) {}
 

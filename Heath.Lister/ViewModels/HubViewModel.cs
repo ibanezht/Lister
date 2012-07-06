@@ -11,12 +11,13 @@ using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Infrastructure.ViewModels;
 using Telerik.Windows.Controls;
+using ViewModelBase = GalaSoft.MvvmLight.ViewModelBase;
 
 #endregion
 
 namespace Heath.Lister.ViewModels
 {
-    public class HubViewModel : ViewModel, IPageViewModel
+    public class HubViewModel : ViewModelBase, IPageViewModel
     {
         private readonly Func<HubItemViewModel> _createHubItem;
         private readonly INavigationService _navigationService;
@@ -90,13 +91,13 @@ namespace Heath.Lister.ViewModels
 
         public void Deactivate(bool isNavigationInitiator) {}
 
-        #endregion
-
-        public override void Loaded()
+        public void ViewReady()
         {
             RateReminderHelper.Notify();
             TrialReminderHelper.Notify();
         }
+
+        #endregion
 
         private void About()
         {

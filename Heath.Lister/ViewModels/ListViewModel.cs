@@ -157,15 +157,15 @@ namespace Heath.Lister.ViewModels
             UpdatePin();
         }
 
-        #endregion
-
-        public override void Loaded()
+        public void ViewReady()
         {
             RateReminderHelper.Notify();
             TrialReminderHelper.Notify();
 
             ((RelayCommand)SelectCommand).RaiseCanExecuteChanged();
         }
+
+        #endregion
 
         public void IsCheckModeActiveChanged()
         {

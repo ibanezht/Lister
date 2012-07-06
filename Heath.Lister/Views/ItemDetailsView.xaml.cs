@@ -23,7 +23,12 @@ namespace Heath.Lister.Views
         {
             InitializeComponent();
 
-            _itemDetails = (ItemDetailsViewModel)DataContext;        
+            _itemDetails = (ItemDetailsViewModel)DataContext;
+            _itemDetails.PropertyChanged += (sender, args) =>
+                                            {
+                                                if (args.PropertyName == "Completed")
+                                                    InitializeApplicationBar();
+                                            };
 
             Loaded += (sender, args) => InitializeApplicationBar();
 

@@ -21,10 +21,10 @@ namespace Heath.Lister.ViewModels
         private const string PageNamePropertyName = "PageName";
 
         private readonly INavigationService _navigationService;
+
         private ICommand _cancelCommand;
         private ICommand _clearDateCommand;
         private ICommand _clearTimeCommand;
-
         private string _pageName;
         private ICommand _saveCommand;
 
@@ -44,7 +44,6 @@ namespace Heath.Lister.ViewModels
                                    }
                                };
         }
-
 
         public string ApplicationTitle { get; private set; }
 
@@ -168,9 +167,9 @@ namespace Heath.Lister.ViewModels
             }
         }
 
-        #endregion
+        public void ViewReady() {}
 
-        public override void Loaded() {}
+        #endregion
 
         protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args) {}
 

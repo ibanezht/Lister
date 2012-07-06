@@ -7,16 +7,16 @@ using GalaSoft.MvvmLight.Command;
 using Heath.Lister.Configuration;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Models;
-using Heath.Lister.Infrastructure.ViewModels;
 using Heath.Lister.Localization;
 using Heath.Lister.Views;
 using Telerik.Windows.Controls;
+using ViewModelBase = GalaSoft.MvvmLight.ViewModelBase;
 
 #endregion
 
 namespace Heath.Lister.ViewModels.Abstract
 {
-    public abstract class ItemViewModelBase : ViewModel
+    public abstract class ItemViewModelBase : ViewModelBase
     {
         protected const string CompletedPropertyName = "Completed";
         protected const string CreatedDatePropertyName = "CreatedDate";

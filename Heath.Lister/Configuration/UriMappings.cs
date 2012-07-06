@@ -51,11 +51,18 @@ namespace Heath.Lister.Configuration
                                   MappedUri = new Uri("/Views/ItemDetailsView.xaml?Id={id}&ListId={listId}", UriKind.Relative)
                               };
 
+            var editReminderMapping = new UriMapping
+                                      {
+                                          Uri = new Uri("/Reminder/{id}/{listId}", UriKind.Relative),
+                                          MappedUri = new Uri("/Views/EditReminderView.xaml?Id={id}&ListId={listId}", UriKind.Relative)
+                                      };
+
             uriMapper.UriMappings.Add(aboutMapping);
             uriMapper.UriMappings.Add(editListMapping);
             uriMapper.UriMappings.Add(listMapping);
             uriMapper.UriMappings.Add(editItemMapping);
             uriMapper.UriMappings.Add(itemMapping);
+            uriMapper.UriMappings.Add(editReminderMapping);
 
             _instance = uriMapper;
 

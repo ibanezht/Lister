@@ -4,5 +4,6 @@
     {
         void Activate();
         void Deactivate(bool isNavigationInitiator);
+        void ViewReady();
     }
 }

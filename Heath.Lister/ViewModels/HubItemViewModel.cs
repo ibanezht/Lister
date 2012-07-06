@@ -14,8 +14,6 @@ namespace Heath.Lister.ViewModels
         public HubItemViewModel(INavigationService navigationService)
             : base(navigationService) {}
 
-        public override void Loaded() {}
-
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {
             Messenger.Default.Send(new NotificationMessage<HubItemViewModel>(this, "Delete"));

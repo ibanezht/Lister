@@ -14,8 +14,6 @@ namespace Heath.Lister.ViewModels
         public ListItemViewModel(INavigationService navigationService)
             : base(navigationService) {}
 
-        public override void Loaded() {}
-
         protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {
             Messenger.Default.Send(new NotificationMessage<ListItemViewModel>(this, "Complete"));

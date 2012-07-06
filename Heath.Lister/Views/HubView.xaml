@@ -25,7 +25,7 @@
 
     <interactivity:Interaction.Triggers>
         <interactivity:EventTrigger EventName="Loaded">
-            <interactions:CallMethodAction MethodName="Loaded" TargetObject="{Binding}" />
+            <interactions:CallMethodAction MethodName="ViewReady" TargetObject="{Binding}" />
         </interactivity:EventTrigger>
     </interactivity:Interaction.Triggers>
 

@@ -51,13 +51,13 @@ namespace Heath.Lister.ViewModels
 
         public void Deactivate(bool isNavigationInitiator) {}
 
-        #endregion
-
-        public override void Loaded()
+        public void ViewReady()
         {
             RateReminderHelper.Notify();
             TrialReminderHelper.Notify();
         }
+
+        #endregion
 
         protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {

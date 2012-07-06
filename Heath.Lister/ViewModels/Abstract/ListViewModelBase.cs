@@ -6,16 +6,16 @@ using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using Heath.Lister.Configuration;
 using Heath.Lister.Infrastructure;
-using Heath.Lister.Infrastructure.ViewModels;
 using Heath.Lister.Localization;
 using Heath.Lister.Views;
 using Telerik.Windows.Controls;
+using ViewModelBase = GalaSoft.MvvmLight.ViewModelBase;
 
 #endregion
 
 namespace Heath.Lister.ViewModels.Abstract
 {
-    public abstract class ListViewModelBase : ViewModel
+    public abstract class ListViewModelBase : ViewModelBase
     {
         protected const string ColorPropertyName = "Color";
         protected const string ColorIdPropertyName = "ColorId";
@@ -155,7 +155,7 @@ namespace Heath.Lister.ViewModels.Abstract
             var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative));
 
             var shellTile = LiveTileHelper.GetTile(uri);
-            if (shellTile == null) 
+            if (shellTile == null)
                 return;
 
             var hubItem = new HubItemView();
