@@ -8,6 +8,7 @@ using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Localization;
 using Heath.Lister.ViewModels;
 using Microsoft.Phone.Shell;
+using Telerik.Windows.Controls;
 
 #endregion
 
@@ -29,6 +30,11 @@ namespace Heath.Lister.Views
                                                 if (args.PropertyName == "Completed")
                                                     InitializeApplicationBar();
                                             };
+
+            _itemDetails.ReminderRequested += (sender, args) =>
+                                              {
+                                                  reminderView.IsOpen = true;
+                                              };
 
             Loaded += (sender, args) => InitializeApplicationBar();
 

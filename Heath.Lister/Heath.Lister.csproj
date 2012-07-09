@@ -123,7 +123,6 @@
     <Compile Include="ViewModels\ColorViewModel.cs" />
     <Compile Include="ViewModels\EditItemViewModel.cs" />
     <Compile Include="ViewModels\Abstract\ItemViewModelBase.cs" />
-    <Compile Include="ViewModels\EditReminderViewModel.cs" />
     <Compile Include="ViewModels\ItemDetailsViewModel.cs" />
     <Compile Include="ViewModels\ListItemViewModel.cs" />
     <Compile Include="ViewModels\ListViewModel.cs" />
@@ -137,9 +136,6 @@
     </Compile>
     <Compile Include="Views\EditListView.xaml.cs">
       <DependentUpon>EditListView.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EditReminderView.xaml.cs">
-      <DependentUpon>EditReminderView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\HubItemView.xaml.cs">
       <DependentUpon>HubItemView.xaml</DependentUpon>
@@ -234,10 +230,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EditListView.xaml">
-      <SubType>Form</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EditReminderView.xaml">
       <SubType>Form</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

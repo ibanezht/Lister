@@ -250,6 +250,8 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
+        public event EventHandler ReminderRequested;
+
         public void Complete()
         {
             Completed = true;
@@ -343,30 +345,7 @@ namespace Heath.Lister.ViewModels.Abstract
 
         private void Remind()
         {
-            var attemptedDate = DateTime.Now;
-
-            if (DueDate.HasValue && DueTime.HasValue)
-                attemptedDate = DueDate.Value.Date + DueTime.Value.TimeOfDay;
-            else if (DueDate.HasValue)
-                attemptedDate = DueDate.Value.Date;
-
-            var fallbackDate = DateTime.Now.AddMinutes(5);
-
-            var reminderDate = fallbackDate > attemptedDate ? fallbackDate : attemptedDate;
-            var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
-
-            Action<MessageBoxClosedEventArgs> closedHandler =
-                e =>
-                {
-                    if (e.Result == DialogResult.OK)
-                    {
-                        ScheduleReminderHelper.AddReminder(Id.ToString(), uri, Title, Notes ?? string.Empty, reminderDate);
-
-                        ((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
-                    }
-                };
-
-            RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.OK, string.Format(AppResources.ReminderMessageText, reminderDate), closedHandler: closedHandler);
+            OnReminderRequested(EventArgs.Empty);
         }
 
         private bool CanRemind()
@@ -400,6 +379,12 @@ namespace Heath.Lister.ViewModels.Abstract
         private bool CanPin()
         {
             return !Completed && LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative))) == null;
+        }
+
+        protected virtual void OnReminderRequested(EventArgs e)
+        {
+            if (ReminderRequested != null)
+                ReminderRequested(this, e);
         }
     }
 }

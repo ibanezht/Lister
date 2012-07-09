@@ -376,9 +376,7 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your reminder will be set for {0}.
-        ///
-        ///(Set a Due Date and Due Time to get a more accurate reminder.).
+        ///   Looks up a localized string similar to Please set the date and time for your reminder. The values provided must be in the future to procede..
         /// </summary>
         public static string ReminderMessageText {
             get {

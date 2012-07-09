@@ -98,24 +98,6 @@ namespace Heath.Lister.ViewModels
             get { return EditItemStatic; }
         }
 
-        public static EditReminderViewModel EditReminderStatic
-        {
-            get
-            {
-                return IsInDesignMode
-                           ? new EditReminderViewModel(null)
-                           : DependencyContainer.Instance.Get<EditReminderViewModel>();
-            }
-        }
-
-        [SuppressMessage("Microsoft.Performance",
-            "CA1822:MarkMembersAsStatic",
-            Justification = "This non-static member is needed for data binding purposes.")]
-        public EditReminderViewModel EditReminder
-        {
-            get { return EditReminderStatic; }
-        }
-
         public static ItemDetailsViewModel ItemDetailsStatic
         {
             get
