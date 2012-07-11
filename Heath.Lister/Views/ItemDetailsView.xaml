@@ -71,7 +71,7 @@
                 <telerikInput:RadTimePicker Grid.Row="4" Grid.ColumnSpan="2" Value="{Binding ReminderTime, Mode=TwoWay}" />
 
                 <Button Grid.Row="5" Content="ok" />
-                <Button Grid.Row="5" Grid.Column="1" Content="cancel" />
+                <Button Grid.Row="5" Grid.Column="1" Content="cancel" Click="CancelButtonClick" />
             </Grid>
         </telerikPrimatives:RadModalWindow>
     </Grid>

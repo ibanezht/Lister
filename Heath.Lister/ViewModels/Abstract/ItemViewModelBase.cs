@@ -21,6 +21,7 @@ namespace Heath.Lister.ViewModels.Abstract
         protected const string CompletedPropertyName = "Completed";
         protected const string CreatedDatePropertyName = "CreatedDate";
         protected const string DueDatePropertyName = "DueDate";
+        protected const string DueDateTimePropertyName = "DueDateTime";
         protected const string DueTimePropertyName = "DueTime";
         protected const string IdPropertyName = "Id";
         protected const string ListColorPropertyName = "ListColor";
@@ -28,8 +29,9 @@ namespace Heath.Lister.ViewModels.Abstract
         protected const string ListTitlePropertyName = "ListTitle";
         protected const string NotesPropertyName = "Notes";
         protected const string PriorityPropertyName = "Priority";
+        protected const string ReminderDatePropertyName = "ReminderDate";
+        protected const string ReminderTimePropertyName = "ReminderTime";
         protected const string TitlePropertyName = "Title";
-        protected const string DueDateTimePropertyName = "DueDateTime";
         private const string SelectedPropertyName = "Selected";
 
         private readonly INavigationService _navigationService;
@@ -50,6 +52,8 @@ namespace Heath.Lister.ViewModels.Abstract
         private ICommand _pinCommand;
         private Priority _priority;
         private ICommand _reminderCommand;
+        private DateTime? _reminderDate;
+        private DateTime? _reminderTime;
         private bool _selected;
         private string _title;
 
@@ -228,6 +232,26 @@ namespace Heath.Lister.ViewModels.Abstract
         public ICommand ReminderCommand
         {
             get { return _reminderCommand ?? (_reminderCommand = new RelayCommand(Remind, CanRemind)); }
+        }
+
+        public DateTime? ReminderDate
+        {
+            get { return _reminderDate; }
+            set
+            {
+                _reminderDate = value;
+                RaisePropertyChanged(ReminderDatePropertyName);
+            }
+        }
+
+        public DateTime? ReminderTime
+        {
+            get { return _reminderTime; }
+            set
+            {
+                _reminderTime = value;
+                RaisePropertyChanged(ReminderTimePropertyName);
+            }
         }
 
         public bool Selected
