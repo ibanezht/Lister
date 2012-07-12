@@ -187,7 +187,7 @@
     <value>delete</value>
   </data>
   <data name="ReminderMessageText" xml:space="preserve">
-    <value>Please set the date and time for your reminder. The values provided must be in the future to procede.</value>
+    <value>Please set the date and time for your reminder. The values provided must be at least five minutes more than the current time to continue.</value>
   </data>
   <data name="ReminderText" xml:space="preserve">
     <value>reminder</value>

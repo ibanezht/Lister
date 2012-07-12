@@ -36,6 +36,8 @@ namespace Heath.Lister.ViewModels.Abstract
 
         private readonly INavigationService _navigationService;
 
+        private ICommand _acceptReminder;
+        private ICommand _cancelReminder;
         private ICommand _completeCommand;
         private bool _completed;
         private DateTime _createdDate;
@@ -70,6 +72,16 @@ namespace Heath.Lister.ViewModels.Abstract
             }
 
             _navigationService = navigationService;
+        }
+
+        public ICommand AcceptReminderCommand
+        {
+            get { return _acceptReminder ?? (_acceptReminder = new RelayCommand(AcceptReminder, CanAcceptReminder)); }
+        }
+
+        public ICommand CancelReminderCommand
+        {
+            get { return _cancelReminder ?? (_cancelReminder = new RelayCommand(CancelReminder)); }
         }
 
         public ICommand CompleteCommand
@@ -241,6 +253,7 @@ namespace Heath.Lister.ViewModels.Abstract
             {
                 _reminderDate = value;
                 RaisePropertyChanged(ReminderDatePropertyName);
+                ((RelayCommand)AcceptReminderCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -251,6 +264,7 @@ namespace Heath.Lister.ViewModels.Abstract
             {
                 _reminderTime = value;
                 RaisePropertyChanged(ReminderTimePropertyName);
+                ((RelayCommand)AcceptReminderCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -274,7 +288,41 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
+        public event EventHandler ReminderCompleted;
+
         public event EventHandler ReminderRequested;
+
+        private void AcceptReminder()
+        {
+            var reminderDate = ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay;
+            var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
+
+            ScheduleReminderHelper.AddReminder(Id.ToString(), uri, Title, Notes ?? string.Empty, reminderDate);
+
+            ((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
+
+            OnReminderCompleted(EventArgs.Empty);
+        }
+
+        private bool CanAcceptReminder()
+        {
+            var retval = false;
+
+            if (ReminderDate.HasValue && ReminderTime.HasValue)
+            {
+                if (ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay > DateTime.Now.AddMinutes(5))
+                {
+                    retval = true;
+                }
+            }
+
+            return retval;
+        }
+
+        private void CancelReminder()
+        {
+            OnReminderCompleted(EventArgs.Empty);
+        }
 
         public void Complete()
         {
@@ -369,6 +417,9 @@ namespace Heath.Lister.ViewModels.Abstract
 
         private void Remind()
         {
+            ReminderDate = DueDate;
+            ReminderTime = DueTime;
+
             OnReminderRequested(EventArgs.Empty);
         }
 
@@ -403,6 +454,12 @@ namespace Heath.Lister.ViewModels.Abstract
         private bool CanPin()
         {
             return !Completed && LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative))) == null;
+        }
+
+        protected virtual void OnReminderCompleted(EventArgs e)
+        {
+            if (ReminderCompleted != null)
+                ReminderCompleted(this, e);
         }
 
         protected virtual void OnReminderRequested(EventArgs e)

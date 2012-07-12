@@ -70,8 +70,8 @@
                 <TextBlock Grid.Row="3" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.ReminderTimeText, Source={StaticResource LocalizedStrings}}" />
                 <telerikInput:RadTimePicker Grid.Row="4" Grid.ColumnSpan="2" Value="{Binding ReminderTime, Mode=TwoWay}" />
 
-                <Button Grid.Row="5" Content="ok" />
-                <Button Grid.Row="5" Grid.Column="1" Content="cancel" Click="CancelButtonClick" />
+                <Button Grid.Row="5" Content="ok" Command="{Binding AcceptReminderCommand}" />
+                <Button Grid.Row="5" Grid.Column="1" Content="cancel" Command="{Binding CancelReminderCommand}" />
             </Grid>
         </telerikPrimatives:RadModalWindow>
     </Grid>

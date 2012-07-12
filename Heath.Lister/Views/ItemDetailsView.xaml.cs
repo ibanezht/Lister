@@ -25,6 +25,7 @@ namespace Heath.Lister.Views
             InitializeComponent();
 
             _itemDetails = (ItemDetailsViewModel)DataContext;
+            _itemDetails.ReminderCompleted += (sender, args) => reminderView.IsOpen = false;
             _itemDetails.ReminderRequested += (sender, args) => reminderView.IsOpen = true;
             _itemDetails.PropertyChanged += (sender, args) =>
                                             {
@@ -85,11 +86,6 @@ namespace Heath.Lister.Views
             this.DeactivateViewModel(e.IsNavigationInitiator);
             base.OnNavigatedFrom(e);
             _newInstance = false;
-        }
-
-        private void CancelButtonClick(object sender, RoutedEventArgs e)
-        {
-            reminderView.IsOpen = false;
         }
     }
 }
