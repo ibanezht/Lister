@@ -135,5 +135,7 @@
                 </telerikPrimitives:RadDataBoundListBox>
             </controls:PivotItem>
         </controls:Pivot>
+
+        <listerViews:ReminderView x:Name="reminderView" />
     </Grid>
 </phone:PhoneApplicationPage>

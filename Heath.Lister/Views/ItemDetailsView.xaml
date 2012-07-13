@@ -1,4 +1,19 @@
-﻿<phone:PhoneApplicationPage x:Class="Heath.Lister.Views.ItemDetailsView" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:interactions="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions" xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input" xmlns:telerikPrimatives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" d:DesignHeight="768" d:DesignWidth="480" DataContext="{Binding ItemDetails, Source={StaticResource Locator}}" shell:SystemTray.IsVisible="True" SupportedOrientations="PortraitOrLandscape" mc:Ignorable="d">
+﻿<phone:PhoneApplicationPage 
+    x:Class="Heath.Lister.Views.ItemDetailsView" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:interactions="clr-namespace:Microsoft.Expression.Interactivity.Core;assembly=Microsoft.Expression.Interactions" 
+    xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
+    xmlns:listerViews="clr-namespace:Heath.Lister.Views" 
+    d:DesignHeight="768" d:DesignWidth="480" 
+    DataContext="{Binding ItemDetails, Source={StaticResource Locator}}" 
+    shell:SystemTray.IsVisible="True" 
+    SupportedOrientations="PortraitOrLandscape" 
+    mc:Ignorable="d">
 
     <interactivity:Interaction.Triggers>
         <interactivity:EventTrigger EventName="Loaded">
@@ -48,31 +63,6 @@
             </Grid>
         </ScrollViewer>
 
-        <telerikPrimatives:RadModalWindow x:Name="reminderView" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top" IsFullScreen="True">
-            <Grid Background="{StaticResource PhoneBackgroundBrush}" Margin="12,0,12,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
-                <TextBlock Grid.ColumnSpan="2" Margin="12" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding LocalizedResources.ReminderMessageText, Source={StaticResource LocalizedStrings}}" TextWrapping="Wrap" />
-                <TextBlock Grid.Row="1" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.ReminderDateText, Source={StaticResource LocalizedStrings}}" />
-                <telerikInput:RadDatePicker Grid.Row="2" Grid.ColumnSpan="2" Value="{Binding ReminderDate, Mode=TwoWay}" />
-                <TextBlock Grid.Row="3" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.ReminderTimeText, Source={StaticResource LocalizedStrings}}" />
-                <telerikInput:RadTimePicker Grid.Row="4" Grid.ColumnSpan="2" Value="{Binding ReminderTime, Mode=TwoWay}" />
-
-                <Button Grid.Row="5" Content="ok" Command="{Binding AcceptReminderCommand}" />
-                <Button Grid.Row="5" Grid.Column="1" Content="cancel" Command="{Binding CancelReminderCommand}" />
-            </Grid>
-        </telerikPrimatives:RadModalWindow>
+        <listerViews:ReminderView x:Name="reminderView" DataContext="{Binding}" />
     </Grid>
 </phone:PhoneApplicationPage>

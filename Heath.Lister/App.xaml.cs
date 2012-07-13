@@ -67,6 +67,8 @@ namespace Heath.Lister
 
         internal static AppOpenState ApplicationStartup { get; set; }
 
+        internal static bool RemoveBackEntry { get; set; }
+
         private void ApplicationLaunching(object sender, LaunchingEventArgs e)
         {
             ApplicationUsageHelper.Init("1.1");

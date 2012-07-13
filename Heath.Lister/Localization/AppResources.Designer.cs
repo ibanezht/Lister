@@ -376,7 +376,7 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please set the date and time for your reminder. The values provided must be at least five minutes more than the current time to continue..
+        ///   Looks up a localized string similar to Please set the date and time for your reminder. The values provided must be in the future to continue..
         /// </summary>
         public static string ReminderMessageText {
             get {

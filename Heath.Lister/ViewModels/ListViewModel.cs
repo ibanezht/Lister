@@ -107,6 +107,12 @@ namespace Heath.Lister.ViewModels
 
         public void Activate()
         {
+            if (App.RemoveBackEntry)
+            {
+                _navigationService.RemoveBackEntry();
+                App.RemoveBackEntry = false;
+            }
+
             _listItems.Clear();
 
             using (var data = new DataAccess())
@@ -187,7 +193,14 @@ namespace Heath.Lister.ViewModels
 
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {
-            _navigationService.GoBack();
+            if (_navigationService.CanGoBack())
+                _navigationService.GoBack();
+
+            else
+            {
+                _navigationService.Navigate(new Uri("/Hub", UriKind.Relative));
+                App.RemoveBackEntry = true;
+            }
         }
 
         private void ListItemNotificationMessageReceived(NotificationMessage<ListItemViewModel> notificationMessage)

@@ -66,6 +66,12 @@ namespace Heath.Lister.ViewModels
 
         public void Activate()
         {
+            if (App.RemoveBackEntry)
+            {
+                _navigationService.RemoveBackEntry();
+                App.RemoveBackEntry = false;
+            }
+
             HubItems.Clear();
 
             using (var data = new DataAccess())

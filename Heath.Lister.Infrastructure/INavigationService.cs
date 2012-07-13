@@ -11,5 +11,6 @@ namespace Heath.Lister.Infrastructure
         bool CanGoBack();
         void GoBack();
         void Navigate(Uri source);
+        void RemoveBackEntry();
     }
 }

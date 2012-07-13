@@ -310,7 +310,7 @@ namespace Heath.Lister.ViewModels.Abstract
 
             if (ReminderDate.HasValue && ReminderTime.HasValue)
             {
-                if (ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay > DateTime.Now.AddMinutes(5))
+                if (ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay > DateTime.Now)
                 {
                     retval = true;
                 }

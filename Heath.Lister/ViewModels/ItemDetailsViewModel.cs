@@ -1,5 +1,6 @@
 ﻿#region usings
 
+using System;
 using System.ComponentModel;
 using System.Windows.Media;
 using Heath.Lister.Infrastructure;
@@ -61,20 +62,29 @@ namespace Heath.Lister.ViewModels
 
         protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {
-            if (_navigationService.CanGoBack())
-                _navigationService.GoBack();
+            GoBack();
         }
 
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {
-            if (_navigationService.CanGoBack())
-                _navigationService.GoBack();
+            GoBack();
         }
 
         protected override void IncompleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {
+            GoBack();
+        }
+
+        private void GoBack()
+        {
             if (_navigationService.CanGoBack())
                 _navigationService.GoBack();
+
+            else
+            {
+                _navigationService.Navigate(new Uri(string.Format("/List/{0}", ListId), UriKind.Relative));
+                App.RemoveBackEntry = true;
+            }
         }
     }
 }
