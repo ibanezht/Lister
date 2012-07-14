@@ -4,6 +4,7 @@ using System;
 using System.ComponentModel;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Messaging;
 using Heath.Lister.Configuration;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Models;
@@ -288,10 +289,6 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public event EventHandler ReminderCompleted;
-
-        public event EventHandler ReminderRequested;
-
         private void AcceptReminder()
         {
             var reminderDate = ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay;
@@ -301,7 +298,7 @@ namespace Heath.Lister.ViewModels.Abstract
 
             ((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
 
-            OnReminderCompleted(EventArgs.Empty);
+            Messenger.Default.Send(new NotificationMessage<ItemViewModelBase>(this, "ReminderCompleted"));
         }
 
         private bool CanAcceptReminder()
@@ -321,7 +318,7 @@ namespace Heath.Lister.ViewModels.Abstract
 
         private void CancelReminder()
         {
-            OnReminderCompleted(EventArgs.Empty);
+            Messenger.Default.Send(new NotificationMessage<ItemViewModelBase>(this, "ReminderCompleted"));
         }
 
         public void Complete()
@@ -420,7 +417,7 @@ namespace Heath.Lister.ViewModels.Abstract
             ReminderDate = DueDate;
             ReminderTime = DueTime;
 
-            OnReminderRequested(EventArgs.Empty);
+            Messenger.Default.Send(new NotificationMessage<ItemViewModelBase>(this, "ReminderRequested"));
         }
 
         private bool CanRemind()
@@ -454,18 +451,6 @@ namespace Heath.Lister.ViewModels.Abstract
         private bool CanPin()
         {
             return !Completed && LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative))) == null;
-        }
-
-        protected virtual void OnReminderCompleted(EventArgs e)
-        {
-            if (ReminderCompleted != null)
-                ReminderCompleted(this, e);
-        }
-
-        protected virtual void OnReminderRequested(EventArgs e)
-        {
-            if (ReminderRequested != null)
-                ReminderRequested(this, e);
         }
     }
 }

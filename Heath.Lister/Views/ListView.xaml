@@ -11,8 +11,11 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
+    xmlns:telerikBehaviors="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Behaviors" 
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" 
-    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" xmlns:telerikBehaviors="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Behaviors" d:DesignHeight="768" d:DesignWidth="480" 
+    xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input" 
+    xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" 
+    d:DesignHeight="768" d:DesignWidth="480" 
     DataContext="{Binding List, Source={StaticResource Locator}}" 
     shell:SystemTray.IsVisible="True" 
     SupportedOrientations="PortraitOrLandscape" 
@@ -104,7 +107,7 @@
             </controls:PivotItem>
 
             <controls:PivotItem Header="{Binding LocalizedResources.OverdueText, Source={StaticResource LocalizedStrings}}">
-                <telerikPrimitives:RadDataBoundListBox x:Name="overdueListItemsListBox"  Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemsSource="{Binding OverdueListItems}" ItemTap="ListItemsRadDataBoundListBoxItemTap">
+                <telerikPrimitives:RadDataBoundListBox x:Name="overdueListItemsListBox" Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemsSource="{Binding OverdueListItems}" ItemTap="ListItemsRadDataBoundListBoxItemTap">
                     <telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
                         <DataTemplate>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LocalizedResources.NoItemsText, Source={StaticResource LocalizedStrings}}" />
@@ -136,6 +139,31 @@
             </controls:PivotItem>
         </controls:Pivot>
 
-        <listerViews:ReminderView x:Name="reminderView" />
+        <telerikPrimitives:RadModalWindow x:Name="reminderView" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top" IsFullScreen="True">
+            <Grid Margin="12,0,12,0" Background="{StaticResource PhoneBackgroundBrush}">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.ColumnSpan="2" Margin="12" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding LocalizedResources.ReminderMessageText, Source={StaticResource LocalizedStrings}}" TextWrapping="Wrap" />
+                <TextBlock Grid.Row="1" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.ReminderDateText, Source={StaticResource LocalizedStrings}}" />
+                <telerikInput:RadDatePicker Grid.Row="2" Grid.ColumnSpan="2" Value="{Binding ReminderDate, Mode=TwoWay}" />
+                <TextBlock Grid.Row="3" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.ReminderTimeText, Source={StaticResource LocalizedStrings}}" />
+                <telerikInput:RadTimePicker Grid.Row="4" Grid.ColumnSpan="2" Value="{Binding ReminderTime, Mode=TwoWay}" />
+
+                <Button Grid.Row="5" Command="{Binding AcceptReminderCommand}" Content="ok" />
+                <Button Grid.Row="5" Grid.Column="1" Command="{Binding CancelReminderCommand}" Content="cancel" />
+            </Grid>
+        </telerikPrimitives:RadModalWindow>
     </Grid>
 </phone:PhoneApplicationPage>

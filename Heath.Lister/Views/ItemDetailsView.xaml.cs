@@ -3,12 +3,13 @@
 using System;
 using System.Windows;
 using System.Windows.Navigation;
+using GalaSoft.MvvmLight.Messaging;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Localization;
 using Heath.Lister.ViewModels;
+using Heath.Lister.ViewModels.Abstract;
 using Microsoft.Phone.Shell;
-using Telerik.Windows.Controls;
 
 #endregion
 
@@ -25,13 +26,25 @@ namespace Heath.Lister.Views
             InitializeComponent();
 
             _itemDetails = (ItemDetailsViewModel)DataContext;
-            _itemDetails.ReminderCompleted += (sender, args) => reminderView.IsOpen = false;
-            _itemDetails.ReminderRequested += (sender, args) => reminderView.IsOpen = true;
             _itemDetails.PropertyChanged += (sender, args) =>
                                             {
                                                 if (args.PropertyName == "Completed")
                                                     InitializeApplicationBar();
                                             };
+
+            Messenger.Default.Register<NotificationMessage<ItemViewModelBase>>(
+                this, nm =>
+                      {
+                          if (nm.Notification == "ReminderCompleted")
+                              reminderView.IsOpen = false;
+                      });
+
+            Messenger.Default.Register<NotificationMessage<ItemViewModelBase>>(
+                this, nm =>
+                      {
+                          if (nm.Notification == "ReminderRequested")
+                              reminderView.IsOpen = true;
+                      });
 
             Loaded += (sender, args) => InitializeApplicationBar();
 

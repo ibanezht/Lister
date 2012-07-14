@@ -4,10 +4,11 @@ using System;
 using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Navigation;
+using GalaSoft.MvvmLight.Messaging;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Localization;
-using Microsoft.Phone.Controls;
+using Heath.Lister.ViewModels.Abstract;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
 
@@ -22,6 +23,23 @@ namespace Heath.Lister.Views
             InitializeComponent();
 
             InitializeDefaultApplicationBar();
+
+            Messenger.Default.Register<NotificationMessage<ItemViewModelBase>>(
+                this, nm =>
+                      {
+                          if (nm.Notification == "ReminderCompleted")
+                              reminderView.IsOpen = false;
+                      });
+
+            Messenger.Default.Register<NotificationMessage<ItemViewModelBase>>(
+                this, nm =>
+                      {
+                          if (nm.Notification == "ReminderRequested")
+                          {
+                              reminderView.DataContext = nm.Content;
+                              reminderView.IsOpen = true;
+                          }
+                      });
 
             AnimateSelectedListBox();
 

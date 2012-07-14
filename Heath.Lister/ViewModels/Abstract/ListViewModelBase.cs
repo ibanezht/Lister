@@ -121,6 +121,10 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
+        public event EventHandler ReminderCompleted;
+
+        public event EventHandler ReminderRequested;
+
         private void Delete()
         {
             Action<MessageBoxClosedEventArgs> closedHandler =
@@ -186,6 +190,18 @@ namespace Heath.Lister.ViewModels.Abstract
         private bool CanPin()
         {
             return LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative))) == null;
+        }
+
+        protected virtual void OnReminderCompleted(EventArgs e)
+        {
+            if (ReminderCompleted != null)
+                ReminderCompleted(this, e);
+        }
+
+        protected virtual void OnReminderRequested(EventArgs e)
+        {
+            if (ReminderRequested != null)
+                ReminderRequested(this, e);
         }
     }
 }
