@@ -38,7 +38,6 @@ namespace Heath.Lister
                 data.Initialize();
 
             InteractionEffectManager.AllowedTypes.Add(typeof(Button));
-            InteractionEffectManager.AllowedTypes.Add(typeof(ListBoxItem));
             InteractionEffectManager.AllowedTypes.Add(typeof(RadDataBoundListBoxItem));
 
             if (Debugger.IsAttached)

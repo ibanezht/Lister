@@ -24,23 +24,6 @@ namespace Heath.Lister.Views
 
             InitializeDefaultApplicationBar();
 
-            Messenger.Default.Register<NotificationMessage<ItemViewModelBase>>(
-                this, nm =>
-                      {
-                          if (nm.Notification == "ReminderCompleted")
-                              reminderView.IsOpen = false;
-                      });
-
-            Messenger.Default.Register<NotificationMessage<ItemViewModelBase>>(
-                this, nm =>
-                      {
-                          if (nm.Notification == "ReminderRequested")
-                          {
-                              reminderView.DataContext = nm.Content;
-                              reminderView.IsOpen = true;
-                          }
-                      });
-
             AnimateSelectedListBox();
 
             listPivot.LoadedPivotItem += (sender, args) => AnimateSelectedListBox();
@@ -124,6 +107,20 @@ namespace Heath.Lister.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.ActivateViewModel();
+
+            Messenger.Default.Register<NotificationMessage<ItemViewModelBase>>(
+                this, nm =>
+                      {
+                          if (nm.Notification == "ReminderCompleted")
+                              reminderView.IsOpen = false;
+
+                          if (nm.Notification == "ReminderRequested")
+                          {
+                              reminderView.DataContext = nm.Content;
+                              reminderView.IsOpen = true;
+                          }
+                      });
+
             App.ApplicationStartup = AppOpenState.None;
             base.OnNavigatedTo(e);
         }
@@ -131,6 +128,7 @@ namespace Heath.Lister.Views
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             this.DeactivateViewModel(e.IsNavigationInitiator);
+            Messenger.Default.Unregister<NotificationMessage<ItemViewModelBase>>(this);
             base.OnNavigatedFrom(e);
         }
     }
