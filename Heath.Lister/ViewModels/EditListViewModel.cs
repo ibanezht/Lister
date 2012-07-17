@@ -37,15 +37,6 @@ namespace Heath.Lister.ViewModels
 
             ApplicationTitle = "LISTER";
 
-            // TODO: Maybe make title overridable and put the Raise call in the setter?
-            PropertyChanged += (sender, args) =>
-                               {
-                                   if (args.PropertyName == TitlePropertyName)
-                                   {
-                                       ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
-                                   }
-                               };
-
             Colors = new ObservableCollection<ColorViewModel>();
         }
 
@@ -83,6 +74,16 @@ namespace Heath.Lister.ViewModels
                     retval = data.GetListTitles();
 
                 return retval;
+            }
+        }
+
+        public override string Title
+        {
+            get { return base.Title; }
+            set
+            {
+                base.Title = value;
+                ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
             }
         }
 

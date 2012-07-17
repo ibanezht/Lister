@@ -279,7 +279,7 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public string Title
+        public virtual string Title
         {
             get { return _title; }
             set

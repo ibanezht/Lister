@@ -34,15 +34,6 @@ namespace Heath.Lister.ViewModels
             _navigationService = navigationService;
 
             ApplicationTitle = "LISTER";
-
-            // TODO: Maybe make title overridable and put the Raise call in the setter?
-            PropertyChanged += (sender, args) =>
-                               {
-                                   if (args.PropertyName == TitlePropertyName)
-                                   {
-                                       ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
-                                   }
-                               };
         }
 
         public string ApplicationTitle { get; private set; }
@@ -50,6 +41,16 @@ namespace Heath.Lister.ViewModels
         public ICommand CancelCommand
         {
             get { return _cancelCommand ?? (_cancelCommand = new RelayCommand(Cancel)); }
+        }
+
+        public ICommand ClearDateCommand
+        {
+            get { return _clearDateCommand ?? (_clearDateCommand = new RelayCommand(ClearDate)); }
+        }
+
+        public ICommand ClearTimeCommand
+        {
+            get { return _clearTimeCommand ?? (_clearTimeCommand = new RelayCommand(ClearTime)); }
         }
 
         public string PageName
@@ -60,6 +61,11 @@ namespace Heath.Lister.ViewModels
                 _pageName = value;
                 RaisePropertyChanged(PageNamePropertyName);
             }
+        }
+
+        public ICommand SaveCommand
+        {
+            get { return _saveCommand ?? (_saveCommand = new RelayCommand(Save, CanSave)); }
         }
 
         public IEnumerable<string> Suggestions
@@ -75,19 +81,14 @@ namespace Heath.Lister.ViewModels
             }
         }
 
-        public ICommand ClearDateCommand
+        public override string Title
         {
-            get { return _clearDateCommand ?? (_clearDateCommand = new RelayCommand(ClearDate)); }
-        }
-
-        public ICommand ClearTimeCommand
-        {
-            get { return _clearTimeCommand ?? (_clearTimeCommand = new RelayCommand(ClearTime)); }
-        }
-
-        public ICommand SaveCommand
-        {
-            get { return _saveCommand ?? (_saveCommand = new RelayCommand(Save, CanSave)); }
+            get { return base.Title; }
+            set
+            {
+                base.Title = value;
+                ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
+            }
         }
 
         #region IPageViewModel Members
