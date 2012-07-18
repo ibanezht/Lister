@@ -7,6 +7,6 @@
     Width="173" Height="173" mc:Ignorable="d">
 
     <Grid Background="{Binding ListColor.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" d:DataContext="{d:DesignData /SampleData/ListItemViewModelSampleData.xaml}">
-        <TextBlock Margin="12" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="{StaticResource PhoneForegroundBrush}" Text="{Binding Notes}" TextWrapping="Wrap" />
+        <TextBlock Margin="12" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="#FFFFFFFF" Text="{Binding Notes}" TextWrapping="Wrap" />
     </Grid>
 </UserControl>
