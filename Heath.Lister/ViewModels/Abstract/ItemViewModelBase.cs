@@ -452,5 +452,32 @@ namespace Heath.Lister.ViewModels.Abstract
         {
             return !Completed && LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative))) == null;
         }
+
+        protected void UpdatePin()
+        {
+            var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
+
+            var shellTile = LiveTileHelper.GetTile(uri);
+            if (shellTile == null)
+                return;
+
+            var itemFront = new ItemFrontView();
+
+            itemFront.DataContext = this;
+            itemFront.UpdateLayout();
+
+            if (!string.IsNullOrEmpty(Notes))
+            {
+                var itemBack = new ItemBackView();
+
+                itemBack.DataContext = this;
+                itemBack.UpdateLayout();
+
+                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = itemFront, BackVisualElement = itemBack });
+            }
+
+            else
+                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = itemFront });
+        }
     }
 }

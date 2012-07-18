@@ -154,22 +154,6 @@ namespace Heath.Lister.ViewModels.Abstract
 
         protected abstract void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args);
 
-        protected void UpdatePin()
-        {
-            var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative));
-
-            var shellTile = LiveTileHelper.GetTile(uri);
-            if (shellTile == null)
-                return;
-
-            var hubItem = new HubItemView();
-
-            hubItem.DataContext = this;
-            hubItem.UpdateLayout();
-
-            LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = hubItem });
-        }
-
         private void Edit()
         {
             _navigationService.Navigate(new Uri(string.Format("/EditList/{0}", Id), UriKind.Relative));
@@ -190,6 +174,22 @@ namespace Heath.Lister.ViewModels.Abstract
         private bool CanPin()
         {
             return LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative))) == null;
+        }
+
+        protected void UpdatePin()
+        {
+            var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative));
+
+            var shellTile = LiveTileHelper.GetTile(uri);
+            if (shellTile == null)
+                return;
+
+            var hubItem = new HubItemView();
+
+            hubItem.DataContext = this;
+            hubItem.UpdateLayout();
+
+            LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = hubItem });
         }
 
         protected virtual void OnReminderCompleted(EventArgs e)

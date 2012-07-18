@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Threading;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Models;
 using Heath.Lister.Infrastructure.ViewModels;
@@ -202,6 +203,8 @@ namespace Heath.Lister.ViewModels
                 {
                     using (var data = new DataAccess())
                         data.UpsertItem(Id, ListId, Completed, DueDate, DueTime, Notes, Priority, Title);
+
+                    DispatcherHelper.UIDispatcher.BeginInvoke(UpdatePin);
                 };
             backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
             backgroundWorker.RunWorkerAsync();
