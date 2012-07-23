@@ -26,6 +26,25 @@
         <Style x:Key="ItemCheckBoxStyle" TargetType="telerikPrimitives:ItemCheckBox">
             <Setter Property="Margin" Value="0,15,0,0" />
         </Style>
+
+        <DataTemplate x:Key="PopUpDataTemplate">
+            <Grid Background="{StaticResource PhoneChromeBrush}">
+                <Grid Margin="24,55,24,24">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Style="{StaticResource PhoneTextSubtleStyle}" Text="SORT BY" Foreground="{StaticResource PhoneForegroundBrush}" />
+                    <telerikInput:RadListPicker Grid.Row="1" d:LayoutOverrides="Height" />
+                </Grid>
+            </Grid>
+        </DataTemplate>
+
+        <telerikPrimitives:ApplicationBarInfo x:Key="PickerBoxApplicationBarInfo" ButtonClick="ApplicationBarInfo_ButtonClick">
+            <telerikPrimitives:ApplicationBarButton IconUri="/Images/DateTimePickerOK.png" Text="done" />
+            <telerikPrimitives:ApplicationBarButton IconUri="/Images/DateTimePickerCancel.png" Text="cancel" />
+        </telerikPrimitives:ApplicationBarInfo>
     </phone:PhoneApplicationPage.Resources>
 
     <telerikPrimitives:RadTransitionControl.Transition>
@@ -39,9 +58,20 @@
     </interactivity:Interaction.Triggers>
 
     <Grid Background="Transparent">
-        <TextBlock Margin="21,0,0,0" VerticalAlignment="Bottom" Foreground="{Binding Color.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" Opacity="0.5" Style="{StaticResource PhoneTextTitle1Style}" Text="{Binding Title}" />
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
 
-        <controls:Pivot x:Name="listPivot" Title="{Binding ApplicationTitle}" SelectedItem="{Binding SelectedPivotItem, Mode=TwoWay}">
+        <StackPanel Style="{StaticResource TitlePanelStyle}">
+            <TextBlock Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding ApplicationTitle}" />
+        </StackPanel>
+
+        <telerikPrimitives:RadPickerBox x:Name="sortPickerBox" Grid.Row="1" Margin="12,0,12,0" ApplicationBarInfo="{StaticResource PickerBoxApplicationBarInfo}" Content="RadPickerBox" PopupContentTemplate="{StaticResource PopUpDataTemplate}" />
+
+        <TextBlock Grid.Row="2" Margin="21,0,0,0" VerticalAlignment="Bottom" Foreground="{Binding Color.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" Opacity="0.5" Style="{StaticResource PhoneTextTitle1Style}" Text="{Binding Title}" />
+        <controls:Pivot x:Name="listPivot" Grid.Row="2" SelectedItem="{Binding SelectedPivotItem, Mode=TwoWay}">
             <controls:PivotItem Header="{Binding LocalizedResources.AllText, Source={StaticResource LocalizedStrings}}">
                 <telerikPrimitives:RadDataBoundListBox x:Name="allListItemsListBox" Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemsSource="{Binding AllListItems}" ItemTap="ListItemsRadDataBoundListBoxItemTap">
                     <telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
