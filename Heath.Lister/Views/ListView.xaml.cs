@@ -131,10 +131,5 @@ namespace Heath.Lister.Views
             Messenger.Default.Unregister<NotificationMessage<ItemViewModelBase>>(this);
             base.OnNavigatedFrom(e);
         }
-
-        private void ApplicationBarInfo_ButtonClick(object sender, ApplicationBarButtonClickEventArgs e)
-        {
-            sortPickerBox.IsPopupOpen = false;
-        }
     }
 }

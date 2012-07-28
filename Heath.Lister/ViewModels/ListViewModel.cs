@@ -38,6 +38,7 @@ namespace Heath.Lister.ViewModels
         private ICommand _selectCommand;
         private PivotItem _selectedPivotItem;
         private ICommand _shareCommand;
+        private ICommand _sortCommand;
 
         public ListViewModel(Func<ListItemViewModel> createListItem, INavigationService navigationService)
             : base(navigationService)
@@ -99,6 +100,11 @@ namespace Heath.Lister.ViewModels
         public ICommand ShareCommand
         {
             get { return _shareCommand ?? (_shareCommand = new RelayCommand(Share)); }
+        }
+
+        public ICommand SortCommand
+        {
+            get { return _sortCommand ?? (_sortCommand = new RelayCommand<ApplicationBarButtonClickEventArgs>(Sort)); }
         }
 
         public ObservableCollection<ListItemViewModel> TodayListItems { get; private set; }
@@ -173,6 +179,8 @@ namespace Heath.Lister.ViewModels
 
         #endregion
 
+        // TODO: Revisit these methods, everything else is a command and they're based off of
+        //       CallMethodAction
         public void IsCheckModeActiveChanged()
         {
             _listItems.ForEach(li => li.Selected = false);
@@ -190,6 +198,8 @@ namespace Heath.Lister.ViewModels
 
             _navigationService.Navigate(new Uri(string.Format("/Item/{0}/{1}", listItemViewModel.Id, listItemViewModel.ListId), UriKind.Relative));
         }
+
+        // ENDTODO
 
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {
@@ -327,5 +337,7 @@ namespace Heath.Lister.ViewModels
             task.Body = builder.ToString();
             task.Show();
         }
+
+        private void Sort(ApplicationBarButtonClickEventArgs e) {}
     }
 }
