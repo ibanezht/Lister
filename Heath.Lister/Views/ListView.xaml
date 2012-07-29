@@ -31,7 +31,7 @@
             <StackPanel>
                 <TextBlock Margin="0,0,12,12" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding ApplicationTitle}" />
 
-                <telerikPrimitives:RadPickerBox x:Name="sortPickerBox" Grid.Row="1" Margin="-12,0,0,0" Content="SORTED BY">
+                <telerikPrimitives:RadPickerBox Grid.Row="1" Margin="-12,0,0,0" Content="SORTED BY">
                     <telerikPrimitives:RadPickerBox.ApplicationBarInfo>
                         <telerikPrimitives:ApplicationBarInfo>
                             <telerikPrimitives:ApplicationBarButton IconUri="/Images/DateTimePickerOK.png" Text="done" />

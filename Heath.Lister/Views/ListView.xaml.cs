@@ -8,6 +8,7 @@ using GalaSoft.MvvmLight.Messaging;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Localization;
+using Heath.Lister.ViewModels;
 using Heath.Lister.ViewModels.Abstract;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
@@ -121,6 +122,15 @@ namespace Heath.Lister.Views
                           }
                       });
 
+            Messenger.Default.Register<NotificationMessage<ListViewModel>>(
+                this, nm =>
+                      {
+                          if (nm.Notification == "SortCompleted")
+                          {
+                              ElementTreeHelper.FindVisualDescendant<RadPickerBox>(this).IsPopupOpen = false;
+                          }
+                      });
+
             App.ApplicationStartup = AppOpenState.None;
             base.OnNavigatedTo(e);
         }
@@ -129,6 +139,7 @@ namespace Heath.Lister.Views
         {
             this.DeactivateViewModel(e.IsNavigationInitiator);
             Messenger.Default.Unregister<NotificationMessage<ItemViewModelBase>>(this);
+            Messenger.Default.Unregister<NotificationMessage<ListViewModel>>(this);
             base.OnNavigatedFrom(e);
         }
     }

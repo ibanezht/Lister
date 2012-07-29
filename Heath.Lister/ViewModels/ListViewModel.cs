@@ -338,6 +338,9 @@ namespace Heath.Lister.ViewModels
             task.Show();
         }
 
-        private void Sort(ApplicationBarButtonClickEventArgs e) {}
+        private void Sort(ApplicationBarButtonClickEventArgs e)
+        {
+            Messenger.Default.Send(new NotificationMessage<ListViewModel>(this, "SortCompleted"));
+        }
     }
 }
