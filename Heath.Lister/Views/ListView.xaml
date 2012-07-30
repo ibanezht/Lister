@@ -17,6 +17,7 @@
     xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input" 
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" 
     d:DesignHeight="768" d:DesignWidth="480" 
+    DataContext="{Binding List, Source={StaticResource Locator}}" 
     shell:SystemTray.IsVisible="True" 
     SupportedOrientations="PortraitOrLandscape" 
     telerikCore:InteractionEffectManager.IsInteractionEnabled="True" 
@@ -27,11 +28,70 @@
             <Setter Property="Margin" Value="0,15,0,0" />
         </Style>
 
+        <Style x:Key="PickerButtonStyle" TargetType="ToggleButton">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Grid Background="Transparent">
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup x:Name="CommonStates">
+                                    <VisualState x:Name="Normal" />
+                                    <VisualState x:Name="Disabled" />
+                                    <VisualState x:Name="Pressed" />
+                                </VisualStateGroup>
+                                <VisualStateGroup x:Name="CheckStates">
+                                    <VisualState x:Name="Unchecked" />
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
+                            <Border x:Name="EnabledBackground">
+                                <ContentControl x:Name="EnabledContent" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" />
+                            </Border>
+                            <Border x:Name="DisabledBackground" IsHitTestVisible="False" Visibility="Collapsed">
+                                <ContentControl x:Name="DisabledContent" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" />
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <Style x:Key="RadPickerBoxStyle" TargetType="telerikPrimitives:RadPickerBox">
+            <Setter Property="PopupOpenAnimation">
+                <Setter.Value>
+                    <telerikCore:RadPlaneProjectionAnimation FillBehavior="Stop">
+                        <telerikCore:RadPlaneProjectionAnimation.Easing>
+                            <CubicEase EasingMode="EaseInOut" />
+                        </telerikCore:RadPlaneProjectionAnimation.Easing>
+                    </telerikCore:RadPlaneProjectionAnimation>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="PickerButtonStyle" Value="{StaticResource PickerButtonStyle}" />
+            <Setter Property="PopupHorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="PopupVerticalContentAlignment" Value="Stretch" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="telerikPrimitives:RadPickerBox">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+
+                            <ContentControl Content="{TemplateBinding Header}" ContentTemplate="{TemplateBinding HeaderTemplate}" Style="{TemplateBinding HeaderStyle}" />
+                            <ToggleButton x:Name="PART_ActionButton" Grid.Row="1" HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}" Content="{TemplateBinding Content}" ContentTemplate="{TemplateBinding ContentTemplate}" FontFamily="{TemplateBinding FontFamily}" FontSize="{TemplateBinding FontSize}" Foreground="{TemplateBinding Foreground}" IsChecked="{Binding IsPopupOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" Style="{TemplateBinding PickerButtonStyle}" telerikCore:InteractionEffectManager.IsInteractionEnabled="True" />
+                            <telerikPrimitives:RadWindow x:Name="PART_Popup" HorizontalContentAlignment="{TemplateBinding PopupHorizontalContentAlignment}" VerticalContentAlignment="{TemplateBinding PopupVerticalContentAlignment}" ApplicationBarInfo="{TemplateBinding ApplicationBarInfo}" CloseAnimation="{TemplateBinding PopupCloseAnimation}" Content="{TemplateBinding PopupContent}" ContentTemplate="{TemplateBinding PopupContentTemplate}" HorizontalOffset="{TemplateBinding HorizontalPopupOffset}" IsAnimationEnabled="{TemplateBinding IsPopupAnimationEnabled}" IsClosedOnBackButton="{TemplateBinding IsPopupClosedOnBackButton}" IsFullScreen="{TemplateBinding IsFullScreen}" IsOpen="{Binding IsPopupOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" OpenAnimation="{TemplateBinding PopupOpenAnimation}" Placement="{TemplateBinding PopupPlacement}" PlacementTarget="{TemplateBinding PopupPlacementTarget}" VerticalOffset="{TemplateBinding VerticalPopupOffset}" WindowSizeMode="{TemplateBinding PopupSizeMode}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <DataTemplate x:Key="TitleDataTemplate">
             <StackPanel>
                 <TextBlock Margin="0,0,12,12" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding ApplicationTitle}" />
 
-                <telerikPrimitives:RadPickerBox Grid.Row="1" Margin="-12,0,0,0" Content="SORTED BY">
+                <telerikPrimitives:RadPickerBox Grid.Row="1" Content="SORTED BY" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{Binding Color.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" Style="{StaticResource RadPickerBoxStyle}">
                     <telerikPrimitives:RadPickerBox.ApplicationBarInfo>
                         <telerikPrimitives:ApplicationBarInfo>
                             <telerikPrimitives:ApplicationBarButton IconUri="/Images/DateTimePickerOK.png" Text="done" />
@@ -48,7 +108,7 @@
                                         <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
 
-                                    <TextBlock FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneForegroundBrush}" Style="{StaticResource PhoneTextSubtleStyle}" Text="SORT BY" />
+                                    <TextBlock Margin="12,0" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneForegroundBrush}" Text="SORT BY" />
                                     <telerikInput:RadListPicker Grid.Row="1" />
                                 </Grid>
                             </Grid>
@@ -64,10 +124,6 @@
             </StackPanel>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
-
-    <phone:PhoneApplicationPage.DataContext>
-        <Binding Path="List" Source="{StaticResource Locator}" />
-    </phone:PhoneApplicationPage.DataContext>
 
     <telerikPrimitives:RadTransitionControl.Transition>
         <telerikPrimitives:RadTileTransition />
