@@ -87,6 +87,12 @@
             </Setter>
         </Style>
 
+        <DataTemplate x:Key="SortHeaderDataTemplate">
+            <Grid>
+                <TextBlock FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneForegroundBrush}" Text="{Binding}" />
+            </Grid>
+        </DataTemplate>
+
         <DataTemplate x:Key="TitleDataTemplate">
             <StackPanel>
                 <TextBlock Margin="0,0,12,12" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding ApplicationTitle}" />
@@ -101,15 +107,17 @@
 
                     <telerikPrimitives:RadPickerBox.PopupContentTemplate>
                         <DataTemplate>
-                            <Grid Background="{StaticResource PhoneChromeBrush}">
+                            <Grid Background="{StaticResource PhoneChromeBrush}" d:DesignHeight="768" d:DesignWidth="480">
                                 <Grid Margin="24,55,24,24">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="Auto" />
                                         <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
 
-                                    <TextBlock Margin="12,0" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="{StaticResource PhoneFontSizeMedium}" Foreground="{StaticResource PhoneForegroundBrush}" Text="SORT BY" />
-                                    <telerikInput:RadListPicker Grid.Row="1" />
+                                    <telerikInput:RadListPicker Header="SORT BY" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" />
+                                    <telerikPrimitives:RadToggleSwitch Grid.Row="1" Header="DIRECTION" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" />
+                                    <CheckBox Grid.Row="2" Content="hide completed" />
                                 </Grid>
                             </Grid>
                         </DataTemplate>
