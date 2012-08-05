@@ -9,7 +9,7 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
     xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input" 
-    d:DesignHeight="696" d:DesignWidth="480" 
+    d:DesignHeight="768" d:DesignWidth="480" 
     DataContext="{Binding EditList, Source={StaticResource Locator}}" 
     shell:SystemTray.IsVisible="True" 
     SupportedOrientations="PortraitOrLandscape" 
@@ -19,14 +19,14 @@
         <DataTemplate x:Key="ColorDataTemplate">
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="24" Height="24" Fill="{Binding Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
-                <TextBlock Margin="15,0,0,0" VerticalAlignment="Center" Text="{Binding Text}" />
+                <TextBlock Margin="15,0,0,0" Text="{Binding Text}" />
             </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="ColorPopupDataTemplate">
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="42" Height="42" Fill="{Binding Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
-                <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Style="{StaticResource PhoneTextExtraLargeStyle}" Text="{Binding Text}" />
+                <TextBlock Margin="12,0,0,0" Style="{StaticResource PhoneTextExtraLargeStyle}" Text="{Binding Text}" />
             </StackPanel>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
@@ -45,7 +45,6 @@
         <ScrollViewer Grid.Row="1">
             <Grid Margin="12,0,12,0">
                 <Grid.RowDefinitions>
-                    <!-- All Auto necessary? -->
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />

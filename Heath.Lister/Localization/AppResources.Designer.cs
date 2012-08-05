@@ -88,6 +88,15 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ascending.
+        /// </summary>
+        public static string AscendingText {
+            get {
+                return ResourceManager.GetString("AscendingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to cancel.
         /// </summary>
         public static string CancelText {
@@ -165,6 +174,24 @@ namespace Heath.Lister.Localization {
         public static string DeleteText {
             get {
                 return ResourceManager.GetString("DeleteText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Descending.
+        /// </summary>
+        public static string DescendingText {
+            get {
+                return ResourceManager.GetString("DescendingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DIRECTION.
+        /// </summary>
+        public static string DirectionText {
+            get {
+                return ResourceManager.GetString("DirectionText", resourceCulture);
             }
         }
         
@@ -426,6 +453,15 @@ namespace Heath.Lister.Localization {
         public static string ShareText {
             get {
                 return ResourceManager.GetString("ShareText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SORT BY.
+        /// </summary>
+        public static string SortByText {
+            get {
+                return ResourceManager.GetString("SortByText", resourceCulture);
             }
         }
         

@@ -50,6 +50,8 @@ namespace Heath.Lister.ViewModels
 
             Messenger.Default.Register<NotificationMessage<ListItemViewModel>>(this, ListItemNotificationMessageReceived);
 
+            ListSort = new ListSortViewModel(); // pull from Iso
+
             AllListItems = new ObservableCollection<ListItemViewModel>();
             TodayListItems = new ObservableCollection<ListItemViewModel>();
             OverdueListItems = new ObservableCollection<ListItemViewModel>();
@@ -78,6 +80,8 @@ namespace Heath.Lister.ViewModels
         {
             get { return _deleteSelectedCommand ?? (_deleteSelectedCommand = new RelayCommand(DeleteSelected, CanDeleteSelected)); }
         }
+
+        public ListSortViewModel ListSort { get; private set; }
 
         public ObservableCollection<ListItemViewModel> OverdueListItems { get; private set; }
 
@@ -179,8 +183,8 @@ namespace Heath.Lister.ViewModels
 
         #endregion
 
-        // TODO: Revisit these methods, everything else is a command and they're based off of
-        //       CallMethodAction
+        // TODO: Revisit these methods, everything else is a command and they're based off of CallMethodAction
+
         public void IsCheckModeActiveChanged()
         {
             _listItems.ForEach(li => li.Selected = false);

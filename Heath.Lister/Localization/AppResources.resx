@@ -252,4 +252,16 @@
   <data name="ReminderTimeText" xml:space="preserve">
     <value>Reminder Time</value>
   </data>
+  <data name="DirectionText" xml:space="preserve">
+    <value>DIRECTION</value>
+  </data>
+  <data name="SortByText" xml:space="preserve">
+    <value>SORT BY</value>
+  </data>
+  <data name="AscendingText" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="DescendingText" xml:space="preserve">
+    <value>Descending</value>
+  </data>
 </root>

@@ -107,6 +107,9 @@
     <Compile Include="Converters\BooleanToTextValueConverter.cs" />
     <Compile Include="Converters\EnumValuesConverter.cs" />
     <Compile Include="Converters\ColorToSolidColorBrushConverter.cs" />
+    <Compile Include="Converters\ListSortByToStringConverter.cs" />
+    <Compile Include="Converters\ListSortDirectionToBitmapImageConverter.cs" />
+    <Compile Include="Converters\ListSortDirectionToStringConverter.cs" />
     <Compile Include="Converters\PriorityToSolidColorBrushConverter.cs" />
     <Compile Include="Converters\PriorityToStringConverter.cs" />
     <Compile Include="Converters\ValueEqualToVisibilityConverter.cs" />
@@ -122,6 +125,8 @@
     <Compile Include="ViewModels\Abstract\ItemViewModelBase.cs" />
     <Compile Include="ViewModels\ItemDetailsViewModel.cs" />
     <Compile Include="ViewModels\ListItemViewModel.cs" />
+    <Compile Include="ViewModels\ListSortBy.cs" />
+    <Compile Include="ViewModels\ListSortViewModel.cs" />
     <Compile Include="ViewModels\ListViewModel.cs" />
     <Compile Include="ViewModels\Abstract\ListViewModelBase.cs" />
     <Compile Include="ViewModels\EditListViewModel.cs" />
@@ -200,10 +205,16 @@
     <Content Include="Images\DateTimePickerOK.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Images\down.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Images\in.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Images\out.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Images\up.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

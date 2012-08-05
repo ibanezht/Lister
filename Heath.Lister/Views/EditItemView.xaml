@@ -21,7 +21,7 @@
         <DataTemplate x:Key="PriorityDataTemplate">
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="24" Height="24" Fill="{Binding Converter={StaticResource PriorityToSolidColorBrushConverter}}" />
-                <TextBlock Margin="15,0,0,0" VerticalAlignment="Center" Text="{Binding Converter={StaticResource PriorityToStringConverter}}" />
+                <TextBlock Margin="15,0,0,0" Text="{Binding Converter={StaticResource PriorityToStringConverter}}" />
             </StackPanel>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
@@ -40,7 +40,6 @@
         <ScrollViewer Grid.Row="1">
             <Grid Margin="12,0,12,0">
                 <Grid.RowDefinitions> 
-                    <!-- All Auto necessary? -->
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
                     <RowDefinition Height="Auto" />
