@@ -22,15 +22,15 @@ namespace Heath.Lister.Converters
             switch ((ListSortDirection)value)
             {
                 case ListSortDirection.Ascending:
-                    retval = new BitmapImage(new Uri("/Images/down.png", UriKind.Relative));
-                    break;
-
-                case ListSortDirection.Descending:
                     retval = new BitmapImage(new Uri("/Images/up.png", UriKind.Relative));
                     break;
 
-                default:
+                case ListSortDirection.Descending:
                     retval = new BitmapImage(new Uri("/Images/down.png", UriKind.Relative));
+                    break;
+
+                default:
+                    retval = new BitmapImage(new Uri("/Images/up.png", UriKind.Relative));
                     break;
             }
 

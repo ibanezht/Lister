@@ -126,11 +126,11 @@
                     <telerikPrimitives:RadPickerBox.PopupContentTemplate>
                         <DataTemplate>
                             <Grid Background="{StaticResource PhoneChromeBrush}" d:DesignHeight="768" d:DesignWidth="480">
-                                <Grid Height="456" Margin="24,55,24,0" VerticalAlignment="Top">
+                                <Grid Margin="12,55,12,0">
                                     <Grid.RowDefinitions>
-                                        <RowDefinition />
-                                        <RowDefinition />
-                                        <RowDefinition />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
                                     </Grid.RowDefinitions>
 
                                     <telerikInput:RadListPicker Header="{Binding LocalizedResources.SortByText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemsSource="{Binding ListSortBy, Converter={StaticResource EnumValuesConverter}}" ItemTemplate="{StaticResource ListSortByDataTemplate}" SelectedItem="{Binding ListSortBy, Mode=TwoWay}" />
