@@ -135,7 +135,7 @@
 
                                     <telerikInput:RadListPicker Header="{Binding LocalizedResources.SortByText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemsSource="{Binding ListSortBy, Converter={StaticResource EnumValuesConverter}}" ItemTemplate="{StaticResource ListSortByDataTemplate}" SelectedItem="{Binding ListSortBy, Mode=TwoWay}" />
                                     <telerikInput:RadListPicker Grid.Row="1" Header="{Binding LocalizedResources.DirectionText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemsSource="{Binding ListSortDirection, Converter={StaticResource EnumValuesConverter}}" ItemTemplate="{StaticResource ListSortDirectionDataTemplate}" SelectedItem="{Binding ListSortDirection, Mode=TwoWay}" />
-                                    <CheckBox Grid.Row="2" VerticalAlignment="Top" Content="hide completed" />
+                                    <CheckBox Grid.Row="2" VerticalAlignment="Top" Content="{Binding LocalizedResources.HideCompletedText, Source={StaticResource LocalizedStrings}}" IsChecked="{Binding HideCompleted, Mode=TwoWay}" />
                                 </Grid>
                             </Grid>
                         </DataTemplate>

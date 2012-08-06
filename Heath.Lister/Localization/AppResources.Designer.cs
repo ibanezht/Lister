@@ -241,6 +241,15 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to hide completed.
+        /// </summary>
+        public static string HideCompletedText {
+            get {
+                return ResourceManager.GetString("HideCompletedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to High.
         /// </summary>
         public static string HighText {

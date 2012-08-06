@@ -50,7 +50,7 @@ namespace Heath.Lister.ViewModels
 
             Messenger.Default.Register<NotificationMessage<ListItemViewModel>>(this, ListItemNotificationMessageReceived);
 
-            ListSort = new ListSortViewModel(); // pull from Iso
+            ListSort = new ListSortViewModel();
 
             AllListItems = new ObservableCollection<ListItemViewModel>();
             TodayListItems = new ObservableCollection<ListItemViewModel>();
@@ -344,6 +344,11 @@ namespace Heath.Lister.ViewModels
 
         private void Sort(ApplicationBarButtonClickEventArgs e)
         {
+            if (e.Button.Text == "done")
+            {
+                ListSort.Persist();
+            }
+
             Messenger.Default.Send(new NotificationMessage<ListViewModel>(this, "SortCompleted"));
         }
     }

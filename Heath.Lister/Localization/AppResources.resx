@@ -264,4 +264,7 @@
   <data name="DescendingText" xml:space="preserve">
     <value>Descending</value>
   </data>
+  <data name="HideCompletedText" xml:space="preserve">
+    <value>hide completed</value>
+  </data>
 </root>
