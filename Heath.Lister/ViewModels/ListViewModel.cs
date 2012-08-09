@@ -157,15 +157,7 @@ namespace Heath.Lister.ViewModels
                     });
             }
 
-            var today = DateTime.Now.Date;
-
-            AllListItems.Clear();
-            TodayListItems.Clear();
-            OverdueListItems.Clear();
-
-            _listItems.ForEach(AllListItems.Add);
-            _listItems.Where(li => li.DueDate.HasValue && li.DueDate.Value.Date == today).ForEach(TodayListItems.Add);
-            _listItems.Where(li => li.DueDate.HasValue && li.DueDate.Value.Date < today).ForEach(OverdueListItems.Add);
+            LoadLists();
         }
 
         public void Deactivate(bool isNavigationInitiator)
@@ -222,7 +214,16 @@ namespace Heath.Lister.ViewModels
             switch (notificationMessage.Notification)
             {
                 case "Complete":
+                    var completedItem = notificationMessage.Content;
+
                     Remaining--;
+
+                    if (ListSort.HideCompleted)
+                    {
+                        AllListItems.Remove(completedItem);
+                        TodayListItems.Remove(completedItem);
+                        OverdueListItems.Remove(completedItem);
+                    }
                     break;
 
                 case "Incomplete":
@@ -230,20 +231,86 @@ namespace Heath.Lister.ViewModels
                     break;
 
                 case "Delete":
-                    var listItem = notificationMessage.Content;
+                    var deletedItem = notificationMessage.Content;
 
-                    if (!listItem.Completed)
+                    if (!deletedItem.Completed)
                         Remaining--;
 
-                    _listItems.Remove(listItem);
+                    _listItems.Remove(deletedItem);
 
-                    AllListItems.Remove(listItem);
-                    TodayListItems.Remove(listItem);
-                    OverdueListItems.Remove(listItem);
+                    AllListItems.Remove(deletedItem);
+                    TodayListItems.Remove(deletedItem);
+                    OverdueListItems.Remove(deletedItem);
 
                     ((RelayCommand)SelectCommand).RaiseCanExecuteChanged();
                     break;
             }
+        }
+
+        private void LoadLists()
+        {
+            IEnumerable<ListItemViewModel> sortedList = new List<ListItemViewModel>(_listItems);
+            var today = DateTime.Now.Date;
+
+            AllListItems.Clear();
+            TodayListItems.Clear();
+            OverdueListItems.Clear();
+
+            if (ListSort.HideCompleted)
+                sortedList = sortedList.Where(s => !s.Completed);
+
+            if (ListSort.ListSortDirection == ListSortDirection.Ascending)
+            {
+                switch (ListSort.ListSortBy)
+                {
+                    case ListSortBy.Due:
+                        sortedList = sortedList.OrderBy(
+                            l =>
+                            {
+                                if (l.DueDate.HasValue && l.DueTime.HasValue)
+                                    return l.DueDate.Value.Date + l.DueTime.Value.TimeOfDay;
+
+                                return l.DueDate;
+                            });
+                        break;
+
+                    case ListSortBy.Title:
+                        sortedList = sortedList.OrderBy(l => l.Title);
+                        break;
+
+                    case ListSortBy.Priority:
+                        sortedList = sortedList.OrderBy(l => l.Priority);
+                        break;
+                }
+            }
+            else
+            {
+                switch (ListSort.ListSortBy)
+                {
+                    case ListSortBy.Due:
+                        sortedList = sortedList.OrderByDescending(
+                            l =>
+                            {
+                                if (l.DueDate.HasValue && l.DueTime.HasValue)
+                                    return l.DueDate.Value.Date + l.DueTime.Value.TimeOfDay;
+
+                                return l.DueDate;
+                            });
+                        break;
+
+                    case ListSortBy.Title:
+                        sortedList = sortedList.OrderByDescending(l => l.Title);
+                        break;
+
+                    case ListSortBy.Priority:
+                        sortedList = sortedList.OrderByDescending(l => l.Priority);
+                        break;
+                }
+            }
+
+            sortedList.ForEach(AllListItems.Add);
+            sortedList.Where(li => li.DueDate.HasValue && li.DueDate.Value.Date == today).ForEach(TodayListItems.Add);
+            sortedList.Where(li => li.DueDate.HasValue && li.DueDate.Value.Date < today).ForEach(OverdueListItems.Add);
         }
 
         private void Add()
@@ -347,6 +414,7 @@ namespace Heath.Lister.ViewModels
             if (e.Button.Text == "done")
             {
                 ListSort.Persist();
+                LoadLists();
             }
 
             Messenger.Default.Send(new NotificationMessage<ListViewModel>(this, "SortCompleted"));

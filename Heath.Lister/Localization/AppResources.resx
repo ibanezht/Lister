@@ -265,6 +265,6 @@
     <value>Descending</value>
   </data>
   <data name="HideCompletedText" xml:space="preserve">
-    <value>hide completed</value>
+    <value>Hide Completed</value>
   </data>
 </root>
