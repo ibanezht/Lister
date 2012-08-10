@@ -1,7 +1,6 @@
 ﻿#region usings
 
 using System;
-using System.Diagnostics;
 using System.Linq;
 using System.Windows;
 using System.Windows.Input;
@@ -26,9 +25,18 @@ namespace Heath.Lister.Infrastructure.Interactivity
                 typeof(RadDataBoundListBoxAnimateBehavior),
                 new PropertyMetadata(-1));
 
+        private readonly RadMoveAnimation _radMoveAnimation;
+
         private Pivot _pivot;
         private int _pivotItemIndex;
         private bool _selectionChanged;
+
+        public RadDataBoundListBoxAnimateBehavior()
+        {
+            _radMoveAnimation = new RadMoveAnimation();
+            _radMoveAnimation.EndPoint = new Point(0, 0);
+            _radMoveAnimation.Easing = new SineEase();
+        }
 
         public static int GetAnimateLevel(DependencyObject obj)
         {
@@ -71,14 +79,9 @@ namespace Heath.Lister.Infrastructure.Interactivity
                 .OfType<UIElement>()
                 .ForEach(uie =>
                          {
-                             var radMoveAnimation = new RadMoveAnimation();
-
-                             radMoveAnimation.InitialDelay = TimeSpan.FromSeconds(GetAnimateLevel(uie) * 0.1 + 0.1);
-                             radMoveAnimation.StartPoint = new Point(e.TotalManipulation.Translation.X <= 0 ? 75 : -75, 0);
-                             radMoveAnimation.EndPoint = new Point(0, 0);
-                             radMoveAnimation.Easing = new SineEase();
-
-                             RadAnimationManager.Play(uie, radMoveAnimation);
+                             _radMoveAnimation.InitialDelay = TimeSpan.FromSeconds(GetAnimateLevel(uie) * 0.1 + 0.1);
+                             _radMoveAnimation.StartPoint = new Point(e.TotalManipulation.Translation.X <= 0 ? 75 : -75, 0);
+                             RadAnimationManager.Play(uie, _radMoveAnimation);
                          }
                 );
         }

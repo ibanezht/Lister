@@ -2,8 +2,8 @@
 {
     public enum ListSortBy
     {
-        Due,
-        Title,
-        Priority
+        Due = 0,
+        Title = 1,
+        Priority = 2
     }
 }

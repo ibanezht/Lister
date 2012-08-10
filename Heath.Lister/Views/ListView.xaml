@@ -115,7 +115,7 @@
 
                 <TextBlock Margin="0,0,12,0" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding ApplicationTitle}" />
 
-                <telerikPrimitives:RadPickerBox Grid.Column="1" Margin="0,0,12,0" HorizontalAlignment="Right" Content="SORTED BY" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeNormal}" Foreground="{Binding Color.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" PopupContent="{Binding ListSort}" Style="{StaticResource RadPickerBoxStyle}">
+                <telerikPrimitives:RadPickerBox Grid.Column="1" Margin="0,0,12,0" HorizontalAlignment="Right" Content="SORT BY" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeNormal}" Foreground="{Binding Color.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" PopupContent="{Binding ListSort}" Style="{StaticResource RadPickerBoxStyle}">
                     <telerikPrimitives:RadPickerBox.ApplicationBarInfo>
                         <telerikPrimitives:ApplicationBarInfo>
                             <telerikPrimitives:ApplicationBarButton IconUri="/Images/DateTimePickerOK.png" Text="done" />
