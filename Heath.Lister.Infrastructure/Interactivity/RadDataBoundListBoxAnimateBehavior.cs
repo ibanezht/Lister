@@ -34,7 +34,6 @@ namespace Heath.Lister.Infrastructure.Interactivity
         public RadDataBoundListBoxAnimateBehavior()
         {
             _radMoveAnimation = new RadMoveAnimation();
-            _radMoveAnimation.EndPoint = new Point(0, 0);
             _radMoveAnimation.Easing = new SineEase();
         }
 
@@ -73,14 +72,15 @@ namespace Heath.Lister.Infrastructure.Interactivity
             if (_pivotItemIndex != _pivot.SelectedIndex)
                 return;
 
+            var startPointX = e.TotalManipulation.Translation.X <= 0 ? 75 : -75;
+
             AssociatedObject.ViewportItems
-                .SelectMany(vi => ElementTreeHelper.EnumVisualDescendants(vi))
-                .Where(p => GetAnimateLevel(p) > -1)
-                .OfType<UIElement>()
+                .SelectMany(vi => ElementTreeHelper.EnumVisualDescendants(vi, p => GetAnimateLevel(p) > -1, TreeTraversalMode.DepthFirst))
+                .Cast<UIElement>()
                 .ForEach(uie =>
                          {
                              _radMoveAnimation.InitialDelay = TimeSpan.FromSeconds(GetAnimateLevel(uie) * 0.1 + 0.1);
-                             _radMoveAnimation.StartPoint = new Point(e.TotalManipulation.Translation.X <= 0 ? 75 : -75, 0);
+                             _radMoveAnimation.StartPoint = new Point(startPointX, 0);
                              RadAnimationManager.Play(uie, _radMoveAnimation);
                          }
                 );

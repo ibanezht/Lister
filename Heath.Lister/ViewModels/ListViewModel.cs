@@ -26,6 +26,7 @@ namespace Heath.Lister.ViewModels
     public class ListViewModel : ListViewModelBase, IHaveId, IPageViewModel
     {
         private const string SelectedPivotItemPropertyName = "SelectedPivotItem";
+        private const string SortTitlePropertyName = "SortTitle";
 
         private readonly Func<ListItemViewModel> _createListItem;
         private readonly List<ListItemViewModel> _listItems = new List<ListItemViewModel>();
@@ -39,6 +40,7 @@ namespace Heath.Lister.ViewModels
         private PivotItem _selectedPivotItem;
         private ICommand _shareCommand;
         private ICommand _sortCommand;
+        private string _sortTitle;
 
         public ListViewModel(Func<ListItemViewModel> createListItem, INavigationService navigationService)
             : base(navigationService)
@@ -109,6 +111,16 @@ namespace Heath.Lister.ViewModels
         public ICommand SortCommand
         {
             get { return _sortCommand ?? (_sortCommand = new RelayCommand<ApplicationBarButtonClickEventArgs>(Sort)); }
+        }
+
+        public string SortTitle
+        {
+            get { return _sortTitle; }
+            set
+            {
+                _sortTitle = value;
+                RaisePropertyChanged(SortTitlePropertyName);
+            }
         }
 
         public ObservableCollection<ListItemViewModel> TodayListItems { get; private set; }
@@ -250,7 +262,11 @@ namespace Heath.Lister.ViewModels
         private void LoadLists()
         {
             IEnumerable<ListItemViewModel> sortedList = new List<ListItemViewModel>(_listItems);
+
             var today = DateTime.Now.Date;
+
+            var sortTitleBuilder = new StringBuilder();
+            sortTitleBuilder.Append("SORTED BY ");
 
             AllListItems.Clear();
             TodayListItems.Clear();
@@ -272,16 +288,21 @@ namespace Heath.Lister.ViewModels
 
                                 return l.DueDate;
                             });
+                        sortTitleBuilder.Append("DUE, ");
                         break;
 
                     case ListSortBy.Title:
                         sortedList = sortedList.OrderBy(l => l.Title);
+                        sortTitleBuilder.Append("TITLE, ");
                         break;
 
                     case ListSortBy.Priority:
                         sortedList = sortedList.OrderBy(l => l.Priority);
+                        sortTitleBuilder.Append("PRIORITY, ");
                         break;
                 }
+
+                sortTitleBuilder.Append("ASCENDING");
             }
             else
             {
@@ -296,21 +317,28 @@ namespace Heath.Lister.ViewModels
 
                                 return l.DueDate;
                             });
+                        sortTitleBuilder.Append("DUE, ");
                         break;
 
                     case ListSortBy.Title:
                         sortedList = sortedList.OrderByDescending(l => l.Title);
+                        sortTitleBuilder.Append("TITLE, ");
                         break;
 
                     case ListSortBy.Priority:
                         sortedList = sortedList.OrderByDescending(l => l.Priority);
+                        sortTitleBuilder.Append("PRIORITY, ");
                         break;
                 }
+
+                sortTitleBuilder.Append("DESCENDING");
             }
 
             sortedList.ForEach(AllListItems.Add);
             sortedList.Where(li => li.DueDate.HasValue && li.DueDate.Value.Date == today).ForEach(TodayListItems.Add);
             sortedList.Where(li => li.DueDate.HasValue && li.DueDate.Value.Date < today).ForEach(OverdueListItems.Add);
+
+            SortTitle = sortTitleBuilder.ToString();
         }
 
         private void Add()

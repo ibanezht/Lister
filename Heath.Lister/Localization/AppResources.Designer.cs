@@ -241,7 +241,7 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hide Completed.
+        ///   Looks up a localized string similar to HIDE COMPLETED.
         /// </summary>
         public static string HideCompletedText {
             get {
