@@ -267,4 +267,19 @@
   <data name="HideCompletedText" xml:space="preserve">
     <value>HIDE COMPLETED</value>
   </data>
+  <data name="SortAscendingText" xml:space="preserve">
+    <value>ASCENDING</value>
+  </data>
+  <data name="SortDescendingText" xml:space="preserve">
+    <value>DESCENDING</value>
+  </data>
+  <data name="SortDueText" xml:space="preserve">
+    <value>DUE,</value>
+  </data>
+  <data name="SortPriorityText" xml:space="preserve">
+    <value>PRIORITY,</value>
+  </data>
+  <data name="SortTitleText" xml:space="preserve">
+    <value>TITLE,</value>
+  </data>
 </root>

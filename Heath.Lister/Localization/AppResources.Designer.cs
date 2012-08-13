@@ -466,11 +466,56 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ASCENDING.
+        /// </summary>
+        public static string SortAscendingText {
+            get {
+                return ResourceManager.GetString("SortAscendingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SORT BY.
         /// </summary>
         public static string SortByText {
             get {
                 return ResourceManager.GetString("SortByText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DESCENDING.
+        /// </summary>
+        public static string SortDescendingText {
+            get {
+                return ResourceManager.GetString("SortDescendingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DUE,.
+        /// </summary>
+        public static string SortDueText {
+            get {
+                return ResourceManager.GetString("SortDueText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PRIORITY,.
+        /// </summary>
+        public static string SortPriorityText {
+            get {
+                return ResourceManager.GetString("SortPriorityText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TITLE,.
+        /// </summary>
+        public static string SortTitleText {
+            get {
+                return ResourceManager.GetString("SortTitleText", resourceCulture);
             }
         }
         

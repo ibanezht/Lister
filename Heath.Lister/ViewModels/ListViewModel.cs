@@ -288,21 +288,21 @@ namespace Heath.Lister.ViewModels
 
                                 return l.DueDate;
                             });
-                        sortTitleBuilder.Append("DUE, ");
+                        sortTitleBuilder.Append(AppResources.SortDueText);
                         break;
 
                     case ListSortBy.Title:
                         sortedList = sortedList.OrderBy(l => l.Title);
-                        sortTitleBuilder.Append("TITLE, ");
+                        sortTitleBuilder.Append(AppResources.SortTitleText);
                         break;
 
                     case ListSortBy.Priority:
                         sortedList = sortedList.OrderBy(l => l.Priority);
-                        sortTitleBuilder.Append("PRIORITY, ");
+                        sortTitleBuilder.Append(AppResources.SortPriorityText);
                         break;
                 }
 
-                sortTitleBuilder.Append("ASCENDING");
+                sortTitleBuilder.Append(AppResources.SortAscendingText);
             }
             else
             {
@@ -317,21 +317,21 @@ namespace Heath.Lister.ViewModels
 
                                 return l.DueDate;
                             });
-                        sortTitleBuilder.Append("DUE, ");
+                        sortTitleBuilder.Append(AppResources.SortDueText);
                         break;
 
                     case ListSortBy.Title:
                         sortedList = sortedList.OrderByDescending(l => l.Title);
-                        sortTitleBuilder.Append("TITLE, ");
+                        sortTitleBuilder.Append(AppResources.SortTitleText);
                         break;
 
                     case ListSortBy.Priority:
                         sortedList = sortedList.OrderByDescending(l => l.Priority);
-                        sortTitleBuilder.Append("PRIORITY, ");
+                        sortTitleBuilder.Append(AppResources.SortPriorityText);
                         break;
                 }
 
-                sortTitleBuilder.Append("DESCENDING");
+                sortTitleBuilder.Append(AppResources.SortDescendingText);
             }
 
             sortedList.ForEach(AllListItems.Add);
