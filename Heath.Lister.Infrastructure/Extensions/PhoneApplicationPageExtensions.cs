@@ -58,6 +58,13 @@ namespace Heath.Lister.Infrastructure.Extensions
             behaviors.Add(behavior);
         }
 
+        public static void ViewReady(this PhoneApplicationPage page)
+        {
+            var viewModel = page.DataContext as IPageViewModel;
+            if (viewModel != null)
+                viewModel.ViewReady();
+        }
+
         public static void ActivateViewModel(this PhoneApplicationPage page)
         {
             var haveId = page.DataContext as IHaveId;

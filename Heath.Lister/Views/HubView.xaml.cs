@@ -22,6 +22,8 @@ namespace Heath.Lister.Views
             InitializeApplicationBar();
 
             SetValue(RadTileAnimation.ContainerToAnimateProperty, hubItemsListBox);
+
+            Loaded += (sender, args) => this.ViewReady();
         }
 
         private void InitializeApplicationBar()

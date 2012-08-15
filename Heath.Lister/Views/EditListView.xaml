@@ -43,22 +43,16 @@
         </StackPanel>
 
         <ScrollViewer Grid.Row="1">
-            <Grid Margin="12,0,12,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
+            <StackPanel Margin="12,0,12,0">
                 <TextBlock Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.TitleText, Source={StaticResource LocalizedStrings}}" />
-                <telerikInput:RadAutoCompleteBox Grid.Row="1" AutoCompleteMode="StartsWith" AutoCompletePopupDisplayMode="BelowTextBox" FilterDelay="0:0:0.350" GotFocus="TextBoxGotFocus" InputScope="Text" SuggestionsSource="{Binding Suggestions}" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=Explicit}">
+                <telerikInput:RadAutoCompleteBox AutoCompleteMode="StartsWith" AutoCompletePopupDisplayMode="BelowTextBox" FilterDelay="0:0:0.350" GotFocus="TextBoxGotFocus" InputScope="Text" SuggestionsSource="{Binding Suggestions}" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=Explicit}">
                     <interactivity:Interaction.Behaviors>
                         <listerInteractivity:UpdateSourceTextChangedBehavior />
                     </interactivity:Interaction.Behaviors>
                 </telerikInput:RadAutoCompleteBox>
 
-                <telerikInput:RadListPicker Grid.Row="2" Header="{Binding LocalizedResources.TileColorText, Source={StaticResource LocalizedStrings}}" ItemsSource="{Binding Colors}" ItemTemplate="{StaticResource ColorDataTemplate}" PopupHeader="{Binding LocalizedResources.TileColorText, Source={StaticResource LocalizedStrings}}" PopupItemTemplate="{StaticResource ColorPopupDataTemplate}" SelectedItem="{Binding Color, Mode=TwoWay}" />
-            </Grid>
+                <telerikInput:RadListPicker Header="{Binding LocalizedResources.TileColorText, Source={StaticResource LocalizedStrings}}" ItemsSource="{Binding Colors}" ItemTemplate="{StaticResource ColorDataTemplate}" PopupHeader="{Binding LocalizedResources.TileColorText, Source={StaticResource LocalizedStrings}}" PopupItemTemplate="{StaticResource ColorPopupDataTemplate}" SelectedItem="{Binding Color, Mode=TwoWay}" />
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </phone:PhoneApplicationPage>

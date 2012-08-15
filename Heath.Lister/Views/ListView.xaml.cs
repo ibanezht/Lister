@@ -28,6 +28,8 @@ namespace Heath.Lister.Views
             AnimateSelectedListBox();
 
             listPivot.LoadedPivotItem += (sender, args) => AnimateSelectedListBox();
+
+            Loaded += (sender, args) => this.ViewReady();
         }
 
         private void IsCheckModeActiveChanged(object sender, IsCheckModeActiveChangedEventArgs e)

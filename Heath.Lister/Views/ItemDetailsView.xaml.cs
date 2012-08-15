@@ -27,9 +27,13 @@ namespace Heath.Lister.Views
 
             _itemDetails = (ItemDetailsViewModel)DataContext;
 
-            Loaded += (sender, args) => InitializeApplicationBar();
-
             _newInstance = true;
+
+            Loaded += (sender, args) =>
+                      {
+                          InitializeApplicationBar();
+                          this.ViewReady();
+                      };
         }
 
         private void InitializeApplicationBar()

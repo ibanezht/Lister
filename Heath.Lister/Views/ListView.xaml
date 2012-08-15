@@ -126,17 +126,11 @@
                     <telerikPrimitives:RadPickerBox.PopupContentTemplate>
                         <DataTemplate>
                             <Grid Background="{StaticResource PhoneChromeBrush}" d:DesignHeight="768" d:DesignWidth="480">
-                                <Grid Margin="12,55,12,0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                        <RowDefinition Height="Auto" />
-                                    </Grid.RowDefinitions>
-
+                                <StackPanel Margin="12,55,12,0">
                                     <telerikInput:RadListPicker Header="{Binding LocalizedResources.SortByText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemsSource="{Binding ListSortBy, Converter={StaticResource EnumValuesConverter}}" ItemTemplate="{StaticResource ListSortByDataTemplate}" SelectedItem="{Binding ListSortBy, Mode=TwoWay}" />
-                                    <telerikInput:RadListPicker Grid.Row="1" Margin="12,24,12,12" Header="{Binding LocalizedResources.DirectionText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemsSource="{Binding ListSortDirection, Converter={StaticResource EnumValuesConverter}}" ItemTemplate="{StaticResource ListSortDirectionDataTemplate}" SelectedItem="{Binding ListSortDirection, Mode=TwoWay}" />
-                                    <telerikPrimitives:RadToggleSwitch Grid.Row="2" Margin="12,24,12,12" VerticalAlignment="Top" Header="{Binding LocalizedResources.HideCompletedText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" IsChecked="{Binding HideCompleted, Mode=TwoWay}" />
-                                </Grid>
+                                    <telerikInput:RadListPicker Margin="12,24,12,12" Header="{Binding LocalizedResources.DirectionText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemsSource="{Binding ListSortDirection, Converter={StaticResource EnumValuesConverter}}" ItemTemplate="{StaticResource ListSortDirectionDataTemplate}" SelectedItem="{Binding ListSortDirection, Mode=TwoWay}" />
+                                    <telerikPrimitives:RadToggleSwitch Margin="12,24,12,12" VerticalAlignment="Top" Header="{Binding LocalizedResources.HideCompletedText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" IsChecked="{Binding HideCompleted, Mode=TwoWay}" />
+                                </StackPanel>
                             </Grid>
                         </DataTemplate>
                     </telerikPrimitives:RadPickerBox.PopupContentTemplate>
@@ -154,12 +148,6 @@
     <telerikPrimitives:RadTransitionControl.Transition>
         <telerikPrimitives:RadTileTransition />
     </telerikPrimitives:RadTransitionControl.Transition>
-
-    <interactivity:Interaction.Triggers>
-        <interactivity:EventTrigger EventName="Loaded">
-            <interactions:CallMethodAction MethodName="ViewReady" TargetObject="{Binding}" />
-        </interactivity:EventTrigger>
-    </interactivity:Interaction.Triggers>
 
     <Grid Background="Transparent">
         <TextBlock Margin="21,0,0,0" VerticalAlignment="Bottom" Foreground="{Binding Color.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" Opacity="0.5" Style="{StaticResource PhoneTextTitle1Style}" Text="{Binding Title}" />
