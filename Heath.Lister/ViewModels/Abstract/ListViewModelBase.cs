@@ -121,10 +121,6 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public event EventHandler ReminderCompleted;
-
-        public event EventHandler ReminderRequested;
-
         private void Delete()
         {
             Action<MessageBoxClosedEventArgs> closedHandler =
@@ -190,18 +186,6 @@ namespace Heath.Lister.ViewModels.Abstract
             hubItem.UpdateLayout();
 
             LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = hubItem });
-        }
-
-        protected virtual void OnReminderCompleted(EventArgs e)
-        {
-            if (ReminderCompleted != null)
-                ReminderCompleted(this, e);
-        }
-
-        protected virtual void OnReminderRequested(EventArgs e)
-        {
-            if (ReminderRequested != null)
-                ReminderRequested(this, e);
         }
     }
 }

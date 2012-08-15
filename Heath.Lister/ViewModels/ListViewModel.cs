@@ -30,6 +30,8 @@ namespace Heath.Lister.ViewModels
 
         private readonly Func<ListItemViewModel> _createListItem;
         private readonly List<ListItemViewModel> _listItems = new List<ListItemViewModel>();
+        private readonly Setting<ListSortViewModel> _listSortSetting
+            = new Setting<ListSortViewModel>("ListSort", new ListSortViewModel());
         private readonly INavigationService _navigationService;
 
         private ICommand _addCommand;
@@ -52,7 +54,7 @@ namespace Heath.Lister.ViewModels
 
             Messenger.Default.Register<NotificationMessage<ListItemViewModel>>(this, ListItemNotificationMessageReceived);
 
-            ListSort = new ListSortViewModel();
+            ListSort = _listSortSetting.Value;
 
             AllListItems = new ObservableCollection<ListItemViewModel>();
             TodayListItems = new ObservableCollection<ListItemViewModel>();
@@ -262,11 +264,10 @@ namespace Heath.Lister.ViewModels
         private void LoadLists()
         {
             IEnumerable<ListItemViewModel> sortedList = new List<ListItemViewModel>(_listItems);
-
             var today = DateTime.Now.Date;
-
             var sortTitleBuilder = new StringBuilder();
-            sortTitleBuilder.Append("SORTED BY ");
+
+            sortTitleBuilder.AppendFormat("{0} ", AppResources.SortedByText);
 
             AllListItems.Clear();
             TodayListItems.Clear();
@@ -302,7 +303,7 @@ namespace Heath.Lister.ViewModels
                         break;
                 }
 
-                sortTitleBuilder.Append(AppResources.SortAscendingText);
+                sortTitleBuilder.AppendFormat(", {0}", AppResources.SortAscendingText);
             }
             else
             {
@@ -331,7 +332,7 @@ namespace Heath.Lister.ViewModels
                         break;
                 }
 
-                sortTitleBuilder.Append(AppResources.SortDescendingText);
+                sortTitleBuilder.AppendFormat(", {0}", AppResources.SortDescendingText);
             }
 
             sortedList.ForEach(AllListItems.Add);
@@ -441,8 +442,9 @@ namespace Heath.Lister.ViewModels
         {
             if (e.Button.Text == "done")
             {
-                ListSort.Persist();
                 LoadLists();
+
+                _listSortSetting.Value = ListSort;
             }
 
             Messenger.Default.Send(new NotificationMessage<ListViewModel>(this, "SortCompleted"));

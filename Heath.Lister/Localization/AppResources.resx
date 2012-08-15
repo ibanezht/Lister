@@ -274,12 +274,15 @@
     <value>DESCENDING</value>
   </data>
   <data name="SortDueText" xml:space="preserve">
-    <value>DUE,</value>
+    <value>DUE</value>
   </data>
   <data name="SortPriorityText" xml:space="preserve">
-    <value>PRIORITY,</value>
+    <value>PRIORITY</value>
   </data>
   <data name="SortTitleText" xml:space="preserve">
-    <value>TITLE,</value>
+    <value>TITLE</value>
+  </data>
+  <data name="SortedByText" xml:space="preserve">
+    <value>SORTED BY</value>
   </data>
 </root>

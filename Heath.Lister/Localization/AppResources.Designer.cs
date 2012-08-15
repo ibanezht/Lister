@@ -493,7 +493,7 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to DUE,.
+        ///   Looks up a localized string similar to DUE.
         /// </summary>
         public static string SortDueText {
             get {
@@ -502,7 +502,16 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to PRIORITY,.
+        ///   Looks up a localized string similar to SORTED BY.
+        /// </summary>
+        public static string SortedByText {
+            get {
+                return ResourceManager.GetString("SortedByText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PRIORITY.
         /// </summary>
         public static string SortPriorityText {
             get {
@@ -511,7 +520,7 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to TITLE,.
+        ///   Looks up a localized string similar to TITLE.
         /// </summary>
         public static string SortTitleText {
             get {

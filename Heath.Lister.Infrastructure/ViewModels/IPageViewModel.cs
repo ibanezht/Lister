@@ -4,6 +4,6 @@
     {
         void Activate();
         void Deactivate(bool isNavigationInitiator);
-        void ViewReady();
+        void ViewReady(); // TODO: Maybe can delete...
     }
 }
