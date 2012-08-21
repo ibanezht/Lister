@@ -75,16 +75,6 @@ namespace Heath.Lister.Views
             if (App.ApplicationStartup != AppOpenState.Activated || _newInstance)
                 this.ActivateViewModel();
 
-            Messenger.Default.Register<NotificationMessage<ItemViewModelBase>>(
-                this, nm =>
-                      {
-                          if (nm.Notification == "ReminderCompleted")
-                              reminderView.IsOpen = false;
-
-                          if (nm.Notification == "ReminderRequested")
-                              reminderView.IsOpen = true;
-                      });
-
             App.ApplicationStartup = AppOpenState.None;
             base.OnNavigatedTo(e);
         }
@@ -92,7 +82,6 @@ namespace Heath.Lister.Views
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             this.DeactivateViewModel(e.IsNavigationInitiator);
-            Messenger.Default.Unregister<NotificationMessage<ItemViewModelBase>>(this);
             base.OnNavigatedFrom(e);
             _newInstance = false;
         }

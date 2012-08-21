@@ -115,7 +115,7 @@
 
                 <TextBlock Margin="0,0,12,0" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding ApplicationTitle}" />
 
-                <telerikPrimitives:RadPickerBox Grid.Column="1" Margin="0,0,0,12" HorizontalAlignment="Right" Content="{Binding SortTitle}" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeNormal}" Foreground="{Binding Color.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" PopupContent="{Binding ListSort}" Style="{StaticResource RadPickerBoxStyle}">
+                <telerikPrimitives:RadPickerBox Grid.Column="1" Margin="0,0,10,12" HorizontalAlignment="Right" Content="{Binding SortTitle}" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeNormal}" Foreground="{Binding Color.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" PopupContent="{Binding ListSort}" Style="{StaticResource RadPickerBoxStyle}">
                     <telerikPrimitives:RadPickerBox.ApplicationBarInfo>
                         <telerikPrimitives:ApplicationBarInfo>
                             <telerikPrimitives:ApplicationBarButton IconUri="/Images/DateTimePickerOK.png" Text="done" />
@@ -249,32 +249,5 @@
                 </telerikPrimitives:RadDataBoundListBox>
             </controls:PivotItem>
         </controls:Pivot>
-
-        <telerikPrimitives:RadModalWindow x:Name="reminderView" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Top" IsFullScreen="True">
-            <Grid Margin="12,0,12,0" Background="{StaticResource PhoneBackgroundBrush}">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition />
-                    <ColumnDefinition />
-                </Grid.ColumnDefinitions>
-
-                <Grid.RowDefinitions>
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                    <RowDefinition />
-                </Grid.RowDefinitions>
-
-                <TextBlock Grid.ColumnSpan="2" Margin="12" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding LocalizedResources.ReminderMessageText, Source={StaticResource LocalizedStrings}}" TextWrapping="Wrap" />
-                <TextBlock Grid.Row="1" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.ReminderDateText, Source={StaticResource LocalizedStrings}}" />
-                <telerikInput:RadDatePicker Grid.Row="2" Grid.ColumnSpan="2" Value="{Binding ReminderDate, Mode=TwoWay}" />
-                <TextBlock Grid.Row="3" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.ReminderTimeText, Source={StaticResource LocalizedStrings}}" />
-                <telerikInput:RadTimePicker Grid.Row="4" Grid.ColumnSpan="2" Value="{Binding ReminderTime, Mode=TwoWay}" />
-
-                <Button Grid.Row="5" Command="{Binding AcceptReminderCommand}" Content="ok" />
-                <Button Grid.Row="5" Grid.Column="1" Command="{Binding CancelReminderCommand}" Content="cancel" />
-            </Grid>
-        </telerikPrimitives:RadModalWindow>
     </Grid>
 </phone:PhoneApplicationPage>

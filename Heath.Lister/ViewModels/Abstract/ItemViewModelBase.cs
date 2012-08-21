@@ -33,7 +33,7 @@ namespace Heath.Lister.ViewModels.Abstract
         protected const string ReminderDatePropertyName = "ReminderDate";
         protected const string ReminderTimePropertyName = "ReminderTime";
         protected const string TitlePropertyName = "Title";
-        private const string SelectedPropertyName = "Selected";
+        protected const string SelectedPropertyName = "Selected";
 
         private readonly INavigationService _navigationService;
 

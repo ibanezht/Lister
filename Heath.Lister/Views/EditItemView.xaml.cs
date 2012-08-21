@@ -30,7 +30,7 @@ namespace Heath.Lister.Views
             _radResizeHeightAnimation = new RadResizeHeightAnimation();
             _radResizeHeightAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(150));
 
-            HideReminderPanel();
+            Hide(reminderPanel);
 
             _newInstance = true;
         }
@@ -69,29 +69,29 @@ namespace Heath.Lister.Views
         {
             if (e.NewState)
             {
-                ShowReminderPanel();
+                Show(reminderPanel);
             }
             else
             {
-                HideReminderPanel();
+                Hide(reminderPanel);
             }
         }
 
-        private void ShowReminderPanel()
+        private void Show(StackPanel stackPanel)
         {
-            var height = reminderPanel.DesiredSize.Height +
-                         reminderPanel.Children.Sum(c => c.DesiredSize.Height);
+            var height = stackPanel.DesiredSize.Height +
+                         stackPanel.Children.Sum(c => c.DesiredSize.Height);
 
             _radResizeHeightAnimation.StartHeight = 0;
             _radResizeHeightAnimation.EndHeight = height;
-            RadAnimationManager.Play(reminderPanel, _radResizeHeightAnimation);
+            RadAnimationManager.Play(stackPanel, _radResizeHeightAnimation);
         }
 
-        private void HideReminderPanel()
+        private void Hide(StackPanel stackPanel)
         {
-            _radResizeHeightAnimation.StartHeight = reminderPanel.ActualHeight;
+            _radResizeHeightAnimation.StartHeight = stackPanel.ActualHeight;
             _radResizeHeightAnimation.EndHeight = 0;
-            RadAnimationManager.Play(reminderPanel, _radResizeHeightAnimation);
+            RadAnimationManager.Play(stackPanel, _radResizeHeightAnimation);
         }
     }
 }
