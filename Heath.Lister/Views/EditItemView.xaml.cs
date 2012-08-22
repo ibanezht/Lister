@@ -17,8 +17,6 @@ namespace Heath.Lister.Views
 {
     public partial class EditItemView
     {
-        private readonly RadResizeHeightAnimation _radResizeHeightAnimation;
-
         private bool _newInstance;
 
         public EditItemView()
@@ -26,9 +24,6 @@ namespace Heath.Lister.Views
             InitializeComponent();
 
             InitializeApplicationBar();
-
-            _radResizeHeightAnimation = new RadResizeHeightAnimation();
-            _radResizeHeightAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(150));
 
             Hide(reminderPanel);
 
@@ -77,21 +72,24 @@ namespace Heath.Lister.Views
             }
         }
 
-        private void Show(StackPanel stackPanel)
+        private static void Show(StackPanel stackPanel)
         {
-            var height = stackPanel.DesiredSize.Height +
-                         stackPanel.Children.Sum(c => c.DesiredSize.Height);
+            var height = stackPanel.Children.Sum(c => c.DesiredSize.Height);
 
-            _radResizeHeightAnimation.StartHeight = 0;
-            _radResizeHeightAnimation.EndHeight = height;
-            RadAnimationManager.Play(stackPanel, _radResizeHeightAnimation);
+            var radResizeHeightAnimation = new RadResizeHeightAnimation();
+            radResizeHeightAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(150));
+            radResizeHeightAnimation.StartHeight = 0;
+            radResizeHeightAnimation.EndHeight = null;
+            RadAnimationManager.Play(stackPanel, radResizeHeightAnimation);
         }
 
-        private void Hide(StackPanel stackPanel)
+        private static void Hide(StackPanel stackPanel)
         {
-            _radResizeHeightAnimation.StartHeight = stackPanel.ActualHeight;
-            _radResizeHeightAnimation.EndHeight = 0;
-            RadAnimationManager.Play(stackPanel, _radResizeHeightAnimation);
+            var radResizeHeightAnimation = new RadResizeHeightAnimation();
+            radResizeHeightAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(150));
+            radResizeHeightAnimation.StartHeight = stackPanel.ActualHeight;
+            radResizeHeightAnimation.EndHeight = 0;
+            RadAnimationManager.Play(stackPanel, radResizeHeightAnimation);
         }
     }
 }
