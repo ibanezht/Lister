@@ -277,15 +277,6 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to set reminder.
-        /// </summary>
-        public static string ItemReminderText {
-            get {
-                return ResourceManager.GetString("ItemReminderText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to item.
         /// </summary>
         public static string ItemText {
@@ -421,7 +412,7 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to reminder.
+        ///   Looks up a localized string similar to Reminder.
         /// </summary>
         public static string ReminderText {
             get {

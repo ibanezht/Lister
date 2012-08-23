@@ -177,9 +177,6 @@
   <data name="YesText" xml:space="preserve">
     <value>Yes</value>
   </data>
-  <data name="ItemReminderText" xml:space="preserve">
-    <value>set reminder</value>
-  </data>
   <data name="SaveText" xml:space="preserve">
     <value>save</value>
   </data>
@@ -188,9 +185,6 @@
   </data>
   <data name="ReminderMessageText" xml:space="preserve">
     <value>Please set the date and time for your reminder. The values provided must be in the future to continue.</value>
-  </data>
-  <data name="ReminderText" xml:space="preserve">
-    <value>reminder</value>
   </data>
   <data name="TileColorText" xml:space="preserve">
     <value>Tile Color</value>
@@ -284,5 +278,8 @@
   </data>
   <data name="SortedByText" xml:space="preserve">
     <value>SORTED BY</value>
+  </data>
+  <data name="ReminderText" xml:space="preserve">
+    <value>Reminder</value>
   </data>
 </root>

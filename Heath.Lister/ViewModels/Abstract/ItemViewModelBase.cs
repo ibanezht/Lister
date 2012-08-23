@@ -4,7 +4,6 @@ using System;
 using System.ComponentModel;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Messaging;
 using Heath.Lister.Configuration;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Models;
@@ -19,6 +18,7 @@ namespace Heath.Lister.ViewModels.Abstract
 {
     public abstract class ItemViewModelBase : ViewModelBase
     {
+        protected const string CanRemindPropertyName = "CanRemind";
         protected const string CompletedPropertyName = "Completed";
         protected const string CreatedDatePropertyName = "CreatedDate";
         protected const string DueDatePropertyName = "DueDate";
@@ -37,8 +37,6 @@ namespace Heath.Lister.ViewModels.Abstract
 
         private readonly INavigationService _navigationService;
 
-        private ICommand _acceptReminder;
-        private ICommand _cancelReminder;
         private ICommand _completeCommand;
         private bool _completed;
         private DateTime _createdDate;
@@ -54,7 +52,6 @@ namespace Heath.Lister.ViewModels.Abstract
         private string _notes;
         private ICommand _pinCommand;
         private Priority _priority;
-        private ICommand _reminderCommand;
         private DateTime? _reminderDate;
         private DateTime? _reminderTime;
         private bool _selected;
@@ -75,14 +72,9 @@ namespace Heath.Lister.ViewModels.Abstract
             _navigationService = navigationService;
         }
 
-        public ICommand AcceptReminderCommand
+        public bool CanRemind
         {
-            get { return _acceptReminder ?? (_acceptReminder = new RelayCommand(AcceptReminder, CanAcceptReminder)); }
-        }
-
-        public ICommand CancelReminderCommand
-        {
-            get { return _cancelReminder ?? (_cancelReminder = new RelayCommand(CancelReminder)); }
+            get { return !Completed && !ScheduleReminderHelper.HasReminder(Id.ToString()); }
         }
 
         public ICommand CompleteCommand
@@ -97,9 +89,9 @@ namespace Heath.Lister.ViewModels.Abstract
             {
                 _completed = value;
                 RaisePropertyChanged(CompletedPropertyName);
+                RaisePropertyChanged(CanRemindPropertyName);
                 ((RelayCommand)CompleteCommand).RaiseCanExecuteChanged();
                 ((RelayCommand)IncompleteCommand).RaiseCanExecuteChanged();
-                ((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -178,7 +170,7 @@ namespace Heath.Lister.ViewModels.Abstract
             {
                 _id = value;
                 RaisePropertyChanged(IdPropertyName);
-                ((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
+                //((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -242,10 +234,13 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public ICommand ReminderCommand
-        {
-            get { return _reminderCommand ?? (_reminderCommand = new RelayCommand(Remind, CanRemind)); }
-        }
+        //public ICommand ReminderCommand
+
+        //{
+
+        //    get { return _reminderCommand ?? (_reminderCommand = new RelayCommand(Remind, CanRemind)); }
+
+        //}
 
         public DateTime? ReminderDate
         {
@@ -254,7 +249,7 @@ namespace Heath.Lister.ViewModels.Abstract
             {
                 _reminderDate = value;
                 RaisePropertyChanged(ReminderDatePropertyName);
-                ((RelayCommand)AcceptReminderCommand).RaiseCanExecuteChanged();
+                //((RelayCommand)AcceptReminderCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -265,7 +260,7 @@ namespace Heath.Lister.ViewModels.Abstract
             {
                 _reminderTime = value;
                 RaisePropertyChanged(ReminderTimePropertyName);
-                ((RelayCommand)AcceptReminderCommand).RaiseCanExecuteChanged();
+                //((RelayCommand)AcceptReminderCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -289,37 +284,32 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        private void AcceptReminder()
-        {
-            var reminderDate = ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay;
-            var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
+        //private void AcceptReminder()
+        //{
+        //    var reminderDate = ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay;
+        //    var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
 
-            ScheduleReminderHelper.AddReminder(Id.ToString(), uri, Title, Notes ?? string.Empty, reminderDate);
+        //    ScheduleReminderHelper.AddReminder(Id.ToString(), uri, Title, Notes ?? string.Empty, reminderDate);
 
-            ((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
+        //    ((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
 
-            Messenger.Default.Send(new NotificationMessage<ItemViewModelBase>(this, "ReminderCompleted"));
-        }
+        //    Messenger.Default.Send(new NotificationMessage<ItemViewModelBase>(this, "ReminderCompleted"));
+        //}
 
-        private bool CanAcceptReminder()
-        {
-            var retval = false;
+        //private bool CanAcceptReminder()
+        //{
+        //    var retval = false;
 
-            if (ReminderDate.HasValue && ReminderTime.HasValue)
-            {
-                if (ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay > DateTime.Now)
-                {
-                    retval = true;
-                }
-            }
+        //    if (ReminderDate.HasValue && ReminderTime.HasValue)
+        //    {
+        //        if (ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay > DateTime.Now)
+        //        {
+        //            retval = true;
+        //        }
+        //    }
 
-            return retval;
-        }
-
-        private void CancelReminder()
-        {
-            Messenger.Default.Send(new NotificationMessage<ItemViewModelBase>(this, "ReminderCompleted"));
-        }
+        //    return retval;
+        //}
 
         public void Complete()
         {
@@ -411,19 +401,6 @@ namespace Heath.Lister.ViewModels.Abstract
         }
 
         protected abstract void IncompleteCompleted(object sender, RunWorkerCompletedEventArgs args);
-
-        private void Remind()
-        {
-            ReminderDate = DueDate;
-            ReminderTime = DueTime;
-
-            Messenger.Default.Send(new NotificationMessage<ItemViewModelBase>(this, "ReminderRequested"));
-        }
-
-        private bool CanRemind()
-        {
-            return !Completed && !ScheduleReminderHelper.HasReminder(Id.ToString());
-        }
 
         private void Pin()
         {

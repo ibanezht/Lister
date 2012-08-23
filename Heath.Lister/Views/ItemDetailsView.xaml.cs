@@ -55,7 +55,6 @@ namespace Heath.Lister.Views
             this.AddApplicationBarIconButton(new Uri("/Images/out.png", UriKind.Relative), AppResources.CompleteText, new PropertyPath("CompleteCommand"));
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.edit.rest.png", UriKind.Relative), AppResources.EditText, new PropertyPath("EditCommand"));
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.delete.rest.png", UriKind.Relative), AppResources.DeleteText, new PropertyPath("DeleteCommand"));
-            this.AddApplicationBarMenuItem(AppResources.ItemReminderText, new PropertyPath("ReminderCommand"));
             this.AddApplicationBarMenuItem(AppResources.PinToStartText, new PropertyPath("PinCommand"));
         }
 
@@ -66,7 +65,6 @@ namespace Heath.Lister.Views
             this.AddApplicationBarIconButton(new Uri("/Images/in.png", UriKind.Relative), AppResources.IncompleteText, new PropertyPath("IncompleteCommand"));
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.edit.rest.png", UriKind.Relative), AppResources.EditText, new PropertyPath("EditCommand"));
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.delete.rest.png", UriKind.Relative), AppResources.DeleteText, new PropertyPath("DeleteCommand"));
-            this.AddApplicationBarMenuItem(AppResources.ItemReminderText, new PropertyPath("ReminderCommand"));
             this.AddApplicationBarMenuItem(AppResources.PinToStartText, new PropertyPath("PinCommand"));
         }
 

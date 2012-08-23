@@ -41,7 +41,6 @@
                 <telerikPrimitives:RadContextMenuItem Command="{Binding IncompleteCommand}" Content="{Binding LocalizedResources.IncompleteText, Source={StaticResource LocalizedStrings}}" Visibility="{Binding Completed, Converter={StaticResource TrueToVisibilityConverter}}" />
                 <telerikPrimitives:RadContextMenuItem Command="{Binding EditCommand}" Content="{Binding LocalizedResources.EditText, Source={StaticResource LocalizedStrings}}" />
                 <telerikPrimitives:RadContextMenuItem Command="{Binding DeleteCommand}" Content="{Binding LocalizedResources.DeleteText, Source={StaticResource LocalizedStrings}}" />
-                <telerikPrimitives:RadContextMenuItem Command="{Binding ReminderCommand}" Content="{Binding LocalizedResources.ItemReminderText, Source={StaticResource LocalizedStrings}}" />
                 <telerikPrimitives:RadContextMenuItem Command="{Binding PinCommand}" Content="{Binding LocalizedResources.PinToStartText, Source={StaticResource LocalizedStrings}}" />
             </telerikPrimitives:RadContextMenu>
         </telerikPrimitives:RadContextMenu.ContextMenu>
@@ -64,12 +63,12 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock x:Name="title" Style="{StaticResource PhoneTextExtraLargeStyle}" Text="{Binding Title}" />
-                <TextBlock x:Name="dueDateTime" Grid.Column="1" VerticalAlignment="Center" listerInteractivity:RadDataBoundListBoxAnimateBehavior.AnimateLevel="2" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding DueDateTime}" />
+                <TextBlock x:Name="dueDateTime" Grid.Column="1" VerticalAlignment="Center" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding DueDateTime}" />
             </Grid>
 
-            <TextBlock x:Name="notes" Margin="12,-3,12,0" listerInteractivity:RadDataBoundListBoxAnimateBehavior.AnimateLevel="1" Style="{StaticResource PhoneTextSmallStyle}" Text="{Binding Notes, TargetNullValue={StaticResource NoNotesValueProvider}}" />
+            <TextBlock x:Name="notes" Margin="12,-3,12,0" Style="{StaticResource PhoneTextSmallStyle}" Text="{Binding Notes, TargetNullValue={StaticResource NoNotesValueProvider}}" />
         </StackPanel>
 
-        <Rectangle x:Name="priority" Grid.Column="1" Width="15" Margin="0,6,0,3" Fill="{Binding Priority, Converter={StaticResource PriorityToSolidColorBrushConverter}}" listerInteractivity:RadDataBoundListBoxAnimateBehavior.AnimateLevel="2" />
+        <Rectangle x:Name="priority" Grid.Column="1" Width="15" Margin="0,6,0,3" Fill="{Binding Priority, Converter={StaticResource PriorityToSolidColorBrushConverter}}" />
     </Grid>
 </UserControl>

@@ -169,7 +169,6 @@
 
                     <interactivity:Interaction.Behaviors>
                         <telerikBehaviors:DataBoundListBoxPivotBehavior />
-                        <listerInteractivity:RadDataBoundListBoxAnimateBehavior />
                         <listerInteractivity:RadDataBoundListBoxTapBehavior MethodName="ItemTap" TargetObject="{Binding}" />
                     </interactivity:Interaction.Behaviors>
 
@@ -201,7 +200,6 @@
 
                     <interactivity:Interaction.Behaviors>
                         <telerikBehaviors:DataBoundListBoxPivotBehavior />
-                        <listerInteractivity:RadDataBoundListBoxAnimateBehavior />
                         <listerInteractivity:RadDataBoundListBoxTapBehavior MethodName="ItemTap" TargetObject="{Binding}" />
                     </interactivity:Interaction.Behaviors>
 
@@ -233,7 +231,6 @@
 
                     <interactivity:Interaction.Behaviors>
                         <telerikBehaviors:DataBoundListBoxPivotBehavior />
-                        <listerInteractivity:RadDataBoundListBoxAnimateBehavior />
                         <listerInteractivity:RadDataBoundListBoxTapBehavior MethodName="ItemTap" TargetObject="{Binding}" />
                     </interactivity:Interaction.Behaviors>
 
