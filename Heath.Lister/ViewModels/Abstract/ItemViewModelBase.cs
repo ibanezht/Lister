@@ -18,7 +18,6 @@ namespace Heath.Lister.ViewModels.Abstract
 {
     public abstract class ItemViewModelBase : ViewModelBase
     {
-        protected const string CanRemindPropertyName = "CanRemind";
         protected const string CompletedPropertyName = "Completed";
         protected const string CreatedDatePropertyName = "CreatedDate";
         protected const string DueDatePropertyName = "DueDate";
@@ -52,8 +51,6 @@ namespace Heath.Lister.ViewModels.Abstract
         private string _notes;
         private ICommand _pinCommand;
         private Priority _priority;
-        private DateTime? _reminderDate;
-        private DateTime? _reminderTime;
         private bool _selected;
         private string _title;
 
@@ -72,11 +69,6 @@ namespace Heath.Lister.ViewModels.Abstract
             _navigationService = navigationService;
         }
 
-        public bool CanRemind
-        {
-            get { return !Completed && !ScheduleReminderHelper.HasReminder(Id.ToString()); }
-        }
-
         public ICommand CompleteCommand
         {
             get { return _completeCommand ?? (_completeCommand = new RelayCommand(Complete, CanComplete)); }
@@ -89,7 +81,6 @@ namespace Heath.Lister.ViewModels.Abstract
             {
                 _completed = value;
                 RaisePropertyChanged(CompletedPropertyName);
-                RaisePropertyChanged(CanRemindPropertyName);
                 ((RelayCommand)CompleteCommand).RaiseCanExecuteChanged();
                 ((RelayCommand)IncompleteCommand).RaiseCanExecuteChanged();
             }
@@ -170,7 +161,6 @@ namespace Heath.Lister.ViewModels.Abstract
             {
                 _id = value;
                 RaisePropertyChanged(IdPropertyName);
-                //((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -231,36 +221,6 @@ namespace Heath.Lister.ViewModels.Abstract
             {
                 _priority = value;
                 RaisePropertyChanged(PriorityPropertyName);
-            }
-        }
-
-        //public ICommand ReminderCommand
-
-        //{
-
-        //    get { return _reminderCommand ?? (_reminderCommand = new RelayCommand(Remind, CanRemind)); }
-
-        //}
-
-        public DateTime? ReminderDate
-        {
-            get { return _reminderDate; }
-            set
-            {
-                _reminderDate = value;
-                RaisePropertyChanged(ReminderDatePropertyName);
-                //((RelayCommand)AcceptReminderCommand).RaiseCanExecuteChanged();
-            }
-        }
-
-        public DateTime? ReminderTime
-        {
-            get { return _reminderTime; }
-            set
-            {
-                _reminderTime = value;
-                RaisePropertyChanged(ReminderTimePropertyName);
-                //((RelayCommand)AcceptReminderCommand).RaiseCanExecuteChanged();
             }
         }
 

@@ -403,7 +403,7 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please set the date and time for your reminder. The values provided must be in the future to continue..
+        ///   Looks up a localized string similar to There was a problem with your reminder. Either the Reminder Date or Reminder Time values weren&apos;t set or they weren&apos;t in the future. Continue with the save without the reminder?.
         /// </summary>
         public static string ReminderMessageText {
             get {
@@ -412,7 +412,7 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reminder.
+        ///   Looks up a localized string similar to reminder.
         /// </summary>
         public static string ReminderText {
             get {
@@ -444,6 +444,15 @@ namespace Heath.Lister.Localization {
         public static string SelectText {
             get {
                 return ResourceManager.GetString("SelectText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Set Reminder.
+        /// </summary>
+        public static string SetReminderText {
+            get {
+                return ResourceManager.GetString("SetReminderText", resourceCulture);
             }
         }
         

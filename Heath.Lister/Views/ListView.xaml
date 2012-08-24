@@ -9,13 +9,14 @@
     xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
     xmlns:listerInteractivity="clr-namespace:Heath.Lister.Infrastructure.Interactivity;assembly=Heath.Lister.Infrastructure" 
     xmlns:listerViews="clr-namespace:Heath.Lister.Views" 
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
     xmlns:telerikBehaviors="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Behaviors" 
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" 
     xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input" 
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" 
+    xmlns:telerikToggleSwitch="clr-namespace:Telerik.Windows.Controls.ToggleSwitch;assembly=Telerik.Windows.Controls.Primitives" 
     d:DesignHeight="768" d:DesignWidth="480" 
     DataContext="{Binding List, Source={StaticResource Locator}}" 
     shell:SystemTray.IsVisible="True" 
@@ -115,7 +116,7 @@
 
                 <TextBlock Margin="0,0,12,0" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding ApplicationTitle}" />
 
-                <telerikPrimitives:RadPickerBox Grid.Column="1" Margin="0,0,10,12" HorizontalAlignment="Right" Content="{Binding SortTitle}" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeNormal}" Foreground="{Binding Color.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" PopupContent="{Binding ListSort}" Style="{StaticResource RadPickerBoxStyle}">
+                <telerikPrimitives:RadPickerBox Grid.Column="1" Margin="0,0,10,15" HorizontalAlignment="Right" Content="{Binding SortTitle}" FontFamily="{StaticResource PhoneFontFamilyNormal}" FontSize="{StaticResource PhoneFontSizeNormal}" Foreground="{Binding Color.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" PopupContent="{Binding ListSort}" Style="{StaticResource RadPickerBoxStyle}">
                     <telerikPrimitives:RadPickerBox.ApplicationBarInfo>
                         <telerikPrimitives:ApplicationBarInfo>
                             <telerikPrimitives:ApplicationBarButton IconUri="/Images/DateTimePickerOK.png" Text="done" />
@@ -129,7 +130,13 @@
                                 <StackPanel Margin="12,55,12,0">
                                     <telerikInput:RadListPicker Header="{Binding LocalizedResources.SortByText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemsSource="{Binding ListSortBy, Converter={StaticResource EnumValuesConverter}}" ItemTemplate="{StaticResource ListSortByDataTemplate}" SelectedItem="{Binding ListSortBy, Mode=TwoWay}" />
                                     <telerikInput:RadListPicker Margin="12,24,12,12" Header="{Binding LocalizedResources.DirectionText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemsSource="{Binding ListSortDirection, Converter={StaticResource EnumValuesConverter}}" ItemTemplate="{StaticResource ListSortDirectionDataTemplate}" SelectedItem="{Binding ListSortDirection, Mode=TwoWay}" />
-                                    <telerikPrimitives:RadToggleSwitch Margin="12,24,12,12" VerticalAlignment="Top" Header="{Binding LocalizedResources.HideCompletedText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" IsChecked="{Binding HideCompleted, Mode=TwoWay}" />
+                                    <telerikPrimitives:RadToggleSwitch Margin="12,24,12,12" VerticalAlignment="Top" Header="{Binding LocalizedResources.HideCompletedText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" IsChecked="{Binding HideCompleted, Mode=TwoWay}">
+                                        <telerikPrimitives:RadToggleSwitch.ButtonStyle>
+                                            <Style TargetType="telerikToggleSwitch:ToggleSwitchButton">
+                                                <Setter Property="Background" Value="{StaticResource PhoneChromeBrush}" />
+                                            </Style>
+                                        </telerikPrimitives:RadToggleSwitch.ButtonStyle>
+                                    </telerikPrimitives:RadToggleSwitch>
                                 </StackPanel>
                             </Grid>
                         </DataTemplate>

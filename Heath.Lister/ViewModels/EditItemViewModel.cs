@@ -6,11 +6,13 @@ using System.ComponentModel;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Threading;
+using Heath.Lister.Configuration;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Models;
 using Heath.Lister.Infrastructure.ViewModels;
 using Heath.Lister.Localization;
 using Heath.Lister.ViewModels.Abstract;
+using Telerik.Windows.Controls;
 using Color = System.Windows.Media.Color;
 
 #endregion
@@ -20,6 +22,7 @@ namespace Heath.Lister.ViewModels
     public class EditItemViewModel : ItemViewModelBase, IHaveListId, IPageViewModel
     {
         private const string PageNamePropertyName = "PageName";
+        private const string ReminderPropertyName = "Reminder";
 
         private readonly INavigationService _navigationService;
 
@@ -27,6 +30,9 @@ namespace Heath.Lister.ViewModels
         private ICommand _clearDateCommand;
         private ICommand _clearTimeCommand;
         private string _pageName;
+        private bool _reminder;
+        private DateTime? _reminderDate;
+        private DateTime? _reminderTime;
         private ICommand _saveCommand;
 
         public EditItemViewModel(INavigationService navigationService)
@@ -42,6 +48,11 @@ namespace Heath.Lister.ViewModels
         public ICommand CancelCommand
         {
             get { return _cancelCommand ?? (_cancelCommand = new RelayCommand(Cancel)); }
+        }
+
+        public bool CanRemind
+        {
+            get { return !Completed && !ScheduleReminderHelper.HasReminder(Id.ToString()); }
         }
 
         public ICommand ClearDateCommand
@@ -61,6 +72,36 @@ namespace Heath.Lister.ViewModels
             {
                 _pageName = value;
                 RaisePropertyChanged(PageNamePropertyName);
+            }
+        }
+
+        public bool Reminder
+        {
+            get { return _reminder; }
+            set
+            {
+                _reminder = value;
+                RaisePropertyChanged(ReminderPropertyName);
+            }
+        }
+
+        public DateTime? ReminderDate
+        {
+            get { return _reminderDate; }
+            set
+            {
+                _reminderDate = value;
+                RaisePropertyChanged(ReminderDatePropertyName);
+            }
+        }
+
+        public DateTime? ReminderTime
+        {
+            get { return _reminderTime; }
+            set
+            {
+                _reminderTime = value;
+                RaisePropertyChanged(ReminderTimePropertyName);
             }
         }
 
@@ -197,17 +238,54 @@ namespace Heath.Lister.ViewModels
 
         private void Save()
         {
-            var backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork +=
-                (sender, args) =>
+            Action save =
+                () =>
                 {
-                    using (var data = new DataAccess())
-                        data.UpsertItem(Id, ListId, Completed, DueDate, DueTime, Notes, Priority, Title);
+                    var backgroundWorker = new BackgroundWorker();
+                    backgroundWorker.DoWork +=
+                        (sender, args) =>
+                        {
+                            using (var data = new DataAccess())
+                                data.UpsertItem(Id, ListId, Completed, DueDate, DueTime, Notes, Priority, Title);
 
-                    DispatcherHelper.UIDispatcher.BeginInvoke(UpdatePin);
+                            DispatcherHelper.UIDispatcher.BeginInvoke(UpdatePin);
+                        };
+                    backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
+                    backgroundWorker.RunWorkerAsync();
                 };
-            backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
-            backgroundWorker.RunWorkerAsync();
+
+            Action<MessageBoxClosedEventArgs> closedHandler =
+                e =>
+                {
+                    if (e.Result != DialogResult.OK)
+                        return;
+
+                    save();
+                };
+
+            if (!Reminder)
+                save();
+
+            else
+            {
+                if (!ReminderDate.HasValue || !ReminderTime.HasValue) 
+                    RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.YesNo, AppResources.ReminderMessageText, closedHandler: closedHandler);
+                
+                else
+                {
+                    var reminderDate = ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay;
+
+                    if (reminderDate <= DateTime.Now) 
+                        RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.YesNo, AppResources.ReminderMessageText, closedHandler: closedHandler);
+                    
+                    else
+                    {
+                        var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
+
+                        ScheduleReminderHelper.AddReminder(Id.ToString(), uri, Title, Notes ?? string.Empty, reminderDate);
+                    }
+                }
+            }
         }
 
         private bool CanSave()

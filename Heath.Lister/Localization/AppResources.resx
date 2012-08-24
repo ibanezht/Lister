@@ -184,7 +184,7 @@
     <value>delete</value>
   </data>
   <data name="ReminderMessageText" xml:space="preserve">
-    <value>Please set the date and time for your reminder. The values provided must be in the future to continue.</value>
+    <value>There was a problem with your reminder. Either the Reminder Date or Reminder Time values weren't set or they weren't in the future. Continue with the save without the reminder?</value>
   </data>
   <data name="TileColorText" xml:space="preserve">
     <value>Tile Color</value>
@@ -279,7 +279,10 @@
   <data name="SortedByText" xml:space="preserve">
     <value>SORTED BY</value>
   </data>
+  <data name="SetReminderText" xml:space="preserve">
+    <value>Set Reminder</value>
+  </data>
   <data name="ReminderText" xml:space="preserve">
-    <value>Reminder</value>
+    <value>reminder</value>
   </data>
 </root>
