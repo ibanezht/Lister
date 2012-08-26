@@ -238,15 +238,24 @@ namespace Heath.Lister.ViewModels
 
         private void Save()
         {
-            Action save =
-                () =>
+            Action<DateTime?> save =
+                r =>
                 {
                     var backgroundWorker = new BackgroundWorker();
                     backgroundWorker.DoWork +=
                         (sender, args) =>
                         {
+                            Item item;
+
                             using (var data = new DataAccess())
-                                data.UpsertItem(Id, ListId, Completed, DueDate, DueTime, Notes, Priority, Title);
+                                item = data.UpsertItem(Id, ListId, Completed, DueDate, DueTime, Notes, Priority, Title);
+
+                            if (r.HasValue)
+                            {
+                                var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", item.Id, ListId), UriKind.Relative));
+
+                                ScheduleReminderHelper.AddReminder(item.Id.ToString(), uri, Title, Notes ?? string.Empty, r.Value);
+                            }
 
                             DispatcherHelper.UIDispatcher.BeginInvoke(UpdatePin);
                         };
@@ -260,30 +269,26 @@ namespace Heath.Lister.ViewModels
                     if (e.Result != DialogResult.OK)
                         return;
 
-                    save();
+                    save(null);
                 };
 
             if (!Reminder)
-                save();
+                save(null);
 
             else
             {
-                if (!ReminderDate.HasValue || !ReminderTime.HasValue) 
+                if (!ReminderDate.HasValue || !ReminderTime.HasValue)
                     RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.YesNo, AppResources.ReminderMessageText, closedHandler: closedHandler);
-                
+
                 else
                 {
                     var reminderDate = ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay;
 
-                    if (reminderDate <= DateTime.Now) 
+                    if (reminderDate <= DateTime.Now)
                         RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.YesNo, AppResources.ReminderMessageText, closedHandler: closedHandler);
-                    
-                    else
-                    {
-                        var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
 
-                        ScheduleReminderHelper.AddReminder(Id.ToString(), uri, Title, Notes ?? string.Empty, reminderDate);
-                    }
+                    else
+                        save(reminderDate);
                 }
             }
         }

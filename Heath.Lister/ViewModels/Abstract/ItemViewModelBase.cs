@@ -244,33 +244,6 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        //private void AcceptReminder()
-        //{
-        //    var reminderDate = ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay;
-        //    var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
-
-        //    ScheduleReminderHelper.AddReminder(Id.ToString(), uri, Title, Notes ?? string.Empty, reminderDate);
-
-        //    ((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
-
-        //    Messenger.Default.Send(new NotificationMessage<ItemViewModelBase>(this, "ReminderCompleted"));
-        //}
-
-        //private bool CanAcceptReminder()
-        //{
-        //    var retval = false;
-
-        //    if (ReminderDate.HasValue && ReminderTime.HasValue)
-        //    {
-        //        if (ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay > DateTime.Now)
-        //        {
-        //            retval = true;
-        //        }
-        //    }
-
-        //    return retval;
-        //}
-
         public void Complete()
         {
             Completed = true;
