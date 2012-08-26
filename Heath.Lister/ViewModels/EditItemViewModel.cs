@@ -263,20 +263,20 @@ namespace Heath.Lister.ViewModels
                     backgroundWorker.RunWorkerAsync();
                 };
 
-            Action<MessageBoxClosedEventArgs> closedHandler =
-                e =>
-                {
-                    if (e.Result != DialogResult.OK)
-                        return;
-
-                    save(null);
-                };
-
             if (!Reminder)
                 save(null);
 
             else
             {
+                Action<MessageBoxClosedEventArgs> closedHandler =
+                    e =>
+                    {
+                        if (e.Result != DialogResult.OK)
+                            return;
+
+                        save(null);
+                    };
+
                 if (!ReminderDate.HasValue || !ReminderTime.HasValue)
                     RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.YesNo, AppResources.ReminderMessageText, closedHandler: closedHandler);
 
@@ -284,11 +284,11 @@ namespace Heath.Lister.ViewModels
                 {
                     var reminderDate = ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay;
 
-                    if (reminderDate <= DateTime.Now)
-                        RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.YesNo, AppResources.ReminderMessageText, closedHandler: closedHandler);
-
-                    else
+                    if (reminderDate > DateTime.Now) 
                         save(reminderDate);
+                    
+                    else 
+                        RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.YesNo, AppResources.ReminderMessageText, closedHandler: closedHandler);
                 }
             }
         }

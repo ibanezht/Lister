@@ -264,7 +264,6 @@ namespace Heath.Lister.ViewModels
         private void LoadLists()
         {
             IEnumerable<ListItemViewModel> sortedList = new List<ListItemViewModel>(_listItems);
-            var today = DateTime.Now.Date;
             var sortTitleBuilder = new StringBuilder();
 
             sortTitleBuilder.AppendFormat("{0} ", AppResources.SortedByText);
@@ -334,6 +333,8 @@ namespace Heath.Lister.ViewModels
 
                 sortTitleBuilder.AppendFormat(", {0}", AppResources.SortDescendingText);
             }
+
+            var today = DateTime.Now.Date;
 
             sortedList.ForEach(AllListItems.Add);
             sortedList.Where(li => li.DueDate.HasValue && li.DueDate.Value.Date == today).ForEach(TodayListItems.Add);
