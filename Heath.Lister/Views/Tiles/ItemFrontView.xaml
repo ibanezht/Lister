@@ -7,7 +7,7 @@
     Width="173" Height="173" 
     mc:Ignorable="d">
 
-    <Grid Background="{Binding ListColor.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" d:DataContext="{d:DesignData /SampleData/ListItemViewModelSampleData.xaml}">
+    <Grid Background="{Binding Priority, Converter={StaticResource PriorityToSolidColorBrushConverter}}" d:DataContext="{d:DesignData /SampleData/ListItemViewModelSampleData.xaml}">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />

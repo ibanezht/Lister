@@ -30,8 +30,10 @@ namespace Heath.Lister.ViewModels
 
         private readonly Func<ListItemViewModel> _createListItem;
         private readonly List<ListItemViewModel> _listItems = new List<ListItemViewModel>();
+
         private readonly Setting<ListSortViewModel> _listSortSetting
             = new Setting<ListSortViewModel>("ListSort", new ListSortViewModel());
+
         private readonly INavigationService _navigationService;
 
         private ICommand _addCommand;
