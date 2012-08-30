@@ -1,7 +1,6 @@
 ﻿#region usings
 
 using System.ComponentModel;
-using Heath.Lister.Infrastructure;
 
 #endregion
 

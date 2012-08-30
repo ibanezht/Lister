@@ -284,10 +284,10 @@ namespace Heath.Lister.ViewModels
                 {
                     var reminderDate = ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay;
 
-                    if (reminderDate > DateTime.Now) 
+                    if (reminderDate > DateTime.Now)
                         save(reminderDate);
-                    
-                    else 
+
+                    else
                         RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.YesNo, AppResources.ReminderMessageText, closedHandler: closedHandler);
                 }
             }
