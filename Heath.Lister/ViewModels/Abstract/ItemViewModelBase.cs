@@ -281,6 +281,11 @@ namespace Heath.Lister.ViewModels.Abstract
                                 data.DeleteItem(Id);
 
                             ScheduleReminderHelper.RemoveReminder(Id.ToString());
+
+                            // TODO: need a base property for URI; 'new Uri' is duplicated 4 times in this class...
+                            var shellTile = LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative)));
+                            if (shellTile != null)
+                                shellTile.Delete();
                         };
                     backgroundWorker.RunWorkerCompleted += DeleteCompleted;
                     backgroundWorker.RunWorkerAsync();
