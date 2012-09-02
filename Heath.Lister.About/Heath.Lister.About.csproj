@@ -50,9 +50,9 @@
     <Reference Include="mscorlib.extensions" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Xml.Linq" />
-    <Reference Include="Telerik.Windows.Core, Version=2012.2.801.2040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+    <Reference Include="Telerik.Windows.Core, Version=2012.2.829.2040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Users\Heath\AppData\Roaming\Telerik\Updates\RadControls_for_WindowsPhone_2012_2_0801_DEV_hotfix\Binaries\WindowsPhone\Telerik.Windows.Core.dll</HintPath>
+      <HintPath>C:\Users\Heath\AppData\Roaming\Telerik\Updates\02291RadControls_for_WindowsPhone_2012_2_0829_DEV_hotfix_LIB\Binaries\WindowsPhone\Telerik.Windows.Core.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
