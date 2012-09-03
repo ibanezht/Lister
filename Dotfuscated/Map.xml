@@ -2,7 +2,7 @@
 <!DOCTYPE dotfuscatorMap SYSTEM "http://www.preemptive.com/dotfuscator/dtd/dotfuscatorMap_v1.2.dtd">
 <dotfuscatorMap version="1.1">
     <header>
-        <timestamp>2012-09-02T11:15:24</timestamp>
+        <timestamp>2012-09-03T08:03:57</timestamp>
         <product version="4.9.7000.29303" user="Matthew Turnage" serial="140748-391-5992CCEE-B1AC3664-C44E2EAD-041C0ACC">Dotfuscator Windows Phone Edition</product>
     </header>
     <mapping>
@@ -4597,20 +4597,24 @@
                     <method>
                         <signature>System.Data.Linq.Table`1&lt;Heath.Lister.Infrastructure.Models.Color&gt;()</signature>
                         <name>get_Colors</name>
+                        <newname>c</newname>
                     </method>
                     <method>
                         <signature>System.Data.Linq.Table`1&lt;Heath.Lister.Infrastructure.Models.Item&gt;()</signature>
                         <name>get_Items</name>
+                        <newname>b</newname>
                     </method>
                     <method>
                         <signature>System.Data.Linq.Table`1&lt;Heath.Lister.Infrastructure.Models.List&gt;()</signature>
                         <name>get_Lists</name>
+                        <newname>a</newname>
                     </method>
                 </methodlist>
                 <fieldlist>
                     <field>
                         <signature>string</signature>
                         <name>ConnectionString</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist>
@@ -4651,6 +4655,7 @@
                     <method>
                         <signature>void(bool)</signature>
                         <name>Dispose</name>
+                        <newname>a</newname>
                     </method>
                     <method>
                         <signature>void()</signature>
@@ -4701,10 +4706,12 @@
                     <field>
                         <signature>Heath.Lister.Infrastructure.Data</signature>
                         <name>_data</name>
+                        <newname>a</newname>
                     </field>
                     <field>
                         <signature>bool</signature>
                         <name>_disposed</name>
+                        <newname>b</newname>
                     </field>
                 </fieldlist>
                 <propertylist />
@@ -4712,6 +4719,7 @@
             </type>
             <type>
                 <name>Heath.Lister.Infrastructure.DataAccess/&lt;&gt;c__DisplayClass11</name>
+                <newname>Heath.Lister.Infrastructure.DataAccess/d</newname>
                 <methodlist>
                     <method>
                         <signature>void()</signature>
@@ -4722,6 +4730,7 @@
                     <field>
                         <signature>System.Guid</signature>
                         <name>id</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist />
@@ -4729,6 +4738,7 @@
             </type>
             <type>
                 <name>Heath.Lister.Infrastructure.DataAccess/&lt;&gt;c__DisplayClass13</name>
+                <newname>Heath.Lister.Infrastructure.DataAccess/e</newname>
                 <methodlist>
                     <method>
                         <signature>void()</signature>
@@ -4739,6 +4749,7 @@
                     <field>
                         <signature>System.Guid</signature>
                         <name>id</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist />
@@ -4746,6 +4757,7 @@
             </type>
             <type>
                 <name>Heath.Lister.Infrastructure.DataAccess/&lt;&gt;c__DisplayClass15</name>
+                <newname>Heath.Lister.Infrastructure.DataAccess/c</newname>
                 <methodlist>
                     <method>
                         <signature>void()</signature>
@@ -4756,10 +4768,12 @@
                     <field>
                         <signature>System.Guid</signature>
                         <name>id</name>
+                        <newname>a</newname>
                     </field>
                     <field>
                         <signature>System.Guid</signature>
                         <name>listId</name>
+                        <newname>b</newname>
                     </field>
                 </fieldlist>
                 <propertylist />
@@ -4767,6 +4781,7 @@
             </type>
             <type>
                 <name>Heath.Lister.Infrastructure.DataAccess/&lt;&gt;c__DisplayClass17</name>
+                <newname>Heath.Lister.Infrastructure.DataAccess/f</newname>
                 <methodlist>
                     <method>
                         <signature>void()</signature>
@@ -4777,6 +4792,7 @@
                     <field>
                         <signature>System.Guid</signature>
                         <name>id</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist />
@@ -4784,6 +4800,7 @@
             </type>
             <type>
                 <name>Heath.Lister.Infrastructure.DataAccess/&lt;&gt;c__DisplayClass19</name>
+                <newname>Heath.Lister.Infrastructure.DataAccess/g</newname>
                 <methodlist>
                     <method>
                         <signature>void()</signature>
@@ -4794,6 +4811,7 @@
                     <field>
                         <signature>System.Guid</signature>
                         <name>id</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist />
@@ -4801,6 +4819,7 @@
             </type>
             <type>
                 <name>Heath.Lister.Infrastructure.DataAccess/&lt;&gt;c__DisplayClassd</name>
+                <newname>Heath.Lister.Infrastructure.DataAccess/a</newname>
                 <methodlist>
                     <method>
                         <signature>void()</signature>
@@ -4811,6 +4830,7 @@
                     <field>
                         <signature>System.Guid</signature>
                         <name>id</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist />
@@ -4818,6 +4838,7 @@
             </type>
             <type>
                 <name>Heath.Lister.Infrastructure.DataAccess/&lt;&gt;c__DisplayClassf</name>
+                <newname>Heath.Lister.Infrastructure.DataAccess/b</newname>
                 <methodlist>
                     <method>
                         <signature>void()</signature>
@@ -4828,10 +4849,12 @@
                     <field>
                         <signature>System.Guid</signature>
                         <name>colorId</name>
+                        <newname>b</newname>
                     </field>
                     <field>
                         <signature>System.Guid</signature>
                         <name>id</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist />
@@ -4853,6 +4876,7 @@
                     <field>
                         <signature>Ninject.IKernel</signature>
                         <name>_instance</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist>
@@ -4873,10 +4897,12 @@
                     <method>
                         <signature>bool(System.Reflection.FieldInfo)</signature>
                         <name>&lt;GetValues&gt;b__0</name>
+                        <newname>b</newname>
                     </method>
                     <method>
                         <signature>object(System.Reflection.FieldInfo)</signature>
                         <name>&lt;GetValues&gt;b__1</name>
+                        <newname>a</newname>
                     </method>
                     <method>
                         <signature>object[](System.Type)</signature>
@@ -4887,14 +4913,17 @@
                     <field>
                         <signature>System.Collections.Generic.IDictionary`2&lt;System.Type,object[]&gt;</signature>
                         <name>_cache</name>
+                        <newname>a</newname>
                     </field>
                     <field>
                         <signature>System.Func`2&lt;System.Reflection.FieldInfo,bool&gt;</signature>
                         <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate2</name>
+                        <newname>b</newname>
                     </field>
                     <field>
                         <signature>System.Func`2&lt;System.Reflection.FieldInfo,object&gt;</signature>
                         <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate3</name>
+                        <newname>c</newname>
                     </field>
                 </fieldlist>
                 <propertylist />
@@ -4979,14 +5008,17 @@
                     <method>
                         <signature>bool(Microsoft.Phone.Shell.IApplicationBarMenuItem)</signature>
                         <name>&lt;CreateBinding&gt;b__0</name>
+                        <newname>a</newname>
                     </method>
                     <method>
                         <signature>object()</signature>
                         <name>&lt;CreateBinding&gt;b__1</name>
+                        <newname>a</newname>
                     </method>
                     <method>
                         <signature>void()</signature>
                         <name>CreateBinding</name>
+                        <newname>b</newname>
                     </method>
                     <method>
                         <signature>string()</signature>
@@ -5021,10 +5053,12 @@
                     <field>
                         <signature>Heath.Lister.Infrastructure.Interactivity.ApplicationBarMenuItemBehavior/ClickCommandBinding</signature>
                         <name>_binding</name>
+                        <newname>c</newname>
                     </field>
                     <field>
                         <signature>string</signature>
                         <name>&lt;ButtonText&gt;k__BackingField</name>
+                        <newname>d</newname>
                     </field>
                     <field>
                         <signature>System.Windows.DependencyProperty</signature>
@@ -5033,6 +5067,7 @@
                     <field>
                         <signature>string</signature>
                         <name>CommandParameterPropertyName</name>
+                        <newname>b</newname>
                     </field>
                     <field>
                         <signature>System.Windows.DependencyProperty</signature>
@@ -5041,6 +5076,7 @@
                     <field>
                         <signature>string</signature>
                         <name>CommandPropertyName</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist>
@@ -5061,6 +5097,7 @@
             </type>
             <type>
                 <name>Heath.Lister.Infrastructure.Interactivity.ApplicationBarMenuItemBehavior/ClickCommandBinding</name>
+                <newname>Heath.Lister.Infrastructure.Interactivity.ApplicationBarMenuItemBehavior/a</newname>
                 <methodlist>
                     <method>
                         <signature>void(Microsoft.Phone.Shell.IApplicationBarMenuItem, System.Windows.Input.ICommand, System.Func`1&lt;object&gt;)</signature>
@@ -5069,24 +5106,29 @@
                     <method>
                         <signature>void(object, System.EventArgs)</signature>
                         <name>&lt;.ctor&gt;b__2</name>
+                        <newname>b</newname>
                     </method>
                     <method>
                         <signature>void(object, System.EventArgs)</signature>
                         <name>&lt;.ctor&gt;b__3</name>
+                        <newname>a</newname>
                     </method>
                 </methodlist>
                 <fieldlist>
                     <field>
                         <signature>Microsoft.Phone.Shell.IApplicationBarMenuItem</signature>
                         <name>_applicationBarMenuItem</name>
+                        <newname>a</newname>
                     </field>
                     <field>
                         <signature>System.Windows.Input.ICommand</signature>
                         <name>_command</name>
+                        <newname>b</newname>
                     </field>
                     <field>
                         <signature>System.Func`1&lt;object&gt;</signature>
                         <name>_parameterGetter</name>
+                        <newname>c</newname>
                     </field>
                 </fieldlist>
                 <propertylist />
@@ -5110,6 +5152,7 @@
                     <method>
                         <signature>void(object, System.Windows.RoutedEventArgs)</signature>
                         <name>OnLoaded</name>
+                        <newname>a</newname>
                     </method>
                 </methodlist>
                 <fieldlist />
@@ -5130,6 +5173,7 @@
                     <method>
                         <signature>void()</signature>
                         <name>EnsureMethodInfo</name>
+                        <newname>a</newname>
                     </method>
                     <method>
                         <signature>string()</signature>
@@ -5142,14 +5186,17 @@
                     <method>
                         <signature>void(object, Telerik.Windows.Controls.IsCheckModeActiveChangedEventArgs)</signature>
                         <name>IsCheckModeActiveChanged</name>
+                        <newname>a</newname>
                     </method>
                     <method>
                         <signature>void(object, Telerik.Windows.Controls.IsCheckModeActiveChangingEventArgs)</signature>
                         <name>IsCheckModeActiveChanging</name>
+                        <newname>a</newname>
                     </method>
                     <method>
                         <signature>void(object, Telerik.Windows.Controls.ListBoxItemTapEventArgs)</signature>
                         <name>ItemTap</name>
+                        <newname>a</newname>
                     </method>
                     <method>
                         <signature>void()</signature>
@@ -5166,16 +5213,19 @@
                     <method>
                         <signature>void(System.Windows.DependencyObject, System.Windows.DependencyPropertyChangedEventArgs)</signature>
                         <name>TargetChanged</name>
+                        <newname>a</newname>
                     </method>
                 </methodlist>
                 <fieldlist>
                     <field>
                         <signature>bool</signature>
                         <name>_canTap</name>
+                        <newname>c</newname>
                     </field>
                     <field>
                         <signature>System.Reflection.MethodInfo</signature>
                         <name>_methodInfo</name>
+                        <newname>d</newname>
                     </field>
                     <field>
                         <signature>System.Windows.DependencyProperty</signature>
@@ -5184,6 +5234,7 @@
                     <field>
                         <signature>string</signature>
                         <name>MethodNamePropertyName</name>
+                        <newname>a</newname>
                     </field>
                     <field>
                         <signature>System.Windows.DependencyProperty</signature>
@@ -5192,6 +5243,7 @@
                     <field>
                         <signature>string</signature>
                         <name>TargetPropertyName</name>
+                        <newname>b</newname>
                     </field>
                 </fieldlist>
                 <propertylist>
@@ -5224,12 +5276,14 @@
                     <method>
                         <signature>void(object, System.EventArgs)</signature>
                         <name>TextChanged</name>
+                        <newname>a</newname>
                     </method>
                 </methodlist>
                 <fieldlist>
                     <field>
                         <signature>System.Windows.Data.BindingExpression</signature>
                         <name>_expression</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist />
@@ -5824,6 +5878,7 @@
                     <field>
                         <signature>Microsoft.Phone.Controls.PhoneApplicationFrame</signature>
                         <name>_frame</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist />
@@ -5845,6 +5900,7 @@
                     <field>
                         <signature>Telerik.Windows.Controls.RadRateApplicationReminder</signature>
                         <name>_radRateApplicationReminder</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist />
@@ -5894,18 +5950,22 @@
                     <field>
                         <signature>!0</signature>
                         <name>_defaultValue</name>
+                        <newname>a</newname>
                     </field>
                     <field>
                         <signature>bool</signature>
                         <name>_hasValue</name>
+                        <newname>c</newname>
                     </field>
                     <field>
                         <signature>string</signature>
                         <name>_name</name>
+                        <newname>b</newname>
                     </field>
                     <field>
                         <signature>!0</signature>
                         <name>_value</name>
+                        <newname>d</newname>
                     </field>
                 </fieldlist>
                 <propertylist>
@@ -5941,6 +6001,7 @@
                     <field>
                         <signature>System.Collections.Generic.IDictionary`2&lt;string,object&gt;</signature>
                         <name>_state</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist />
@@ -5966,10 +6027,12 @@
                     <field>
                         <signature>bool</signature>
                         <name>_hasBeenNotified</name>
+                        <newname>b</newname>
                     </field>
                     <field>
                         <signature>Telerik.Windows.Controls.RadTrialApplicationReminder</signature>
                         <name>_radTrialApplicationReminder</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist>
@@ -6012,6 +6075,7 @@
                     <field>
                         <signature>string</signature>
                         <name>ValuePropertyName</name>
+                        <newname>a</newname>
                     </field>
                 </fieldlist>
                 <propertylist>
@@ -6109,18 +6173,18 @@
         </statisticline>
         <statisticline>
             <description>Total Classes Renamed</description>
-            <statistic>14</statistic>
-            <statistic>15.56 %</statistic>
+            <statistic>22</statistic>
+            <statistic>24.44 %</statistic>
         </statisticline>
         <statisticline>
             <description>Total Methods Renamed</description>
-            <statistic>144</statistic>
-            <statistic>20.66 %</statistic>
+            <statistic>162</statistic>
+            <statistic>23.24 %</statistic>
         </statisticline>
         <statisticline>
             <description>Total Fields Renamed</description>
-            <statistic>167</statistic>
-            <statistic>52.85 %</statistic>
+            <statistic>205</statistic>
+            <statistic>64.87 %</statistic>
         </statisticline>
         <statisticline>
             <description>Total Properties Renamed</description>
@@ -6134,18 +6198,18 @@
         </statisticline>
         <statisticline>
             <description>Methods Renamed to 'a'</description>
-            <statistic>60</statistic>
-            <statistic>8.61 %</statistic>
+            <statistic>73</statistic>
+            <statistic>10.47 %</statistic>
         </statisticline>
         <statisticline>
             <description>Methods Renamed to 'b'</description>
-            <statistic>29</statistic>
-            <statistic>4.16 %</statistic>
+            <statistic>33</statistic>
+            <statistic>4.73 %</statistic>
         </statisticline>
         <statisticline>
             <description>Methods Renamed to 'c'</description>
-            <statistic>22</statistic>
-            <statistic>3.16 %</statistic>
+            <statistic>23</statistic>
+            <statistic>3.30 %</statistic>
         </statisticline>
         <statisticline>
             <description>Methods Renamed to 'd'</description>
