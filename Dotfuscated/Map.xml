@@ -2,7 +2,7 @@
 <!DOCTYPE dotfuscatorMap SYSTEM "http://www.preemptive.com/dotfuscator/dtd/dotfuscatorMap_v1.2.dtd">
 <dotfuscatorMap version="1.1">
     <header>
-        <timestamp>2012-09-03T08:03:57</timestamp>
+        <timestamp>2012-09-05T06:23:31</timestamp>
         <product version="4.9.7000.29303" user="Matthew Turnage" serial="140748-391-5992CCEE-B1AC3664-C44E2EAD-041C0ACC">Dotfuscator Windows Phone Edition</product>
     </header>
     <mapping>
