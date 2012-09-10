@@ -3,24 +3,28 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
 using GalaSoft.MvvmLight.Messaging;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Infrastructure.ViewModels;
+using Telerik.Windows.Controls;
+using ViewModelBase = GalaSoft.MvvmLight.ViewModelBase;
 
 #endregion
 
 namespace Heath.Lister.ViewModels
 {
-    public class HubViewModel : ViewModelBase, IViewModel
+    public class HubViewModel : ViewModelBase, IPageViewModel
     {
         private readonly Func<HubItemViewModel> _createHubItem;
         private readonly INavigationService _navigationService;
+
+        private ICommand _aboutCommand;
+        private ICommand _addCommand;
+        private ICommand _itemTappedCommand;
 
         public HubViewModel(Func<HubItemViewModel> createHubItem, INavigationService navigationService)
         {
@@ -28,10 +32,6 @@ namespace Heath.Lister.ViewModels
             _navigationService = navigationService;
 
             ApplicationTitle = "LISTER";
-
-            AboutCommand = new RelayCommand(About);
-            AddCommand = new RelayCommand(Add, () => !TrialReminderHelper.IsTrialExpired);
-            ItemTappedCommand = new RelayCommand<GestureEventArgs>(ItemTapped);
 
             Messenger.Default.Register<NotificationMessage<HubItemViewModel>>(
                 this, nm =>
@@ -47,19 +47,34 @@ namespace Heath.Lister.ViewModels
 
         public ObservableCollection<HubItemViewModel> HubItems { get; private set; }
 
-        public ICommand AboutCommand { get; private set; }
+        public ICommand AboutCommand
+        {
+            get { return _aboutCommand ?? (_aboutCommand = new RelayCommand(About)); }
+        }
 
-        public ICommand AddCommand { get; private set; }
+        public ICommand AddCommand
+        {
+            get { return _addCommand ?? (_addCommand = new RelayCommand(Add, CanAdd)); }
+        }
 
-        public ICommand ItemTappedCommand { get; private set; }
+        public ICommand ItemTappedCommand
+        {
+            get { return _itemTappedCommand ?? (_itemTappedCommand = new RelayCommand<ListBoxItemTapEventArgs>(ItemTapped)); }
+        }
 
-        #region IViewModel Members
+        #region IPageViewModel Members
 
         public void Activate()
         {
+            if (App.RemoveBackEntry)
+            {
+                _navigationService.RemoveBackEntry();
+                App.RemoveBackEntry = false;
+            }
+
             HubItems.Clear();
 
-            using (var data = new ListerData())
+            using (var data = new DataAccess())
             {
                 data.GetLists().OrderBy(l => l.CreatedDate).ForEach(
                     l =>
@@ -82,6 +97,12 @@ namespace Heath.Lister.ViewModels
 
         public void Deactivate(bool isNavigationInitiator) {}
 
+        public void ViewReady()
+        {
+            RateReminderHelper.Notify();
+            TrialReminderHelper.Notify();
+        }
+
         #endregion
 
         private void About()
@@ -94,11 +115,16 @@ namespace Heath.Lister.ViewModels
             _navigationService.Navigate(new Uri(string.Format("/EditList/{0}", Guid.Empty), UriKind.Relative));
         }
 
-        private void ItemTapped(GestureEventArgs e)
+        private static bool CanAdd()
         {
-            var hubItemViewModel = ((FrameworkElement)e.OriginalSource).DataContext as HubItemViewModel;
-            if (hubItemViewModel != null)
-                _navigationService.Navigate(new Uri(string.Format("/List/{0}", hubItemViewModel.Id), UriKind.Relative));
+            return !TrialReminderHelper.IsTrialExpired;
+        }
+
+        private void ItemTapped(ListBoxItemTapEventArgs e)
+        {
+            var hubItemViewModel = (HubItemViewModel)e.Item.DataContext;
+
+            _navigationService.Navigate(new Uri(string.Format("/List/{0}", hubItemViewModel.Id), UriKind.Relative));
         }
     }
 }

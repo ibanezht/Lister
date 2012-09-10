@@ -45,17 +45,17 @@ namespace Heath.Lister.Configuration
                                       MappedUri = new Uri("/Views/EditItemView.xaml?Id={id}&ListId={listId}", UriKind.Relative)
                                   };
 
-            var itemMapping = new UriMapping
-                              {
-                                  Uri = new Uri("/Item/{id}/{listId}", UriKind.Relative),
-                                  MappedUri = new Uri("/Views/ItemDetailsView.xaml?Id={id}&ListId={listId}", UriKind.Relative)
-                              };
+            var itemDetailsMapping = new UriMapping
+                                     {
+                                         Uri = new Uri("/Item/{id}/{listId}", UriKind.Relative),
+                                         MappedUri = new Uri("/Views/ItemDetailsView.xaml?Id={id}&ListId={listId}", UriKind.Relative)
+                                     };
 
             uriMapper.UriMappings.Add(aboutMapping);
             uriMapper.UriMappings.Add(editListMapping);
             uriMapper.UriMappings.Add(listMapping);
             uriMapper.UriMappings.Add(editItemMapping);
-            uriMapper.UriMappings.Add(itemMapping);
+            uriMapper.UriMappings.Add(itemDetailsMapping);
 
             _instance = uriMapper;
 

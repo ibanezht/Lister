@@ -14,31 +14,31 @@ namespace Heath.Lister.Infrastructure.Interactivity
 {
     public class ApplicationBarMenuItemBehavior : Behavior<PhoneApplicationPage>
     {
-        private const string CommandBindingPropertyName = "CommandBinding";
+        private const string CommandPropertyName = "Command";
         private const string CommandParameterPropertyName = "CommandParameter";
 
-        public static readonly DependencyProperty CommandBindingProperty =
+        public static readonly DependencyProperty CommandProperty =
             DependencyProperty.Register(
-                CommandBindingPropertyName,
+                CommandPropertyName,
                 typeof(ICommand),
                 typeof(ApplicationBarMenuItemBehavior),
-                new PropertyMetadata(OnCommandChanged));
+                null);
 
         public static readonly DependencyProperty CommandParameterProperty =
             DependencyProperty.Register(
                 CommandParameterPropertyName,
                 typeof(object),
                 typeof(ApplicationBarMenuItemBehavior),
-                new PropertyMetadata(OnCommandChanged));
+                null);
 
         private ClickCommandBinding _binding;
 
         public string ButtonText { get; set; }
 
-        public ICommand CommandBinding
+        public ICommand Command
         {
-            get { return (ICommand)GetValue(CommandBindingProperty); }
-            set { SetValue(CommandBindingProperty, value); }
+            get { return (ICommand)GetValue(CommandProperty); }
+            set { SetValue(CommandProperty, value); }
         }
 
         public object CommandParameter
@@ -54,16 +54,9 @@ namespace Heath.Lister.Infrastructure.Interactivity
             CreateBinding();
         }
 
-        private static void OnCommandChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
-        {
-            var applicationBarIconButtonBehavior = (ApplicationBarMenuItemBehavior)sender;
-            if (applicationBarIconButtonBehavior != null)
-                applicationBarIconButtonBehavior.CreateBinding();
-        }
-
         private void CreateBinding()
         {
-            if (AssociatedObject == null || CommandBinding == null)
+            if (AssociatedObject == null || Command == null)
                 return;
 
             var buttons = AssociatedObject.ApplicationBar.Buttons
@@ -75,7 +68,7 @@ namespace Heath.Lister.Infrastructure.Interactivity
             var applicationBarMenuItem = buttons.Concat(menuItems)
                 .FirstOrDefault(b => b != null && b.Text == ButtonText);
 
-            _binding = new ClickCommandBinding(applicationBarMenuItem, CommandBinding, () => CommandParameter);
+            _binding = new ClickCommandBinding(applicationBarMenuItem, Command, () => CommandParameter);
         }
 
         #region Nested type: ClickCommandBinding

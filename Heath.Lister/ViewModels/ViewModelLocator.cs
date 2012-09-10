@@ -32,7 +32,7 @@ namespace Heath.Lister.ViewModels
             {
                 return IsInDesignMode
                            ? new HubViewModel(null, null)
-                           : ListerContainer.Instance.Get<HubViewModel>();
+                           : DependencyContainer.Instance.Get<HubViewModel>();
             }
         }
 
@@ -49,8 +49,8 @@ namespace Heath.Lister.ViewModels
             get
             {
                 return IsInDesignMode
-                           ? new ListViewModel(null, null, null)
-                           : ListerContainer.Instance.Get<ListViewModel>();
+                           ? new ListViewModel(null, null)
+                           : DependencyContainer.Instance.Get<ListViewModel>();
             }
         }
 
@@ -68,7 +68,7 @@ namespace Heath.Lister.ViewModels
             {
                 return IsInDesignMode
                            ? new EditListViewModel(null)
-                           : ListerContainer.Instance.Get<EditListViewModel>();
+                           : DependencyContainer.Instance.Get<EditListViewModel>();
             }
         }
 
@@ -86,7 +86,7 @@ namespace Heath.Lister.ViewModels
             {
                 return IsInDesignMode
                            ? new EditItemViewModel(null)
-                           : ListerContainer.Instance.Get<EditItemViewModel>();
+                           : DependencyContainer.Instance.Get<EditItemViewModel>();
             }
         }
 
@@ -104,7 +104,7 @@ namespace Heath.Lister.ViewModels
             {
                 return IsInDesignMode
                            ? new ItemDetailsViewModel(null)
-                           : ListerContainer.Instance.Get<ItemDetailsViewModel>();
+                           : DependencyContainer.Instance.Get<ItemDetailsViewModel>();
             }
         }
 

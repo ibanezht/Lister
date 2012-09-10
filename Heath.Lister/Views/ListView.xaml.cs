@@ -1,18 +1,17 @@
 ﻿#region usings
 
 using System;
-using System.Linq;
 using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Navigation;
+using GalaSoft.MvvmLight.Messaging;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Localization;
 using Heath.Lister.ViewModels;
-using Microsoft.Phone.Controls;
+using Heath.Lister.ViewModels.Abstract;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
-using PivotBlocker = Heath.Lister.Infrastructure.PivotBlocker;
 
 #endregion
 
@@ -20,38 +19,27 @@ namespace Heath.Lister.Views
 {
     public partial class ListView
     {
-        private readonly ListViewModel _listView;
-        private readonly PivotBlocker _pivotBlocker;
-
         public ListView()
         {
             InitializeComponent();
 
-            _listView = (ListViewModel)DataContext;
-            _listView.IsCheckModeActiveChanged += IsCheckModeActiveChanged;
-            _pivotBlocker = new PivotBlocker();
+            InitializeDefaultApplicationBar();
 
-            Loaded += (sender, args) =>
-            {
-                InitializeDefaultApplicationBar();
-                AnimateSelectedListBox();
-                RateReminderHelper.Notify();
-                TrialReminderHelper.Notify();
-            };
+            AnimateSelectedListBox();
 
-            listPivot.LoadedPivotItem += (sender, args) => AnimateSelectedListBox(args.Item);
+            listPivot.LoadedPivotItem += (sender, args) => AnimateSelectedListBox();
+
+            Loaded += (sender, args) => this.ViewReady();
         }
 
         private void IsCheckModeActiveChanged(object sender, IsCheckModeActiveChangedEventArgs e)
         {
             if (!e.CheckBoxesVisible)
             {
-                _pivotBlocker.End();
                 InitializeDefaultApplicationBar();
             }
             else
             {
-                _pivotBlocker.Start(listPivot);
                 InitializeSelectApplicationBar();
             }
         }
@@ -88,30 +76,50 @@ namespace Heath.Lister.Views
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.delete.rest.png", UriKind.Relative), AppResources.DeleteText, new PropertyPath("DeleteSelectedCommand"));
         }
 
-        private void AnimateSelectedListBox(PivotItem pivotItem = null)
+        private void AnimateSelectedListBox()
         {
-            var listBox = GetSelectedPivotItemListBox(pivotItem);
+            RadDataBoundListBox listBox;
+
+            switch (listPivot.SelectedIndex)
+            {
+                case 0:
+                    listBox = allListItemsListBox;
+                    break;
+
+                case 1:
+                    listBox = todayListItemsListBox;
+                    break;
+
+                case 2:
+                    listBox = overdueListItemsListBox;
+                    break;
+
+                default:
+                    listBox = allListItemsListBox;
+                    break;
+            }
 
             SetValue(RadTileAnimation.ContainerToAnimateProperty, listBox);
         }
 
-        private RadDataBoundListBox GetSelectedPivotItemListBox(PivotItem pivotItem = null)
+        private void ListItemsRadDataBoundListBoxItemTap(object sender, ListBoxItemTapEventArgs e)
         {
-            DependencyObject dependencyObject;
-
-            if (pivotItem == null)
-                dependencyObject = listPivot;
-            else
-                dependencyObject = pivotItem;
-
-            return ElementTreeHelper.EnumVisualDescendants(dependencyObject, obj => obj is RadDataBoundListBox)
-                .Cast<RadDataBoundListBox>()
-                .FirstOrDefault(lb => lb.DataContext == listPivot.SelectedItem);
+            SetValue(RadTileAnimation.ElementToDelayProperty, e.Item);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.ActivateViewModel();
+
+            Messenger.Default.Register<NotificationMessage<ListViewModel>>(
+                this, nm =>
+                      {
+                          if (nm.Notification == "SortCompleted")
+                          {
+                              ElementTreeHelper.FindVisualDescendant<RadPickerBox>(this).IsPopupOpen = false;
+                          }
+                      });
+
             App.ApplicationStartup = AppOpenState.None;
             base.OnNavigatedTo(e);
         }
@@ -119,6 +127,7 @@ namespace Heath.Lister.Views
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             this.DeactivateViewModel(e.IsNavigationInitiator);
+            Messenger.Default.Unregister<NotificationMessage<ListViewModel>>(this);
             base.OnNavigatedFrom(e);
         }
     }

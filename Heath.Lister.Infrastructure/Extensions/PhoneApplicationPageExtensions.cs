@@ -32,7 +32,7 @@ namespace Heath.Lister.Infrastructure.Extensions
             binding.Path = commandPath;
             binding.Source = page.DataContext;
 
-            BindingOperations.SetBinding(behavior, ApplicationBarMenuItemBehavior.CommandBindingProperty, binding);
+            BindingOperations.SetBinding(behavior, ApplicationBarMenuItemBehavior.CommandProperty, binding);
 
             behaviors.Add(behavior);
         }
@@ -53,9 +53,16 @@ namespace Heath.Lister.Infrastructure.Extensions
             binding.Path = commandPath;
             binding.Source = page.DataContext;
 
-            BindingOperations.SetBinding(behavior, ApplicationBarMenuItemBehavior.CommandBindingProperty, binding);
+            BindingOperations.SetBinding(behavior, ApplicationBarMenuItemBehavior.CommandProperty, binding);
 
             behaviors.Add(behavior);
+        }
+
+        public static void ViewReady(this PhoneApplicationPage page)
+        {
+            var viewModel = page.DataContext as IPageViewModel;
+            if (viewModel != null)
+                viewModel.ViewReady();
         }
 
         public static void ActivateViewModel(this PhoneApplicationPage page)
@@ -68,14 +75,14 @@ namespace Heath.Lister.Infrastructure.Extensions
             if (haveListId != null)
                 haveListId.ListId = Guid.Parse(page.NavigationContext.QueryString["ListId"]);
 
-            var viewModel = page.DataContext as IViewModel;
+            var viewModel = page.DataContext as IPageViewModel;
             if (viewModel != null)
                 viewModel.Activate();
         }
 
         public static void DeactivateViewModel(this PhoneApplicationPage page, bool isNavigationInitiator)
         {
-            var viewModel = page.DataContext as IViewModel;
+            var viewModel = page.DataContext as IPageViewModel;
             if (viewModel != null)
                 viewModel.Deactivate(isNavigationInitiator);
         }

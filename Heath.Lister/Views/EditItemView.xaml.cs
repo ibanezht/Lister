@@ -1,6 +1,7 @@
 ﻿#region usings
 
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
@@ -8,6 +9,7 @@ using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Localization;
 using Microsoft.Phone.Shell;
+using Telerik.Windows.Controls;
 
 #endregion
 
@@ -20,7 +22,10 @@ namespace Heath.Lister.Views
         public EditItemView()
         {
             InitializeComponent();
+
             InitializeApplicationBar();
+
+            Hide(reminderPanel);
 
             _newInstance = true;
         }
@@ -53,6 +58,38 @@ namespace Heath.Lister.Views
             base.OnNavigatedFrom(e);
 
             _newInstance = false;
+        }
+
+        private void ReminderToggleSwitchCheckedChanged(object sender, CheckedChangedEventArgs e)
+        {
+            if (e.NewState)
+            {
+                Show(reminderPanel);
+            }
+            else
+            {
+                Hide(reminderPanel);
+            }
+        }
+
+        private static void Show(StackPanel stackPanel)
+        {
+            var height = stackPanel.Children.Sum(c => c.DesiredSize.Height);
+
+            var radResizeHeightAnimation = new RadResizeHeightAnimation();
+            radResizeHeightAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(150));
+            radResizeHeightAnimation.StartHeight = 0;
+            radResizeHeightAnimation.EndHeight = null;
+            RadAnimationManager.Play(stackPanel, radResizeHeightAnimation);
+        }
+
+        private static void Hide(StackPanel stackPanel)
+        {
+            var radResizeHeightAnimation = new RadResizeHeightAnimation();
+            radResizeHeightAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(150));
+            radResizeHeightAnimation.StartHeight = stackPanel.ActualHeight;
+            radResizeHeightAnimation.EndHeight = 0;
+            RadAnimationManager.Play(stackPanel, radResizeHeightAnimation);
         }
     }
 }

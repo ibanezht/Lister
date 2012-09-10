@@ -33,6 +33,11 @@ namespace Heath.Lister.Infrastructure
             _frame.Navigate(source);
         }
 
+        public void RemoveBackEntry()
+        {
+            _frame.RemoveBackEntry();
+        }
+
         #endregion
     }
 }

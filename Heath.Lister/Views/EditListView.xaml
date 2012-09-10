@@ -1,31 +1,32 @@
-﻿<phone:PhoneApplicationPage x:Class="Heath.Lister.Views.EditListView" 
-                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                            xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
-                            xmlns:listerInteractivity="clr-namespace:Heath.Lister.Infrastructure.Interactivity;assembly=Heath.Lister.Infrastructure" 
-                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                            xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
-                            xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
-                            xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input" 
-                            d:DesignHeight="696" d:DesignWidth="480" 
-                            DataContext="{Binding EditList, Source={StaticResource Locator}}" 
-                            shell:SystemTray.IsVisible="True" 
-                            SupportedOrientations="PortraitOrLandscape" 
-                            mc:Ignorable="d">
+﻿<phone:PhoneApplicationPage 
+    x:Class="Heath.Lister.Views.EditListView" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:interactivity="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity" 
+    xmlns:listerInteractivity="clr-namespace:Heath.Lister.Infrastructure.Interactivity;assembly=Heath.Lister.Infrastructure" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
+    xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input" 
+    d:DesignHeight="768" d:DesignWidth="480" 
+    DataContext="{Binding EditList, Source={StaticResource Locator}}" 
+    shell:SystemTray.IsVisible="True" 
+    SupportedOrientations="PortraitOrLandscape" 
+    mc:Ignorable="d">
 
     <phone:PhoneApplicationPage.Resources>
         <DataTemplate x:Key="ColorDataTemplate">
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="24" Height="24" Fill="{Binding Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
-                <TextBlock Margin="15,0,0,0" VerticalAlignment="Center" Text="{Binding Text}" />
+                <TextBlock Margin="15,0,0,0" Text="{Binding Text}" />
             </StackPanel>
         </DataTemplate>
 
         <DataTemplate x:Key="ColorPopupDataTemplate">
             <StackPanel Orientation="Horizontal">
                 <Rectangle Width="42" Height="42" Fill="{Binding Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" />
-                <TextBlock Margin="12,0,0,0" VerticalAlignment="Center" Style="{StaticResource PhoneTextExtraLargeStyle}" Text="{Binding Text}" />
+                <TextBlock Margin="12,0,0,0" Style="{StaticResource PhoneTextExtraLargeStyle}" Text="{Binding Text}" />
             </StackPanel>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
@@ -42,22 +43,16 @@
         </StackPanel>
 
         <ScrollViewer Grid.Row="1">
-            <Grid Margin="12,0,12,0">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                    <RowDefinition Height="Auto" />
-                </Grid.RowDefinitions>
-
+            <StackPanel Margin="12,0,12,0">
                 <TextBlock Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.TitleText, Source={StaticResource LocalizedStrings}}" />
-                <telerikInput:RadAutoCompleteBox Grid.Row="1" AutoCompleteMode="StartsWith" AutoCompletePopupDisplayMode="BelowTextBox" FilterDelay="0:0:0.350" GotFocus="TextBoxGotFocus" InputScope="Text" SuggestionsSource="{Binding Suggestions}" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=Explicit}">
+                <telerikInput:RadAutoCompleteBox AutoCompleteMode="StartsWith" AutoCompletePopupDisplayMode="BelowTextBox" FilterDelay="0:0:0.350" GotFocus="TextBoxGotFocus" InputScope="Text" SuggestionsSource="{Binding Suggestions}" Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=Explicit}">
                     <interactivity:Interaction.Behaviors>
-                        <listerInteractivity:UpdateSourceOnTextChangedBehavior />
+                        <listerInteractivity:UpdateSourceTextChangedBehavior />
                     </interactivity:Interaction.Behaviors>
                 </telerikInput:RadAutoCompleteBox>
 
-                <telerikInput:RadListPicker Grid.Row="2" Header="{Binding LocalizedResources.TileColorText, Source={StaticResource LocalizedStrings}}" ItemsSource="{Binding Colors}" ItemTemplate="{StaticResource ColorDataTemplate}" PopupHeader="{Binding LocalizedResources.TileColorText, Source={StaticResource LocalizedStrings}}" PopupItemTemplate="{StaticResource ColorPopupDataTemplate}" SelectedItem="{Binding Color, Mode=TwoWay}" />
-            </Grid>
+                <telerikInput:RadListPicker Header="{Binding LocalizedResources.TileColorText, Source={StaticResource LocalizedStrings}}" ItemsSource="{Binding Colors}" ItemTemplate="{StaticResource ColorDataTemplate}" PopupHeader="{Binding LocalizedResources.TileColorText, Source={StaticResource LocalizedStrings}}" PopupItemTemplate="{StaticResource ColorPopupDataTemplate}" SelectedItem="{Binding Color, Mode=TwoWay}" />
+            </StackPanel>
         </ScrollViewer>
     </Grid>
 </phone:PhoneApplicationPage>

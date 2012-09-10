@@ -1,5 +1,6 @@
 ﻿#region usings
 
+using System;
 using System.ComponentModel;
 using System.Windows.Media;
 using Heath.Lister.Infrastructure;
@@ -10,7 +11,7 @@ using Heath.Lister.ViewModels.Abstract;
 
 namespace Heath.Lister.ViewModels
 {
-    public class ItemDetailsViewModel : ItemViewModelBase, IHaveListId, IViewModel
+    public class ItemDetailsViewModel : ItemViewModelBase, IHaveListId, IPageViewModel
     {
         private readonly INavigationService _navigationService;
 
@@ -24,11 +25,11 @@ namespace Heath.Lister.ViewModels
 
         public string ApplicationTitle { get; private set; }
 
-        #region IViewModel Members
+        #region IPageViewModel Members
 
         public void Activate()
         {
-            using (var data = new ListerData())
+            using (var data = new DataAccess())
             {
                 var item = data.GetItem(Id);
 
@@ -51,24 +52,39 @@ namespace Heath.Lister.ViewModels
 
         public void Deactivate(bool isNavigationInitiator) {}
 
+        public void ViewReady()
+        {
+            RateReminderHelper.Notify();
+            TrialReminderHelper.Notify();
+        }
+
         #endregion
 
         protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {
-            if (_navigationService.CanGoBack())
-                _navigationService.GoBack();
+            GoBack();
         }
 
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {
-            if (_navigationService.CanGoBack())
-                _navigationService.GoBack();
+            GoBack();
         }
 
         protected override void IncompleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {
+            GoBack();
+        }
+
+        private void GoBack()
+        {
             if (_navigationService.CanGoBack())
                 _navigationService.GoBack();
+
+            else
+            {
+                _navigationService.Navigate(new Uri(string.Format("/List/{0}", ListId), UriKind.Relative));
+                App.RemoveBackEntry = true;
+            }
         }
     }
 }

@@ -1,0 +1,5 @@
+<Configuration>
+  <NamespaceFolders>
+    <SkipFolder>278F185E-6064-4C9B-9453-34CBFDADDE1E/d:Views/d:Tiles</SkipFolder>
+  </NamespaceFolders>
+</Configuration>

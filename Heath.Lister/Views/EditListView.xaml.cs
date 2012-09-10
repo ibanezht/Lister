@@ -20,6 +20,7 @@ namespace Heath.Lister.Views
         public EditListView()
         {
             InitializeComponent();
+
             InitializeApplicationBar();
 
             _newInstance = true;

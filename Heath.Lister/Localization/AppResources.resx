@@ -177,9 +177,6 @@
   <data name="YesText" xml:space="preserve">
     <value>Yes</value>
   </data>
-  <data name="ItemReminderText" xml:space="preserve">
-    <value>set reminder</value>
-  </data>
   <data name="SaveText" xml:space="preserve">
     <value>save</value>
   </data>
@@ -187,12 +184,7 @@
     <value>delete</value>
   </data>
   <data name="ReminderMessageText" xml:space="preserve">
-    <value>Your reminder will be set for {0}.
-
-(Set a Due Date and Due Time to get a more accurate reminder.)</value>
-  </data>
-  <data name="ReminderText" xml:space="preserve">
-    <value>reminder</value>
+    <value>There was a problem with your reminder. Either the Reminder Date or Reminder Time values weren't set or they weren't in the future. Continue with the save without the reminder?</value>
   </data>
   <data name="TileColorText" xml:space="preserve">
     <value>Tile Color</value>
@@ -247,5 +239,50 @@
   </data>
   <data name="IncompleteText" xml:space="preserve">
     <value>incomplete</value>
+  </data>
+  <data name="ReminderDateText" xml:space="preserve">
+    <value>Reminder Date</value>
+  </data>
+  <data name="ReminderTimeText" xml:space="preserve">
+    <value>Reminder Time</value>
+  </data>
+  <data name="DirectionText" xml:space="preserve">
+    <value>DIRECTION</value>
+  </data>
+  <data name="SortByText" xml:space="preserve">
+    <value>SORT BY</value>
+  </data>
+  <data name="AscendingText" xml:space="preserve">
+    <value>Ascending</value>
+  </data>
+  <data name="DescendingText" xml:space="preserve">
+    <value>Descending</value>
+  </data>
+  <data name="HideCompletedText" xml:space="preserve">
+    <value>HIDE COMPLETED</value>
+  </data>
+  <data name="SortAscendingText" xml:space="preserve">
+    <value>ASCENDING</value>
+  </data>
+  <data name="SortDescendingText" xml:space="preserve">
+    <value>DESCENDING</value>
+  </data>
+  <data name="SortDueText" xml:space="preserve">
+    <value>DUE</value>
+  </data>
+  <data name="SortPriorityText" xml:space="preserve">
+    <value>PRIORITY</value>
+  </data>
+  <data name="SortTitleText" xml:space="preserve">
+    <value>TITLE</value>
+  </data>
+  <data name="SortedByText" xml:space="preserve">
+    <value>SORTED BY</value>
+  </data>
+  <data name="SetReminderText" xml:space="preserve">
+    <value>Set Reminder</value>
+  </data>
+  <data name="ReminderText" xml:space="preserve">
+    <value>reminder</value>
   </data>
 </root>

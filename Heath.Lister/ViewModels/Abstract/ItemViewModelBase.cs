@@ -8,6 +8,7 @@ using Heath.Lister.Configuration;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Models;
 using Heath.Lister.Localization;
+using Heath.Lister.Views;
 using Telerik.Windows.Controls;
 using ViewModelBase = GalaSoft.MvvmLight.ViewModelBase;
 
@@ -20,6 +21,7 @@ namespace Heath.Lister.ViewModels.Abstract
         protected const string CompletedPropertyName = "Completed";
         protected const string CreatedDatePropertyName = "CreatedDate";
         protected const string DueDatePropertyName = "DueDate";
+        protected const string DueDateTimePropertyName = "DueDateTime";
         protected const string DueTimePropertyName = "DueTime";
         protected const string IdPropertyName = "Id";
         protected const string ListColorPropertyName = "ListColor";
@@ -27,21 +29,27 @@ namespace Heath.Lister.ViewModels.Abstract
         protected const string ListTitlePropertyName = "ListTitle";
         protected const string NotesPropertyName = "Notes";
         protected const string PriorityPropertyName = "Priority";
+        protected const string ReminderDatePropertyName = "ReminderDate";
+        protected const string ReminderTimePropertyName = "ReminderTime";
         protected const string TitlePropertyName = "Title";
-        protected const string DueDateTimePropertyName = "DueDateTime";
-        private const string SelectedPropertyName = "Selected";
+        protected const string SelectedPropertyName = "Selected";
 
         private readonly INavigationService _navigationService;
 
+        private ICommand _completeCommand;
         private bool _completed;
         private DateTime _createdDate;
+        private ICommand _deleteCommand;
         private DateTime? _dueDate;
         private DateTime? _dueTime;
+        private ICommand _editCommand;
         private Guid _id;
+        private ICommand _incompleteCommand;
         private ColorViewModel _listColor;
         private Guid _listId;
         private string _listTitle;
         private string _notes;
+        private ICommand _pinCommand;
         private Priority _priority;
         private bool _selected;
         private string _title;
@@ -59,15 +67,12 @@ namespace Heath.Lister.ViewModels.Abstract
             }
 
             _navigationService = navigationService;
-
-            CompleteCommand = new RelayCommand(Complete, () => !Completed);
-            DeleteCommand = new RelayCommand(Delete);
-            EditCommand = new RelayCommand(Edit);
-            IncompleteCommand = new RelayCommand(Incomplete, () => Completed);
-            ReminderCommand = new RelayCommand(Reminder, () => !Completed && !ScheduleReminderHelper.HasReminder(Id.ToString()));
         }
 
-        public ICommand CompleteCommand { get; private set; }
+        public ICommand CompleteCommand
+        {
+            get { return _completeCommand ?? (_completeCommand = new RelayCommand(Complete, CanComplete)); }
+        }
 
         public bool Completed
         {
@@ -78,7 +83,6 @@ namespace Heath.Lister.ViewModels.Abstract
                 RaisePropertyChanged(CompletedPropertyName);
                 ((RelayCommand)CompleteCommand).RaiseCanExecuteChanged();
                 ((RelayCommand)IncompleteCommand).RaiseCanExecuteChanged();
-                ((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -92,7 +96,10 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public ICommand DeleteCommand { get; private set; }
+        public ICommand DeleteCommand
+        {
+            get { return _deleteCommand ?? (_deleteCommand = new RelayCommand(Delete)); }
+        }
 
         public DateTime? DueDate
         {
@@ -142,7 +149,10 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public ICommand EditCommand { get; private set; }
+        public ICommand EditCommand
+        {
+            get { return _editCommand ?? (_editCommand = new RelayCommand(Edit)); }
+        }
 
         public Guid Id
         {
@@ -151,11 +161,13 @@ namespace Heath.Lister.ViewModels.Abstract
             {
                 _id = value;
                 RaisePropertyChanged(IdPropertyName);
-                ((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
             }
         }
 
-        public ICommand IncompleteCommand { get; private set; }
+        public ICommand IncompleteCommand
+        {
+            get { return _incompleteCommand ?? (_incompleteCommand = new RelayCommand(Incomplete, CanIncomplete)); }
+        }
 
         public ColorViewModel ListColor
         {
@@ -197,6 +209,11 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
+        public ICommand PinCommand
+        {
+            get { return _pinCommand ?? (_pinCommand = new RelayCommand(Pin, CanPin)); }
+        }
+
         public Priority Priority
         {
             get { return _priority; }
@@ -206,8 +223,6 @@ namespace Heath.Lister.ViewModels.Abstract
                 RaisePropertyChanged(PriorityPropertyName);
             }
         }
-
-        public ICommand ReminderCommand { get; private set; }
 
         public bool Selected
         {
@@ -219,7 +234,7 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public string Title
+        public virtual string Title
         {
             get { return _title; }
             set
@@ -237,13 +252,18 @@ namespace Heath.Lister.ViewModels.Abstract
             backgroundWorker.DoWork +=
                 (sender, args) =>
                 {
-                    using (var data = new ListerData())
+                    using (var data = new DataAccess())
                         data.UpdateItem(Id, Completed);
 
                     ScheduleReminderHelper.RemoveReminder(Id.ToString());
                 };
             backgroundWorker.RunWorkerCompleted += CompleteCompleted;
             backgroundWorker.RunWorkerAsync();
+        }
+
+        private bool CanComplete()
+        {
+            return !Completed;
         }
 
         protected abstract void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args);
@@ -257,10 +277,15 @@ namespace Heath.Lister.ViewModels.Abstract
                     backgroundWorker.DoWork +=
                         (sender, args) =>
                         {
-                            using (var data = new ListerData())
+                            using (var data = new DataAccess())
                                 data.DeleteItem(Id);
 
                             ScheduleReminderHelper.RemoveReminder(Id.ToString());
+
+                            // TODO: need a base property for URI; 'new Uri' is duplicated 4 times in this class...
+                            var shellTile = LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative)));
+                            if (shellTile != null)
+                                shellTile.Delete();
                         };
                     backgroundWorker.RunWorkerCompleted += DeleteCompleted;
                     backgroundWorker.RunWorkerAsync();
@@ -291,7 +316,7 @@ namespace Heath.Lister.ViewModels.Abstract
             _navigationService.Navigate(new Uri(string.Format("/EditItem/{0}/{1}", Id, ListId), UriKind.Relative));
         }
 
-        public void Incomplete()
+        private void Incomplete()
         {
             Completed = false;
 
@@ -299,7 +324,7 @@ namespace Heath.Lister.ViewModels.Abstract
             backgroundWorker.DoWork +=
                 (sender, args) =>
                 {
-                    using (var data = new ListerData())
+                    using (var data = new DataAccess())
                         data.UpdateItem(Id, Completed);
 
                     ScheduleReminderHelper.RemoveReminder(Id.ToString());
@@ -308,34 +333,66 @@ namespace Heath.Lister.ViewModels.Abstract
             backgroundWorker.RunWorkerAsync();
         }
 
+        private bool CanIncomplete()
+        {
+            return Completed;
+        }
+
         protected abstract void IncompleteCompleted(object sender, RunWorkerCompletedEventArgs args);
 
-        private void Reminder()
+        private void Pin()
         {
-            var attemptedDate = DateTime.Now;
-
-            if (DueDate.HasValue && DueTime.HasValue)
-                attemptedDate = DueDate.Value.Date + DueTime.Value.TimeOfDay;
-            else if (DueDate.HasValue)
-                attemptedDate = DueDate.Value.Date;
-
-            var fallbackDate = DateTime.Now.AddMinutes(5);
-
-            var reminderDate = fallbackDate > attemptedDate ? fallbackDate : attemptedDate;
             var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
 
-            Action<MessageBoxClosedEventArgs> closedHandler =
-                e =>
-                {
-                    if (e.Result == DialogResult.OK)
-                    {
-                        ScheduleReminderHelper.AddReminder(Id.ToString(), uri, Title, Notes ?? string.Empty, reminderDate);
+            var itemFront = new ItemFrontView();
 
-                        ((RelayCommand)ReminderCommand).RaiseCanExecuteChanged();
-                    }
-                };
+            itemFront.DataContext = this;
+            itemFront.UpdateLayout();
 
-            RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.OK, string.Format(AppResources.ReminderMessageText, reminderDate), closedHandler: closedHandler);
+            if (!string.IsNullOrEmpty(Notes))
+            {
+                var itemBack = new ItemBackView();
+
+                itemBack.DataContext = this;
+                itemBack.UpdateLayout();
+
+                LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData { VisualElement = itemFront, BackVisualElement = itemBack }, uri);
+            }
+
+            else
+                LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData { VisualElement = itemFront }, uri);
+        }
+
+        private bool CanPin()
+        {
+            return !Completed && LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative))) == null;
+        }
+
+        protected void UpdatePin()
+        {
+            var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
+
+            var shellTile = LiveTileHelper.GetTile(uri);
+            if (shellTile == null)
+                return;
+
+            var itemFront = new ItemFrontView();
+
+            itemFront.DataContext = this;
+            itemFront.UpdateLayout();
+
+            if (!string.IsNullOrEmpty(Notes))
+            {
+                var itemBack = new ItemBackView();
+
+                itemBack.DataContext = this;
+                itemBack.UpdateLayout();
+
+                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = itemFront, BackVisualElement = itemBack });
+            }
+
+            else
+                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = itemFront });
         }
     }
 }

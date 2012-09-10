@@ -7,7 +7,6 @@ using System.Windows.Navigation;
 using GalaSoft.MvvmLight.Threading;
 using Heath.Lister.Configuration;
 using Heath.Lister.Infrastructure;
-using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
 
@@ -25,24 +24,21 @@ namespace Heath.Lister
 
             InitializePhoneApplication();
 
-            ApplicationUsageHelper.Init("1.0.0");
-
             var radDiagnostics = new RadDiagnostics();
             radDiagnostics.EmailTo = "listerapp@hotmail.com";
             radDiagnostics.Init();
 
             UriMappings.Configure();
 
-            ListerContainer.Configure(new ListerModule());
+            DependencyContainer.Configure(new ViewDependenciesModule());
 
-            using (var data = new ListerData())
+            DispatcherHelper.Initialize();
+
+            using (var data = new DataAccess())
                 data.Initialize();
 
             InteractionEffectManager.AllowedTypes.Add(typeof(Button));
-            InteractionEffectManager.AllowedTypes.Add(typeof(ListBoxItem));
             InteractionEffectManager.AllowedTypes.Add(typeof(RadDataBoundListBoxItem));
-
-            DispatcherHelper.Initialize();
 
             if (Debugger.IsAttached)
             {
@@ -66,17 +62,24 @@ namespace Heath.Lister
             }
         }
 
-        public PhoneApplicationFrame RootFrame { get; private set; }
+        public RadPhoneApplicationFrame RootFrame { get; private set; }
 
         internal static AppOpenState ApplicationStartup { get; set; }
 
+        internal static bool RemoveBackEntry { get; set; }
+
         private void ApplicationLaunching(object sender, LaunchingEventArgs e)
         {
+            ApplicationUsageHelper.Init("1.1");
+
             ApplicationStartup = AppOpenState.Launching;
         }
 
         private void ApplicationActivated(object sender, ActivatedEventArgs e)
         {
+            if (!e.IsApplicationInstancePreserved)
+                ApplicationUsageHelper.OnApplicationActivated();
+
             ApplicationStartup = AppOpenState.Activated;
         }
 

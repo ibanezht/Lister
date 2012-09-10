@@ -3,10 +3,12 @@
 using System;
 using System.Windows;
 using System.Windows.Navigation;
+using GalaSoft.MvvmLight.Messaging;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Localization;
 using Heath.Lister.ViewModels;
+using Heath.Lister.ViewModels.Abstract;
 using Microsoft.Phone.Shell;
 
 #endregion
@@ -23,14 +25,14 @@ namespace Heath.Lister.Views
         {
             InitializeComponent();
 
-            _newInstance = true;
             _itemDetails = (ItemDetailsViewModel)DataContext;
+
+            _newInstance = true;
 
             Loaded += (sender, args) =>
                       {
                           InitializeApplicationBar();
-                          RateReminderHelper.Notify();
-                          TrialReminderHelper.Notify();
+                          this.ViewReady();
                       };
         }
 
@@ -53,7 +55,7 @@ namespace Heath.Lister.Views
             this.AddApplicationBarIconButton(new Uri("/Images/out.png", UriKind.Relative), AppResources.CompleteText, new PropertyPath("CompleteCommand"));
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.edit.rest.png", UriKind.Relative), AppResources.EditText, new PropertyPath("EditCommand"));
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.delete.rest.png", UriKind.Relative), AppResources.DeleteText, new PropertyPath("DeleteCommand"));
-            this.AddApplicationBarMenuItem(AppResources.ItemReminderText, new PropertyPath("ReminderCommand"));
+            this.AddApplicationBarMenuItem(AppResources.PinToStartText, new PropertyPath("PinCommand"));
         }
 
         private void InitializeIncompleteApplicationBar()
@@ -63,7 +65,7 @@ namespace Heath.Lister.Views
             this.AddApplicationBarIconButton(new Uri("/Images/in.png", UriKind.Relative), AppResources.IncompleteText, new PropertyPath("IncompleteCommand"));
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.edit.rest.png", UriKind.Relative), AppResources.EditText, new PropertyPath("EditCommand"));
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.delete.rest.png", UriKind.Relative), AppResources.DeleteText, new PropertyPath("DeleteCommand"));
-            this.AddApplicationBarMenuItem(AppResources.ItemReminderText, new PropertyPath("ReminderCommand"));
+            this.AddApplicationBarMenuItem(AppResources.PinToStartText, new PropertyPath("PinCommand"));
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)

@@ -18,14 +18,12 @@ namespace Heath.Lister.Views
         public HubView()
         {
             InitializeComponent();
+
             InitializeApplicationBar();
+
             SetValue(RadTileAnimation.ContainerToAnimateProperty, hubItemsListBox);
 
-            Loaded += (sender, args) =>
-                      {
-                          RateReminderHelper.Notify();
-                          TrialReminderHelper.Notify();
-                      };
+            Loaded += (sender, args) => this.ViewReady();
         }
 
         private void InitializeApplicationBar()

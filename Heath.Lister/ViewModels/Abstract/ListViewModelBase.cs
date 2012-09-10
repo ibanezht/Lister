@@ -4,7 +4,6 @@ using System;
 using System.ComponentModel;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
-using GalaSoft.MvvmLight.Threading;
 using Heath.Lister.Configuration;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Localization;
@@ -30,17 +29,16 @@ namespace Heath.Lister.ViewModels.Abstract
         private ColorViewModel _color;
         private Guid _colorId;
         private DateTime _createdDate;
+        private ICommand _deleteCommand;
+        private ICommand _editCommand;
         private Guid _id;
+        private ICommand _pinCommand;
         private int _remaining;
         private string _title;
 
         protected ListViewModelBase(INavigationService navigationService)
         {
             _navigationService = navigationService;
-
-            DeleteCommand = new RelayCommand(Delete);
-            EditCommand = new RelayCommand(Edit);
-            PinCommand = new RelayCommand(Pin, () => LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative))) == null);
         }
 
         public ColorViewModel Color
@@ -77,6 +75,16 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
+        public ICommand DeleteCommand
+        {
+            get { return _deleteCommand ?? (_deleteCommand = new RelayCommand(Delete)); }
+        }
+
+        public ICommand EditCommand
+        {
+            get { return _editCommand ?? (_editCommand = new RelayCommand(Edit)); }
+        }
+
         public Guid Id
         {
             get { return _id; }
@@ -86,6 +94,11 @@ namespace Heath.Lister.ViewModels.Abstract
                 RaisePropertyChanged(IdPropertyName);
                 ((RelayCommand)PinCommand).RaiseCanExecuteChanged();
             }
+        }
+
+        public ICommand PinCommand
+        {
+            get { return _pinCommand ?? (_pinCommand = new RelayCommand(Pin, CanPin)); }
         }
 
         public int Remaining
@@ -98,7 +111,7 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public string Title
+        public virtual string Title
         {
             get { return _title; }
             set
@@ -107,12 +120,6 @@ namespace Heath.Lister.ViewModels.Abstract
                 RaisePropertyChanged(TitlePropertyName);
             }
         }
-
-        public ICommand DeleteCommand { get; private set; }
-
-        public ICommand EditCommand { get; private set; }
-
-        public ICommand PinCommand { get; private set; }
 
         private void Delete()
         {
@@ -126,7 +133,7 @@ namespace Heath.Lister.ViewModels.Abstract
                     backgroundWorker.DoWork +=
                         (sender, args) =>
                         {
-                            using (var data = new ListerData())
+                            using (var data = new DataAccess())
                                 data.DeleteList(Id);
 
                             var shellTile = LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative)));
@@ -155,32 +162,30 @@ namespace Heath.Lister.ViewModels.Abstract
             var hubItem = new HubItemView();
 
             hubItem.DataContext = this;
+            hubItem.UpdateLayout();
 
             LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData { VisualElement = hubItem }, uri);
         }
 
-        protected void UpdatePin(bool isNavigationInitiator)
+        private bool CanPin()
         {
-            if (isNavigationInitiator)
-                DispatcherHelper.UIDispatcher.BeginInvoke(UpdatePin);
-
-            else
-                UpdatePin();
+            return LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative))) == null;
         }
 
-        private void UpdatePin()
+        protected void UpdatePin()
         {
             var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative));
 
             var shellTile = LiveTileHelper.GetTile(uri);
-            if (shellTile != null)
-            {
-                var hubItem = new HubItemView();
+            if (shellTile == null)
+                return;
 
-                hubItem.DataContext = this;
+            var hubItem = new HubItemView();
 
-                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = hubItem });
-            }
+            hubItem.DataContext = this;
+            hubItem.UpdateLayout();
+
+            LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = hubItem });
         }
     }
 }

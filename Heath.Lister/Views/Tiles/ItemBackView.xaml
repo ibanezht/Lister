@@ -1,0 +1,12 @@
+﻿<UserControl 
+    x:Class="Heath.Lister.Views.ItemBackView" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    Width="173" Height="173" mc:Ignorable="d">
+
+    <Grid Background="{Binding Priority, Converter={StaticResource PriorityToSolidColorBrushConverter}}" d:DataContext="{d:DesignData /SampleData/ListItemViewModelSampleData.xaml}">
+        <TextBlock Margin="12" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="#FFFFFFFF" Text="{Binding Notes}" TextWrapping="Wrap" />
+    </Grid>
+</UserControl>

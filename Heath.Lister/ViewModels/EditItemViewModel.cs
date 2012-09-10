@@ -5,24 +5,35 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Input;
 using GalaSoft.MvvmLight.Command;
+using GalaSoft.MvvmLight.Threading;
+using Heath.Lister.Configuration;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Models;
 using Heath.Lister.Infrastructure.ViewModels;
 using Heath.Lister.Localization;
 using Heath.Lister.ViewModels.Abstract;
+using Telerik.Windows.Controls;
 using Color = System.Windows.Media.Color;
 
 #endregion
 
 namespace Heath.Lister.ViewModels
 {
-    public class EditItemViewModel : ItemViewModelBase, IHaveListId, IViewModel
+    public class EditItemViewModel : ItemViewModelBase, IHaveListId, IPageViewModel
     {
         private const string PageNamePropertyName = "PageName";
+        private const string ReminderPropertyName = "Reminder";
 
         private readonly INavigationService _navigationService;
 
+        private ICommand _cancelCommand;
+        private ICommand _clearDateCommand;
+        private ICommand _clearTimeCommand;
         private string _pageName;
+        private bool _reminder;
+        private DateTime? _reminderDate;
+        private DateTime? _reminderTime;
+        private ICommand _saveCommand;
 
         public EditItemViewModel(INavigationService navigationService)
             : base(navigationService)
@@ -30,26 +41,29 @@ namespace Heath.Lister.ViewModels
             _navigationService = navigationService;
 
             ApplicationTitle = "LISTER";
-
-            CancelCommand = new RelayCommand(Cancel);
-            ClearDateCommand = new RelayCommand(ClearDate);
-            ClearTimeCommand = new RelayCommand(ClearTime);
-            SaveCommand = new RelayCommand(Save, () => !string.IsNullOrWhiteSpace(Title));
-
-            // TODO: Maybe make title overridable and put the Raise call in the setter?
-            PropertyChanged += (sender, args) =>
-                               {
-                                   if (args.PropertyName == TitlePropertyName)
-                                   {
-                                       ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
-                                   }
-                               };
         }
-
 
         public string ApplicationTitle { get; private set; }
 
-        public ICommand CancelCommand { get; private set; }
+        public ICommand CancelCommand
+        {
+            get { return _cancelCommand ?? (_cancelCommand = new RelayCommand(Cancel)); }
+        }
+
+        public bool CanRemind
+        {
+            get { return !Completed && !ScheduleReminderHelper.HasReminder(Id.ToString()); }
+        }
+
+        public ICommand ClearDateCommand
+        {
+            get { return _clearDateCommand ?? (_clearDateCommand = new RelayCommand(ClearDate)); }
+        }
+
+        public ICommand ClearTimeCommand
+        {
+            get { return _clearTimeCommand ?? (_clearTimeCommand = new RelayCommand(ClearTime)); }
+        }
 
         public string PageName
         {
@@ -61,26 +75,65 @@ namespace Heath.Lister.ViewModels
             }
         }
 
+        public bool Reminder
+        {
+            get { return _reminder; }
+            set
+            {
+                _reminder = value;
+                RaisePropertyChanged(ReminderPropertyName);
+            }
+        }
+
+        public DateTime? ReminderDate
+        {
+            get { return _reminderDate; }
+            set
+            {
+                _reminderDate = value;
+                RaisePropertyChanged(ReminderDatePropertyName);
+            }
+        }
+
+        public DateTime? ReminderTime
+        {
+            get { return _reminderTime; }
+            set
+            {
+                _reminderTime = value;
+                RaisePropertyChanged(ReminderTimePropertyName);
+            }
+        }
+
+        public ICommand SaveCommand
+        {
+            get { return _saveCommand ?? (_saveCommand = new RelayCommand(Save, CanSave)); }
+        }
+
         public IEnumerable<string> Suggestions
         {
             get
             {
                 IEnumerable<string> retval;
 
-                using (var data = new ListerData())
+                using (var data = new DataAccess())
                     retval = data.GetItemTitles();
 
                 return retval;
             }
         }
 
-        public ICommand ClearDateCommand { get; private set; }
+        public override string Title
+        {
+            get { return base.Title; }
+            set
+            {
+                base.Title = value;
+                ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
+            }
+        }
 
-        public ICommand ClearTimeCommand { get; private set; }
-
-        public ICommand SaveCommand { get; private set; }
-
-        #region IViewModel Members
+        #region IPageViewModel Members
 
         public void Activate()
         {
@@ -95,7 +148,7 @@ namespace Heath.Lister.ViewModels
             {
                 PageName = string.Format("{0} {1}", AppResources.EditText, AppResources.ItemText);
 
-                using (var data = new ListerData())
+                using (var data = new DataAccess())
                 {
                     var item = data.GetItem(Id);
 
@@ -119,7 +172,7 @@ namespace Heath.Lister.ViewModels
             {
                 PageName = string.Format("{0} {1}", AppResources.AddText, AppResources.ItemText);
 
-                using (var data = new ListerData())
+                using (var data = new DataAccess())
                 {
                     var list = data.GetList(ListId, false);
 
@@ -157,6 +210,8 @@ namespace Heath.Lister.ViewModels
             }
         }
 
+        public void ViewReady() {}
+
         #endregion
 
         protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args) {}
@@ -183,15 +238,64 @@ namespace Heath.Lister.ViewModels
 
         private void Save()
         {
-            var backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork +=
-                (sender, args) =>
+            Action<DateTime?> save =
+                r =>
                 {
-                    using (var data = new ListerData())
-                        data.UpsertItem(Id, ListId, Completed, DueDate, DueTime, Notes, Priority, Title);
+                    var backgroundWorker = new BackgroundWorker();
+                    backgroundWorker.DoWork +=
+                        (sender, args) =>
+                        {
+                            Item item;
+
+                            using (var data = new DataAccess())
+                                item = data.UpsertItem(Id, ListId, Completed, DueDate, DueTime, Notes, Priority, Title);
+
+                            if (r.HasValue)
+                            {
+                                var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", item.Id, ListId), UriKind.Relative));
+
+                                ScheduleReminderHelper.AddReminder(item.Id.ToString(), uri, Title, Notes ?? string.Empty, r.Value);
+                            }
+
+                            DispatcherHelper.UIDispatcher.BeginInvoke(UpdatePin);
+                        };
+                    backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
+                    backgroundWorker.RunWorkerAsync();
                 };
-            backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
-            backgroundWorker.RunWorkerAsync();
+
+            if (!Reminder)
+                save(null);
+
+            else
+            {
+                Action<MessageBoxClosedEventArgs> closedHandler =
+                    e =>
+                    {
+                        if (e.Result != DialogResult.OK)
+                            return;
+
+                        save(null);
+                    };
+
+                if (!ReminderDate.HasValue || !ReminderTime.HasValue)
+                    RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.YesNo, AppResources.ReminderMessageText, closedHandler: closedHandler);
+
+                else
+                {
+                    var reminderDate = ReminderDate.Value.Date + ReminderTime.Value.TimeOfDay;
+
+                    if (reminderDate > DateTime.Now)
+                        save(reminderDate);
+
+                    else
+                        RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.YesNo, AppResources.ReminderMessageText, closedHandler: closedHandler);
+                }
+            }
+        }
+
+        private bool CanSave()
+        {
+            return !string.IsNullOrWhiteSpace(Title);
         }
     }
 }

@@ -45,8 +45,9 @@
     <Reference Include="Microsoft.Expression.Interactions, Version=3.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Controls, Version=7.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
-    <Reference Include="Ninject">
-      <HintPath>..\packages\Ninject.2.2.1.4\lib\sl3-wp\Ninject.dll</HintPath>
+    <Reference Include="Ninject, Version=3.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Ninject.3.0.1.10\lib\sl4-windowsphone71\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System.Data.Linq" />
     <Reference Include="System.Windows" />
@@ -55,31 +56,41 @@
     <Reference Include="System.Net" />
     <Reference Include="mscorlib.extensions" />
     <Reference Include="System.Windows.Interactivity, Version=3.8.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="Telerik.Windows.Controls.Primitives, Version=2012.2.607.2040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
-    <Reference Include="Telerik.Windows.Core, Version=2012.2.607.2040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.Windows.Behaviors, Version=2012.2.607.2040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.Windows.Controls.Data, Version=2012.2.607.2040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.Windows.Controls.Input, Version=2012.2.607.2040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
+    <Reference Include="Telerik.Windows.Controls.Primitives, Version=2012.2.829.2040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Heath\AppData\Roaming\Telerik\Updates\02291RadControls_for_WindowsPhone_2012_2_0829_DEV_hotfix_LIB\Binaries\WindowsPhone\Telerik.Windows.Controls.Primitives.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Core, Version=2012.2.829.2040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>C:\Users\Heath\AppData\Roaming\Telerik\Updates\02291RadControls_for_WindowsPhone_2012_2_0829_DEV_hotfix_LIB\Binaries\WindowsPhone\Telerik.Windows.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Telerik.Windows.Data, Version=2012.2.607.2040, Culture=neutral, PublicKeyToken=5803cfa389c90ce7, processorArchitecture=MSIL" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationState.cs" />
+    <Compile Include="Setting.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
+    <Compile Include="Interactivity\RadDataBoundListBoxTapBehavior.cs" />
     <Compile Include="RateReminderHelper.cs" />
     <Compile Include="TrialReminderHelper.cs" />
-    <Compile Include="ViewModels\IHaveHeader.cs" />
     <Compile Include="EnumValueCache.cs" />
-    <Compile Include="ListerData.cs" />
+    <Compile Include="DataAccess.cs" />
     <Compile Include="Extensions\PhoneApplicationPageExtensions.cs" />
     <Compile Include="Interactivity\ApplicationBarMenuItemBehavior.cs" />
     <Compile Include="Models\Color.cs" />
     <Compile Include="Models\Priority.cs" />
-    <Compile Include="PivotBlocker.cs" />
     <Compile Include="ValueProvider.cs" />
     <Compile Include="ViewModels\IHaveListId.cs" />
     <Compile Include="ViewModels\IHaveId.cs" />
     <Compile Include="Interactivity\ExtendedDataTrigger.cs" />
-    <Compile Include="ViewModels\IViewModel.cs" />
-    <Compile Include="ListerContainer.cs" />
-    <Compile Include="Interactivity\UpdateSourceOnTextChangedBehavior.cs" />
+    <Compile Include="ViewModels\IPageViewModel.cs" />
+    <Compile Include="DependencyContainer.cs" />
+    <Compile Include="Interactivity\UpdateSourceTextChangedBehavior.cs" />
     <Compile Include="INavigationService.cs" />
-    <Compile Include="ListerDataContext.cs" />
+    <Compile Include="Data.cs" />
     <Compile Include="MetroGridHelper.cs" />
     <Compile Include="Models\Item.cs" />
     <Compile Include="Models\List.cs" />

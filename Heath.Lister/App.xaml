@@ -18,6 +18,9 @@
         <listerConverters:BooleanToTextValueConverter x:Key="CompletedBooleanToTextValueConverter" FalseText="{Binding LocalizedResources.NoText, Source={StaticResource LocalizedStrings}}" TrueText="{Binding LocalizedResources.YesText, Source={StaticResource LocalizedStrings}}" />
         <listerConverters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
         <listerConverters:EnumValuesConverter x:Key="EnumValuesConverter" />
+        <listerConverters:ListSortByToStringConverter x:Key="ListSortByToStringConverter" />
+        <listerConverters:ListSortDirectionToBitmapImageConverter x:Key="ListSortDirectionToBitmapImageConverter" />
+        <listerConverters:ListSortDirectionToStringConverter x:Key="ListSortDirectionToStringConverter" />
         <listerConverters:PriorityToSolidColorBrushConverter x:Key="PriorityToSolidColorBrushConverter" />
         <listerConverters:PriorityToStringConverter x:Key="PriorityToStringConverter" />
         

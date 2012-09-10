@@ -88,6 +88,15 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Ascending.
+        /// </summary>
+        public static string AscendingText {
+            get {
+                return ResourceManager.GetString("AscendingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to cancel.
         /// </summary>
         public static string CancelText {
@@ -169,6 +178,24 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Descending.
+        /// </summary>
+        public static string DescendingText {
+            get {
+                return ResourceManager.GetString("DescendingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DIRECTION.
+        /// </summary>
+        public static string DirectionText {
+            get {
+                return ResourceManager.GetString("DirectionText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to done.
         /// </summary>
         public static string DoneText {
@@ -214,6 +241,15 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to HIDE COMPLETED.
+        /// </summary>
+        public static string HideCompletedText {
+            get {
+                return ResourceManager.GetString("HideCompletedText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to High.
         /// </summary>
         public static string HighText {
@@ -237,15 +273,6 @@ namespace Heath.Lister.Localization {
         public static string ItemDetailsText {
             get {
                 return ResourceManager.GetString("ItemDetailsText", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to set reminder.
-        /// </summary>
-        public static string ItemReminderText {
-            get {
-                return ResourceManager.GetString("ItemReminderText", resourceCulture);
             }
         }
         
@@ -367,9 +394,16 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your reminder will be set for {0}.
-        ///
-        ///(Set a Due Date and Due Time to get a more accurate reminder.).
+        ///   Looks up a localized string similar to Reminder Date.
+        /// </summary>
+        public static string ReminderDateText {
+            get {
+                return ResourceManager.GetString("ReminderDateText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to There was a problem with your reminder. Either the Reminder Date or Reminder Time values weren&apos;t set or they weren&apos;t in the future. Continue with the save without the reminder?.
         /// </summary>
         public static string ReminderMessageText {
             get {
@@ -383,6 +417,15 @@ namespace Heath.Lister.Localization {
         public static string ReminderText {
             get {
                 return ResourceManager.GetString("ReminderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reminder Time.
+        /// </summary>
+        public static string ReminderTimeText {
+            get {
+                return ResourceManager.GetString("ReminderTimeText", resourceCulture);
             }
         }
         
@@ -405,11 +448,83 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Set Reminder.
+        /// </summary>
+        public static string SetReminderText {
+            get {
+                return ResourceManager.GetString("SetReminderText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to share.
         /// </summary>
         public static string ShareText {
             get {
                 return ResourceManager.GetString("ShareText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ASCENDING.
+        /// </summary>
+        public static string SortAscendingText {
+            get {
+                return ResourceManager.GetString("SortAscendingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SORT BY.
+        /// </summary>
+        public static string SortByText {
+            get {
+                return ResourceManager.GetString("SortByText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DESCENDING.
+        /// </summary>
+        public static string SortDescendingText {
+            get {
+                return ResourceManager.GetString("SortDescendingText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to DUE.
+        /// </summary>
+        public static string SortDueText {
+            get {
+                return ResourceManager.GetString("SortDueText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to SORTED BY.
+        /// </summary>
+        public static string SortedByText {
+            get {
+                return ResourceManager.GetString("SortedByText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PRIORITY.
+        /// </summary>
+        public static string SortPriorityText {
+            get {
+                return ResourceManager.GetString("SortPriorityText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TITLE.
+        /// </summary>
+        public static string SortTitleText {
+            get {
+                return ResourceManager.GetString("SortTitleText", resourceCulture);
             }
         }
         

@@ -10,6 +10,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using GalaSoft.MvvmLight.Command;
 using Heath.Lister.Infrastructure;
+using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Infrastructure.ViewModels;
 using Heath.Lister.Localization;
 using Heath.Lister.ViewModels.Abstract;
@@ -19,13 +20,15 @@ using MediaColor = System.Windows.Media.Color;
 
 namespace Heath.Lister.ViewModels
 {
-    public class EditListViewModel : ListViewModelBase, IHaveId, IViewModel
+    public class EditListViewModel : ListViewModelBase, IHaveId, IPageViewModel
     {
         private const string PageNamePropertyName = "PageName";
 
         private readonly INavigationService _navigationService;
 
+        private ICommand _cancelCommand;
         private string _pageName;
+        private ICommand _saveCommand;
 
         public EditListViewModel(INavigationService navigationService)
             : base(navigationService)
@@ -34,24 +37,15 @@ namespace Heath.Lister.ViewModels
 
             ApplicationTitle = "LISTER";
 
-            CancelCommand = new RelayCommand(Cancel);
-            SaveCommand = new RelayCommand(Save, () => !string.IsNullOrWhiteSpace(Title));
-
-            // TODO: Maybe make title overridable and put the Raise call in the setter?
-            PropertyChanged += (sender, args) =>
-                               {
-                                   if (args.PropertyName == TitlePropertyName)
-                                   {
-                                       ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
-                                   }
-                               };
-
             Colors = new ObservableCollection<ColorViewModel>();
         }
 
         public string ApplicationTitle { get; private set; }
 
-        public ICommand CancelCommand { get; private set; }
+        public ICommand CancelCommand
+        {
+            get { return _cancelCommand ?? (_cancelCommand = new RelayCommand(Cancel)); }
+        }
 
         public ObservableCollection<ColorViewModel> Colors { get; set; }
 
@@ -65,7 +59,10 @@ namespace Heath.Lister.ViewModels
             }
         }
 
-        public ICommand SaveCommand { get; private set; }
+        public ICommand SaveCommand
+        {
+            get { return _saveCommand ?? (_saveCommand = new RelayCommand(Save, CanSave)); }
+        }
 
         public IEnumerable<string> Suggestions
         {
@@ -73,20 +70,30 @@ namespace Heath.Lister.ViewModels
             {
                 IEnumerable<string> retval;
 
-                using (var data = new ListerData())
+                using (var data = new DataAccess())
                     retval = data.GetListTitles();
 
                 return retval;
             }
         }
 
-        #region IViewModel Members
+        public override string Title
+        {
+            get { return base.Title; }
+            set
+            {
+                base.Title = value;
+                ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
+            }
+        }
+
+        #region IPageViewModel Members
 
         public void Activate()
         {
             if (!Colors.Any())
             {
-                using (var data = new ListerData())
+                using (var data = new DataAccess())
                 {
                     data.GetColors()
                         .Select(c => new ColorViewModel
@@ -95,7 +102,7 @@ namespace Heath.Lister.ViewModels
                                          Text = c.Text,
                                          Color = MediaColor.FromArgb(255, c.R, c.G, c.B)
                                      })
-                        .ToList().ForEach(Colors.Add);
+                        .ForEach(Colors.Add);
                 }
             }
 
@@ -107,7 +114,7 @@ namespace Heath.Lister.ViewModels
             {
                 PageName = string.Format("{0} {1}", AppResources.EditText, AppResources.ListText);
 
-                using (var data = new ListerData())
+                using (var data = new DataAccess())
                 {
                     var list = data.GetList(Id, true);
 
@@ -141,8 +148,10 @@ namespace Heath.Lister.ViewModels
                 TombstoningHelper.Save(TitlePropertyName, Title);
             }
 
-            UpdatePin(isNavigationInitiator);
+            UpdatePin();
         }
+
+        public void ViewReady() {}
 
         #endregion
 
@@ -159,11 +168,16 @@ namespace Heath.Lister.ViewModels
             backgroundWorker.DoWork +=
                 (sender, args) =>
                 {
-                    using (var data = new ListerData())
+                    using (var data = new DataAccess())
                         data.UpsertList(Id, ColorId, Title);
                 };
             backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
             backgroundWorker.RunWorkerAsync();
+        }
+
+        private bool CanSave()
+        {
+            return !string.IsNullOrWhiteSpace(Title);
         }
     }
 }
