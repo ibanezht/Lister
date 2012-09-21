@@ -20,8 +20,7 @@ namespace Heath.Lister.Infrastructure.Models
         private byte _r;
         private string _text;
 
-        [Column(IsVersion = true)]
-        private Binary _version;
+        [Column(IsVersion = true)] private Binary _version;
 
         [Column]
         public byte B

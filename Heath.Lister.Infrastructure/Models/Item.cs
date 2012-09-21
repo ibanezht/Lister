@@ -20,15 +20,13 @@ namespace Heath.Lister.Infrastructure.Models
         private Guid _id;
         private EntityRef<List> _list;
 
-        [Column]
-        private Guid _listId;
+        [Column] private Guid _listId;
 
         private string _notes;
         private Priority _priority;
         private string _title;
 
-        [Column(IsVersion = true)]
-        private Binary _version;
+        [Column(IsVersion = true)] private Binary _version;
 
         [Column]
         public bool Completed

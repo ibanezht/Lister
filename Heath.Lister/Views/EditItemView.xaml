@@ -15,7 +15,7 @@
     DataContext="{Binding EditItem, Source={StaticResource Locator}}" 
     IsEnabled="{Binding IsChecked, ElementName=radioButton}" 
     shell:SystemTray.IsVisible="True" 
-    SupportedOrientations="PortraitOrLandscape" 
+    SupportedOrientations="Portrait" 
     telerikCore:InteractionEffectManager.IsInteractionEnabled="True" 
     mc:Ignorable="d">
 

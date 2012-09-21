@@ -2,6 +2,7 @@
     x:Class="Heath.Lister.Views.ListView" 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:advert="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI" 
     xmlns:command="clr-namespace:GalaSoft.MvvmLight.Command;assembly=GalaSoft.MvvmLight.Extras.WP71" 
     xmlns:controls="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
@@ -20,8 +21,8 @@
     d:DesignHeight="768" d:DesignWidth="480" 
     DataContext="{Binding List, Source={StaticResource Locator}}" 
     shell:SystemTray.IsVisible="True" 
-    SupportedOrientations="PortraitOrLandscape" 
-    telerikCore:InteractionEffectManager.IsInteractionEnabled="True" 
+    SupportedOrientations="Portrait" 
+    telerikCore:InteractionEffectManager.IsInteractionEnabled="True"
     mc:Ignorable="d">
 
     <phone:PhoneApplicationPage.Resources>
@@ -157,6 +158,11 @@
     </telerikPrimitives:RadTransitionControl.Transition>
 
     <Grid Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
         <TextBlock Margin="21,0,0,0" VerticalAlignment="Bottom" Foreground="{Binding Color.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" Opacity="0.5" Style="{StaticResource PhoneTextTitle1Style}" Text="{Binding Title}" />
 
         <controls:Pivot x:Name="listPivot" Title="{Binding}" SelectedItem="{Binding SelectedPivotItem, Mode=TwoWay}" TitleTemplate="{StaticResource TitleDataTemplate}">
@@ -253,5 +259,7 @@
                 </telerikPrimitives:RadDataBoundListBox>
             </controls:PivotItem>
         </controls:Pivot>
+
+        <advert:AdControl x:Name="adControl" Grid.Row="1" Width="480" Height="80" AdUnitId="10044565" ApplicationId="7c5d4828-7089-49a4-9bfd-c97b2930853e" ErrorOccurred="AdControlErrorOccurred" />
     </Grid>
 </phone:PhoneApplicationPage>

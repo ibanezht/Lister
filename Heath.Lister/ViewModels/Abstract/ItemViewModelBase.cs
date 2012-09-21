@@ -256,6 +256,11 @@ namespace Heath.Lister.ViewModels.Abstract
                         data.UpdateItem(Id, Completed);
 
                     ScheduleReminderHelper.RemoveReminder(Id.ToString());
+
+                    // TODO: Shouldn't the pinned tiles also be removed??
+
+                    // TODO: Consider a dialog before delete/complete that warns about
+                    // removing reminders with a "don't show this again" check box.     
                 };
             backgroundWorker.RunWorkerCompleted += CompleteCompleted;
             backgroundWorker.RunWorkerAsync();
@@ -283,7 +288,9 @@ namespace Heath.Lister.ViewModels.Abstract
                             ScheduleReminderHelper.RemoveReminder(Id.ToString());
 
                             // TODO: need a base property for URI; 'new Uri' is duplicated 4 times in this class...
-                            var shellTile = LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative)));
+                            var shellTile = LiveTileHelper.GetTile(
+                                UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative)));
+
                             if (shellTile != null)
                                 shellTile.Delete();
                         };

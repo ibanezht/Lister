@@ -3,12 +3,12 @@
 using System;
 using System.Windows;
 using System.Windows.Navigation;
-using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Threading;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Localization;
 using Heath.Lister.ViewModels;
-using Heath.Lister.ViewModels.Abstract;
+using Microsoft.Advertising;
 using Microsoft.Phone.Shell;
 
 #endregion
@@ -82,6 +82,11 @@ namespace Heath.Lister.Views
             this.DeactivateViewModel(e.IsNavigationInitiator);
             base.OnNavigatedFrom(e);
             _newInstance = false;
+        }
+
+        private void AdControlErrorOccurred(object sender, AdErrorEventArgs e)
+        {
+            DispatcherHelper.UIDispatcher.BeginInvoke(() => { adControl.Visibility = Visibility.Collapsed; });
         }
     }
 }

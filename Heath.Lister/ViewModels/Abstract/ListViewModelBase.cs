@@ -136,7 +136,8 @@ namespace Heath.Lister.ViewModels.Abstract
                             using (var data = new DataAccess())
                                 data.DeleteList(Id);
 
-                            var shellTile = LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative)));
+                            var shellTile = LiveTileHelper.GetTile(
+                                UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative)));
 
                             if (shellTile != null)
                                 shellTile.Delete();
