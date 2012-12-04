@@ -289,7 +289,8 @@ namespace Heath.Lister.ViewModels.Abstract
 
                             // TODO: need a base property for URI; 'new Uri' is duplicated 4 times in this class...
                             var shellTile = LiveTileHelper.GetTile(
-                                UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative)));
+                                UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId),
+                                                                    UriKind.Relative)));
 
                             if (shellTile != null)
                                 shellTile.Delete();
@@ -312,7 +313,8 @@ namespace Heath.Lister.ViewModels.Abstract
                         delete();
                     };
 
-                RadMessageBox.Show(AppResources.DeleteText, MessageBoxButtons.YesNo, AppResources.DeleteItemMessage, closedHandler: closedHandler);
+                RadMessageBox.Show(AppResources.DeleteText, MessageBoxButtons.YesNo, AppResources.DeleteItemMessage,
+                                   closedHandler: closedHandler);
             }
         }
 
@@ -363,16 +365,20 @@ namespace Heath.Lister.ViewModels.Abstract
                 itemBack.DataContext = this;
                 itemBack.UpdateLayout();
 
-                LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData { VisualElement = itemFront, BackVisualElement = itemBack }, uri);
+                LiveTileHelper.CreateOrUpdateTile(
+                    new RadExtendedTileData {VisualElement = itemFront, BackVisualElement = itemBack}, uri);
             }
 
             else
-                LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData { VisualElement = itemFront }, uri);
+                LiveTileHelper.CreateOrUpdateTile(new RadExtendedTileData {VisualElement = itemFront}, uri);
         }
 
         private bool CanPin()
         {
-            return !Completed && LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative))) == null;
+            return !Completed &&
+                   LiveTileHelper.GetTile(
+                       UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative))) ==
+                   null;
         }
 
         protected void UpdatePin()
@@ -395,11 +401,16 @@ namespace Heath.Lister.ViewModels.Abstract
                 itemBack.DataContext = this;
                 itemBack.UpdateLayout();
 
-                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = itemFront, BackVisualElement = itemBack });
+                LiveTileHelper.UpdateTile(shellTile,
+                                          new RadExtendedTileData
+                                          {
+                                              VisualElement = itemFront,
+                                              BackVisualElement = itemBack
+                                          });
             }
 
             else
-                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = itemFront });
+                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData {VisualElement = itemFront});
         }
     }
 }

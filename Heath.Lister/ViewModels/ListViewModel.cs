@@ -145,11 +145,11 @@ namespace Heath.Lister.ViewModels
             {
                 var list = data.GetList(Id, true);
                 Color = new ColorViewModel
-                        {
-                            Id = list.Color.Id,
-                            Text = list.Color.Text,
-                            Color = MediaColor.FromArgb(255, list.Color.R, list.Color.G, list.Color.B)
-                        };
+                {
+                    Id = list.Color.Id,
+                    Text = list.Color.Text,
+                    Color = MediaColor.FromArgb(255, list.Color.R, list.Color.G, list.Color.B)
+                };
                 CreatedDate = list.CreatedDate;
                 Remaining = list.Items.Count(i => !i.Completed);
                 Title = list.Title;
@@ -311,14 +311,13 @@ namespace Heath.Lister.ViewModels
                 switch (ListSort.ListSortBy)
                 {
                     case ListSortBy.Due:
-                        sortedList = sortedList.OrderByDescending(
-                            l =>
-                            {
-                                if (l.DueDate.HasValue && l.DueTime.HasValue)
-                                    return l.DueDate.Value.Date + l.DueTime.Value.TimeOfDay;
+                        sortedList = sortedList.OrderByDescending(l =>
+                        {
+                            if (l.DueDate.HasValue && l.DueTime.HasValue)
+                                return l.DueDate.Value.Date + l.DueTime.Value.TimeOfDay;
 
-                                return l.DueDate;
-                            });
+                            return l.DueDate;
+                        });
                         sortTitleBuilder.Append(AppResources.SortDueText);
                         break;
 
@@ -384,14 +383,13 @@ namespace Heath.Lister.ViewModels
         {
             var selectedItems = _listItems.Where(l => l.Selected).ToList();
 
-            Action<MessageBoxClosedEventArgs> closedHandler =
-                e =>
-                {
-                    if (e.Result == DialogResult.OK)
-                        selectedItems.ForEach(listItem => listItem.Delete());
+            Action<MessageBoxClosedEventArgs> closedHandler = e =>
+            {
+                if (e.Result == DialogResult.OK)
+                    selectedItems.ForEach(listItem => listItem.Delete());
 
-                    ElementTreeHelper.FindVisualDescendant<RadDataBoundListBox>(SelectedPivotItem).IsCheckModeActive = false;
-                };
+                ElementTreeHelper.FindVisualDescendant<RadDataBoundListBox>(SelectedPivotItem).IsCheckModeActive = false;
+            };
 
             string deleteItemsMessage;
 
@@ -429,12 +427,11 @@ namespace Heath.Lister.ViewModels
             builder.Append(Title);
             builder.AppendLine();
 
-            _listItems.ForEach(
-                i =>
-                {
-                    builder.AppendFormat(" {0}", i.Title);
-                    builder.AppendLine();
-                });
+            _listItems.ForEach(i =>
+            {
+                builder.AppendFormat(" {0}", i.Title);
+                builder.AppendLine();
+            });
 
             var task = new SmsComposeTask();
             task.Body = builder.ToString();
@@ -443,7 +440,7 @@ namespace Heath.Lister.ViewModels
 
         private void Sort(ApplicationBarButtonClickEventArgs e)
         {
-            if (e.Button.Text == "done")
+            if (e.Button.Text == AppResources.DoneText)
             {
                 LoadLists();
 

@@ -38,7 +38,7 @@ namespace Heath.Lister.Controls
                 StatePropertyName,
                 typeof(HubTileState),
                 typeof(HubTile),
-                new PropertyMetadata(HubTileState.Normal, OnHubTileStateChanged));
+                new PropertyMetadata(HubTileState.Normal, OnStateChanged));
 
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register(TitlePropertyName, typeof(string), typeof(HubTile), null);
@@ -77,7 +77,7 @@ namespace Heath.Lister.Controls
             set { SetValue(TitleProperty, value); }
         }
 
-        private static void OnHubTileStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        private static void OnStateChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
             ((HubTile)d).UpdateVisualState();
         }
