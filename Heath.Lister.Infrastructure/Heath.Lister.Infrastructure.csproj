@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApplicationState.cs" />
+    <Compile Include="AppMonetizationType.cs" />
     <Compile Include="Setting.cs" />
     <Compile Include="Extensions\EnumerableExtensions.cs" />
     <Compile Include="Interactivity\RadDataBoundListBoxTapBehavior.cs" />

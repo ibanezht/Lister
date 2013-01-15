@@ -22,34 +22,34 @@ namespace Heath.Lister.Configuration
             var uriMapper = new UriMapper();
 
             var aboutMapping = new UriMapping
-                               {
-                                   Uri = new Uri("/About", UriKind.Relative),
-                                   MappedUri = new Uri("/Heath.Lister.About;component/Views/AboutView.xaml", UriKind.Relative)
-                               };
+            {
+                Uri = new Uri("/About", UriKind.Relative),
+                MappedUri = new Uri("/Heath.Lister.About;component/Views/AboutView.xaml", UriKind.Relative)
+            };
 
             var editListMapping = new UriMapping
-                                  {
-                                      Uri = new Uri("/EditList/{id}", UriKind.Relative),
-                                      MappedUri = new Uri("/Views/EditListView.xaml?Id={id}", UriKind.Relative)
-                                  };
+            {
+                Uri = new Uri("/EditList/{id}", UriKind.Relative),
+                MappedUri = new Uri("/Views/EditListView.xaml?Id={id}", UriKind.Relative)
+            };
 
             var listMapping = new UriMapping
-                              {
-                                  Uri = new Uri("/List/{id}", UriKind.Relative),
-                                  MappedUri = new Uri("/Views/ListView.xaml?Id={id}", UriKind.Relative)
-                              };
+            {
+                Uri = new Uri("/List/{id}", UriKind.Relative),
+                MappedUri = new Uri("/Views/ListView.xaml?Id={id}", UriKind.Relative)
+            };
 
             var editItemMapping = new UriMapping
-                                  {
-                                      Uri = new Uri("/EditItem/{id}/{listId}", UriKind.Relative),
-                                      MappedUri = new Uri("/Views/EditItemView.xaml?Id={id}&ListId={listId}", UriKind.Relative)
-                                  };
+            {
+                Uri = new Uri("/EditItem/{id}/{listId}", UriKind.Relative),
+                MappedUri = new Uri("/Views/EditItemView.xaml?Id={id}&ListId={listId}", UriKind.Relative)
+            };
 
             var itemDetailsMapping = new UriMapping
-                                     {
-                                         Uri = new Uri("/Item/{id}/{listId}", UriKind.Relative),
-                                         MappedUri = new Uri("/Views/ItemDetailsView.xaml?Id={id}&ListId={listId}", UriKind.Relative)
-                                     };
+            {
+                Uri = new Uri("/Item/{id}/{listId}", UriKind.Relative),
+                MappedUri = new Uri("/Views/ItemDetailsView.xaml?Id={id}&ListId={listId}", UriKind.Relative)
+            };
 
             uriMapper.UriMappings.Add(aboutMapping);
             uriMapper.UriMappings.Add(editListMapping);

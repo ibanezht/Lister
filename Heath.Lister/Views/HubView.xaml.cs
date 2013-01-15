@@ -39,7 +39,7 @@ namespace Heath.Lister.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.ActivateViewModel();
-            App.ApplicationStartup = AppOpenState.None;
+            App.AppOpenState = AppOpenState.None;
             base.OnNavigatedTo(e);
         }
 

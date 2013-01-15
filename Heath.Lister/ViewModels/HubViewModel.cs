@@ -33,12 +33,11 @@ namespace Heath.Lister.ViewModels
 
             ApplicationTitle = "LISTER";
 
-            Messenger.Default.Register<NotificationMessage<HubItemViewModel>>(
-                this, nm =>
-                      {
-                          if (nm.Notification == "Delete")
-                              HubItems.Remove(HubItems.First(hi => hi.Id == nm.Content.Id));
-                      });
+            Messenger.Default.Register<NotificationMessage<HubItemViewModel>>(this, nm =>
+            {
+                if (nm.Notification == "Delete")
+                    HubItems.Remove(HubItems.First(hi => hi.Id == nm.Content.Id));
+            });
 
             HubItems = new ObservableCollection<HubItemViewModel>();
         }
@@ -60,6 +59,11 @@ namespace Heath.Lister.ViewModels
         public ICommand ItemTappedCommand
         {
             get { return _itemTappedCommand ?? (_itemTappedCommand = new RelayCommand<ListBoxItemTapEventArgs>(ItemTapped)); }
+        }
+
+        public bool ShowAdvertising
+        {
+            get { return App.AppMonetizationType == AppMonetizationType.Advertising; }
         }
 
         #region IPageViewModel Members

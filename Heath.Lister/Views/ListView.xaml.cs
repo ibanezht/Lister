@@ -121,7 +121,7 @@ namespace Heath.Lister.Views
                           }
                       });
 
-            App.ApplicationStartup = AppOpenState.None;
+            App.AppOpenState = AppOpenState.None;
             base.OnNavigatedTo(e);
         }
 

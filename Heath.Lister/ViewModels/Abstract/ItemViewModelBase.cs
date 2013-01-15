@@ -234,6 +234,11 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
+        public bool ShowAdvertising
+        {
+            get { return App.AppMonetizationType == AppMonetizationType.Advertising; }
+        }
+
         public virtual string Title
         {
             get { return _title; }

@@ -18,6 +18,7 @@
         <listerLocalization:Localization x:Key="LocalizedStrings" />
 
         <listerConverters:BooleanToTextValueConverter x:Key="CompletedBooleanToTextValueConverter" FalseText="{Binding LocalizedResources.NoText, Source={StaticResource LocalizedStrings}}" TrueText="{Binding LocalizedResources.YesText, Source={StaticResource LocalizedStrings}}" />
+        <listerConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <listerConverters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
         <listerConverters:EnumValuesConverter x:Key="EnumValuesConverter" />
         <listerConverters:ListSortByToStringConverter x:Key="ListSortByToStringConverter" />
