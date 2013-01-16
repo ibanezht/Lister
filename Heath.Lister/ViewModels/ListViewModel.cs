@@ -112,6 +112,11 @@ namespace Heath.Lister.ViewModels
             get { return _shareCommand ?? (_shareCommand = new RelayCommand(Share)); }
         }
 
+        public bool ShowAdds
+        {
+            get { return App.AppMonetizationType == AppMonetizationType.Adds; }
+        }
+
         public ICommand SortCommand
         {
             get { return _sortCommand ?? (_sortCommand = new RelayCommand<ApplicationBarButtonClickEventArgs>(Sort)); }

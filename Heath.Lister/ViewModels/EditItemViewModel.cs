@@ -157,11 +157,11 @@ namespace Heath.Lister.ViewModels
                     dueDate = item.DueDate;
                     dueTime = item.DueTime;
                     ListColor = new ColorViewModel
-                                {
-                                    Id = item.List.Color.Id,
-                                    Text = item.List.Color.Text,
-                                    Color = Color.FromArgb(255, item.List.Color.R, item.List.Color.G, item.List.Color.B)
-                                };
+                    {
+                        Id = item.List.Color.Id,
+                        Text = item.List.Color.Text,
+                        Color = Color.FromArgb(255, item.List.Color.R, item.List.Color.G, item.List.Color.B)
+                    };
                     ListTitle = item.List.Title;
                     notes = item.Notes;
                     priority = item.Priority;
@@ -177,11 +177,11 @@ namespace Heath.Lister.ViewModels
                     var list = data.GetList(ListId, false);
 
                     ListColor = new ColorViewModel
-                                {
-                                    Id = list.Color.Id,
-                                    Text = list.Color.Text,
-                                    Color = Color.FromArgb(255, list.Color.R, list.Color.G, list.Color.B)
-                                };
+                    {
+                        Id = list.Color.Id,
+                        Text = list.Color.Text,
+                        Color = Color.FromArgb(255, list.Color.R, list.Color.G, list.Color.B)
+                    };
                     ListTitle = list.Title;
                 }
             }
@@ -210,15 +210,15 @@ namespace Heath.Lister.ViewModels
             }
         }
 
-        public void ViewReady() {}
+        public void ViewReady() { }
 
         #endregion
 
-        protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args) {}
+        protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args) { }
 
-        protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args) {}
+        protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args) { }
 
-        protected override void IncompleteCompleted(object sender, RunWorkerCompletedEventArgs args) {}
+        protected override void IncompleteCompleted(object sender, RunWorkerCompletedEventArgs args) { }
 
         private void Cancel()
         {

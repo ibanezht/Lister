@@ -124,12 +124,12 @@ namespace Heath.Lister.Infrastructure
                 }
                 childAsBorder.Child = null;
                 Deployment.Current.Dispatcher.BeginInvoke(() =>
-                                                          {
-                                                              var newGrid = new Grid();
-                                                              childAsBorder.Child = newGrid;
-                                                              newGrid.Children.Add(content);
-                                                              PrepareGrid(frame, newGrid);
-                                                          });
+                {
+                    var newGrid = new Grid();
+                    childAsBorder.Child = newGrid;
+                    newGrid.Children.Add(content);
+                    PrepareGrid(frame, newGrid);
+                });
             }
             else if (childAsGrid != null)
             {
@@ -140,7 +140,6 @@ namespace Heath.Lister.Infrastructure
                 Debug.WriteLine("Dear developer:");
                 Debug.WriteLine("Unfortunately the design overlay feature requires that the root frame visual");
                 Debug.WriteLine("be a Border or a Grid. So the overlay grid just isn't going to happen.");
-                return;
             }
         }
 
@@ -170,15 +169,15 @@ namespace Heath.Lister.Infrastructure
                 for (var y = 24; y < /*height*/ max; y += 37)
                 {
                     var rect = new Rectangle
-                               {
-                                   Width = 25,
-                                   Height = 25,
-                                   VerticalAlignment = VerticalAlignment.Top,
-                                   HorizontalAlignment = HorizontalAlignment.Left,
-                                   Margin = new Thickness(x, y, 0, 0),
-                                   IsHitTestVisible = false,
-                                   Fill = brush,
-                               };
+                    {
+                        Width = 25,
+                        Height = 25,
+                        VerticalAlignment = VerticalAlignment.Top,
+                        HorizontalAlignment = HorizontalAlignment.Left,
+                        Margin = new Thickness(x, y, 0, 0),
+                        IsHitTestVisible = false,
+                        Fill = brush,
+                    };
                     _grid.Children.Add(rect);
                     _squares.Add(rect);
                 }

@@ -61,9 +61,9 @@ namespace Heath.Lister.ViewModels
             get { return _itemTappedCommand ?? (_itemTappedCommand = new RelayCommand<ListBoxItemTapEventArgs>(ItemTapped)); }
         }
 
-        public bool ShowAdvertising
+        public bool ShowAdds
         {
-            get { return App.AppMonetizationType == AppMonetizationType.Advertising; }
+            get { return App.AppMonetizationType == AppMonetizationType.Adds; }
         }
 
         #region IPageViewModel Members
@@ -85,11 +85,11 @@ namespace Heath.Lister.ViewModels
                     {
                         var hubItem = _createHubItem();
                         hubItem.Color = new ColorViewModel
-                                        {
-                                            Id = l.Color.Id,
-                                            Text = l.Color.Text,
-                                            Color = Color.FromArgb(255, l.Color.R, l.Color.G, l.Color.B)
-                                        };
+                        {
+                            Id = l.Color.Id,
+                            Text = l.Color.Text,
+                            Color = Color.FromArgb(255, l.Color.R, l.Color.G, l.Color.B)
+                        };
                         hubItem.CreatedDate = l.CreatedDate;
                         hubItem.Id = l.Id;
                         hubItem.Remaining = l.Items.Count(i => !i.Completed);
@@ -99,7 +99,7 @@ namespace Heath.Lister.ViewModels
             }
         }
 
-        public void Deactivate(bool isNavigationInitiator) {}
+        public void Deactivate(bool isNavigationInitiator) { }
 
         public void ViewReady()
         {

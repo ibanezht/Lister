@@ -3,6 +3,6 @@
     public enum AppMonetizationType
     {
         Paid,
-        Advertising
+        Adds
     }
 }

@@ -28,7 +28,7 @@ namespace Heath.Lister
 #if paidbuild
             AppMonetizationType = AppMonetizationType.Paid;
 #else
-            AppMonetizationType = AppMonetizationType.Advertising;
+            AppMonetizationType = AppMonetizationType.Adds;
 #endif
 
             InitializePhoneApplication();

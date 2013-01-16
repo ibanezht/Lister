@@ -12,7 +12,7 @@ namespace Heath.Lister.ViewModels
     public class HubItemViewModel : ListViewModelBase
     {
         public HubItemViewModel(INavigationService navigationService)
-            : base(navigationService) {}
+            : base(navigationService) { }
 
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {

@@ -111,11 +111,6 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public bool ShowAdvertising
-        {
-            get { return App.AppMonetizationType == AppMonetizationType.Advertising; }
-        }
-
         public virtual string Title
         {
             get { return _title; }
@@ -135,18 +130,16 @@ namespace Heath.Lister.ViewModels.Abstract
                         return;
 
                     var backgroundWorker = new BackgroundWorker();
-                    backgroundWorker.DoWork +=
-                        (sender, args) =>
-                        {
-                            using (var data = new DataAccess())
-                                data.DeleteList(Id);
+                    backgroundWorker.DoWork += (sender, args) =>
+                    {
+                        using (var data = new DataAccess())
+                            data.DeleteList(Id);
 
-                            var shellTile = LiveTileHelper.GetTile(
-                                UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative)));
+                        var shellTile = LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative)));
 
-                            if (shellTile != null)
-                                shellTile.Delete();
-                        };
+                        if (shellTile != null)
+                            shellTile.Delete();
+                    };
                     backgroundWorker.RunWorkerCompleted += DeleteCompleted;
                     backgroundWorker.RunWorkerAsync();
                 };
@@ -166,7 +159,6 @@ namespace Heath.Lister.ViewModels.Abstract
             var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative));
 
             var hubItem = new HubItemView();
-
             hubItem.DataContext = this;
             hubItem.UpdateLayout();
 
@@ -187,7 +179,6 @@ namespace Heath.Lister.ViewModels.Abstract
                 return;
 
             var hubItem = new HubItemView();
-
             hubItem.DataContext = this;
             hubItem.UpdateLayout();
 
