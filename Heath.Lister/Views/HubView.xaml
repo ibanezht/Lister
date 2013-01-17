@@ -29,7 +29,7 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
+        
         <StackPanel Style="{StaticResource TitlePanelStyle}">
             <TextBlock Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding ApplicationTitle}" />
         </StackPanel>

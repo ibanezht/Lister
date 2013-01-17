@@ -242,23 +242,22 @@ namespace Heath.Lister.ViewModels
                 r =>
                 {
                     var backgroundWorker = new BackgroundWorker();
-                    backgroundWorker.DoWork +=
-                        (sender, args) =>
+                    backgroundWorker.DoWork += (sender, args) =>
+                    {
+                        Item item;
+
+                        using (var data = new DataAccess())
+                            item = data.UpsertItem(Id, ListId, Completed, DueDate, DueTime, Notes, Priority, Title);
+
+                        if (r.HasValue)
                         {
-                            Item item;
+                            var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", item.Id, ListId), UriKind.Relative));
 
-                            using (var data = new DataAccess())
-                                item = data.UpsertItem(Id, ListId, Completed, DueDate, DueTime, Notes, Priority, Title);
+                            ScheduleReminderHelper.AddReminder(item.Id.ToString(), uri, Title, Notes ?? string.Empty, r.Value);
+                        }
 
-                            if (r.HasValue)
-                            {
-                                var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", item.Id, ListId), UriKind.Relative));
-
-                                ScheduleReminderHelper.AddReminder(item.Id.ToString(), uri, Title, Notes ?? string.Empty, r.Value);
-                            }
-
-                            DispatcherHelper.UIDispatcher.BeginInvoke(UpdatePin);
-                        };
+                        DispatcherHelper.UIDispatcher.BeginInvoke(UpdatePin);
+                    };
                     backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
                     backgroundWorker.RunWorkerAsync();
                 };
@@ -268,14 +267,13 @@ namespace Heath.Lister.ViewModels
 
             else
             {
-                Action<MessageBoxClosedEventArgs> closedHandler =
-                    e =>
-                    {
-                        if (e.Result != DialogResult.OK)
-                            return;
+                Action<MessageBoxClosedEventArgs> closedHandler = e =>
+                {
+                    if (e.Result != DialogResult.OK)
+                        return;
 
-                        save(null);
-                    };
+                    save(null);
+                };
 
                 if (!ReminderDate.HasValue || !ReminderTime.HasValue)
                     RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.YesNo, AppResources.ReminderMessageText, closedHandler: closedHandler);
