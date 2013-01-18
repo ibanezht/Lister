@@ -48,7 +48,7 @@
                 <TextBlock Margin="12,0,12,12" Style="{StaticResource PhoneTextExtraLargeStyle}" Text="{Binding Title}" />
                 <TextBlock Grid.Row="1" Margin="12,0,12,12" Foreground="{Binding ListColor.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" Style="{StaticResource ListTitleStyle}" Text="{Binding ListTitle}" />
                 <TextBlock Grid.Row="2" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.PriorityText, Source={StaticResource LocalizedStrings}}" />
-                <TextBlock Grid.Row="3" Foreground="{Binding Priority, Converter={StaticResource PriorityToSolidColorBrushConverter}}" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding Priority, Converter={StaticResource PriorityToStringConverter}}" />
+                <TextBlock Grid.Row="3" Foreground="{Binding Priority, Converter={StaticResource WhiteDefaultPriorityToSolidColorBrushConverter}}" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding Priority, Converter={StaticResource PriorityToStringConverter}}" />
                 <TextBlock Grid.Row="5" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.DueText, Source={StaticResource LocalizedStrings}}" />
                 <TextBlock Grid.Row="6" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding DueDateTime}" />
                 <TextBlock Grid.Row="8" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.NotesText, Source={StaticResource LocalizedStrings}}" />

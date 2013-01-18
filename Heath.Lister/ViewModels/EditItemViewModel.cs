@@ -26,6 +26,8 @@ namespace Heath.Lister.ViewModels
 
         private readonly INavigationService _navigationService;
 
+        private DateTime? _dueDate;
+        private DateTime? _dueTime;
         private ICommand _cancelCommand;
         private ICommand _clearDateCommand;
         private ICommand _clearTimeCommand;
@@ -44,6 +46,40 @@ namespace Heath.Lister.ViewModels
         }
 
         public string ApplicationTitle { get; private set; }
+
+        public override DateTime? DueDate
+        {
+            get { return _dueDate; }
+            set
+            {
+                _dueDate = value;
+
+                if (ReminderDate == null)
+                    ReminderDate = _dueDate;
+
+                RaisePropertyChanged(DueDatePropertyName);
+                RaisePropertyChanged(DueDateTimePropertyName);
+            }
+        }
+
+        public override DateTime? DueTime
+        {
+            get { return _dueTime; }
+            set
+            {
+                _dueTime = value;
+
+                if (_dueTime != null && _dueDate == null)
+                    _dueDate = DateTime.Today.Date;
+
+                if (ReminderTime == null)
+                    ReminderTime = _dueTime;
+
+                RaisePropertyChanged(DueTimePropertyName);
+                RaisePropertyChanged(DueDatePropertyName);
+                RaisePropertyChanged(DueDateTimePropertyName);
+            }
+        }
 
         public ICommand CancelCommand
         {

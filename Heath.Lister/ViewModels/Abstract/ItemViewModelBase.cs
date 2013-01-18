@@ -101,7 +101,7 @@ namespace Heath.Lister.ViewModels.Abstract
             get { return _deleteCommand ?? (_deleteCommand = new RelayCommand(Delete)); }
         }
 
-        public DateTime? DueDate
+        public virtual DateTime? DueDate
         {
             get { return _dueDate; }
             set
@@ -133,7 +133,7 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public DateTime? DueTime
+        public virtual DateTime? DueTime
         {
             get { return _dueTime; }
             set
@@ -348,13 +348,14 @@ namespace Heath.Lister.ViewModels.Abstract
             var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
 
             var itemFront = new ItemFrontView();
-
+            itemFront.PriorityToSolidColorBrushConverter.DefaultColor = ListColor.Color; // why does this binding not work??!
             itemFront.DataContext = this;
             itemFront.UpdateLayout();
 
             if (!string.IsNullOrEmpty(Notes))
             {
                 var itemBack = new ItemBackView();
+                itemBack.PriorityToSolidColorBrushConverter.DefaultColor = ListColor.Color;
                 itemBack.DataContext = this;
                 itemBack.UpdateLayout();
 
