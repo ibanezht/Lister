@@ -34,7 +34,7 @@ namespace Heath.Lister.Converters
                     break;
 
                 default:
-                    retval = AppResources.LowText;
+                    retval = AppResources.NoneText;
                     break;
             }
 

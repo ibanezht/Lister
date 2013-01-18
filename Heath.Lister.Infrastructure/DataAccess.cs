@@ -71,7 +71,7 @@ namespace Heath.Lister.Infrastructure
                     Notes = "Thank you for downloading Lister! For questions, comments or suggestions about this app please email listerapp@hotmail.com.",
                     List = welcome,
                     DueDate = DateTime.Now.Date,
-                    Priority = Priority.Low,
+                    Priority = Priority.None,
                     CreatedDate = DateTime.Now
                 });
 

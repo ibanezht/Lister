@@ -141,7 +141,7 @@ namespace Heath.Lister.ViewModels
             var dueDate = TombstoningHelper.Load<DateTime?>(DueDatePropertyName);
             var dueTime = TombstoningHelper.Load<DateTime?>(DueTimePropertyName);
             var notes = TombstoningHelper.Load<string>(NotesPropertyName);
-            var priority = TombstoningHelper.Load<Priority>(PriorityPropertyName);
+            var priority = TombstoningHelper.Load(PriorityPropertyName, Priority.None);
             var title = TombstoningHelper.Load<string>(TitlePropertyName);
 
             if (Id != Guid.Empty)

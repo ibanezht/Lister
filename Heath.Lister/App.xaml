@@ -24,7 +24,7 @@
         <listerConverters:ListSortByToStringConverter x:Key="ListSortByToStringConverter" />
         <listerConverters:ListSortDirectionToBitmapImageConverter x:Key="ListSortDirectionToBitmapImageConverter" />
         <listerConverters:ListSortDirectionToStringConverter x:Key="ListSortDirectionToStringConverter" />
-        <listerConverters:PriorityToSolidColorBrushConverter x:Key="PriorityToSolidColorBrushConverter" />
+        <listerConverters:PriorityToSolidColorBrushConverter x:Key="PriorityToSolidColorBrushConverter" DefaultColor="#FF000000" />
         <listerConverters:PriorityToStringConverter x:Key="PriorityToStringConverter" />
 
         <listerConverters:ValueEqualToVisibilityConverter x:Key="ZeroToVisibilityConverter">
