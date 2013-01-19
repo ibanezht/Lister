@@ -17,15 +17,11 @@ namespace Heath.Lister.Converters
         private const string DefaultColorPropertyName = "DefaultColor";
 
         public static readonly DependencyProperty DefaultColorProperty =
-            DependencyProperty.Register(
-                DefaultColorPropertyName,
-                typeof(Color),
-                typeof(PriorityToSolidColorBrushConverter),
-                null);
+            DependencyProperty.Register(DefaultColorPropertyName, typeof(SolidColorBrush), typeof(PriorityToSolidColorBrushConverter), null);
 
-        public Color DefaultColor
+        public SolidColorBrush DefaultColor
         {
-            get { return (Color)GetValue(DefaultColorProperty); }
+            get { return (SolidColorBrush)GetValue(DefaultColorProperty); }
             set { SetValue(DefaultColorProperty, value); }
         }
 
@@ -50,7 +46,7 @@ namespace Heath.Lister.Converters
                     break;
 
                 default:
-                    retval = new SolidColorBrush(DefaultColor);
+                    retval = DefaultColor;
                     break;
             }
 

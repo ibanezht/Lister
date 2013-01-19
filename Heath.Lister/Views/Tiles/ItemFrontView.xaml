@@ -5,10 +5,12 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:listerConverters="clr-namespace:Heath.Lister.Converters" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    Width="173" Height="173" mc:Ignorable="d">
+    Width="173" Height="173" 
+    mc:Ignorable="d">
 
     <UserControl.Resources>
-        <listerConverters:PriorityToSolidColorBrushConverter x:Name="PriorityToSolidColorBrushConverter" />
+        <SolidColorBrush x:Key="DefaultColor" Color="{Binding ListColor.Color}" />
+        <listerConverters:PriorityToSolidColorBrushConverter x:Key="PriorityToSolidColorBrushConverter" DefaultColor="{StaticResource DefaultColor}" />
     </UserControl.Resources>
 
     <Grid Background="{Binding Priority, Converter={StaticResource PriorityToSolidColorBrushConverter}}" d:DataContext="{d:DesignData /SampleData/ListItemViewModelSampleData.xaml}">
