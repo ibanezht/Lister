@@ -2,8 +2,8 @@
 <!DOCTYPE dotfuscatorMap SYSTEM "http://www.preemptive.com/dotfuscator/dtd/dotfuscatorMap_v1.2.dtd">
 <dotfuscatorMap version="1.1">
     <header>
-        <timestamp>2012-09-22T08:09:01</timestamp>
-        <product version="4.9.7000.29303" user="Matthew Turnage" serial="140748-391-5992CCEE-B1AC3664-C44E2EAD-041C0ACC">Dotfuscator Windows Phone Edition</product>
+        <timestamp>2013-01-20T14:08:09</timestamp>
+        <product version="4.9.7000.29303" user="Matthew Turnage" serial="153181-391-D570EC33-DCB860AE-EBCFDC33-A2890C1C">Dotfuscator Windows Phone Edition</product>
     </header>
     <mapping>
         <module>
@@ -542,8 +542,7 @@
                     </method>
                     <method>
                         <signature>void(System.Windows.DependencyObject, System.Windows.DependencyPropertyChangedEventArgs)</signature>
-                        <name>OnHubTileStateChanged</name>
-                        <newname>a</newname>
+                        <name>OnStateChanged</name>
                     </method>
                     <method>
                         <signature>void(string)</signature>
@@ -816,9 +815,14 @@
                         <name>CompleteInitializePhoneApplication</name>
                     </method>
                     <method>
-                        <signature>Heath.Lister.Infrastructure.AppOpenState()</signature>
-                        <name>get_ApplicationStartup</name>
+                        <signature>Heath.Lister.Infrastructure.AppMonetizationType()</signature>
+                        <name>get_AppMonetizationType</name>
                         <newname>c</newname>
+                    </method>
+                    <method>
+                        <signature>Heath.Lister.Infrastructure.AppOpenState()</signature>
+                        <name>get_AppOpenState</name>
+                        <newname>d</newname>
                     </method>
                     <method>
                         <signature>bool()</signature>
@@ -843,8 +847,13 @@
                         <name>RootFrameNavigationFailed</name>
                     </method>
                     <method>
+                        <signature>void(Heath.Lister.Infrastructure.AppMonetizationType)</signature>
+                        <name>set_AppMonetizationType</name>
+                        <newname>a</newname>
+                    </method>
+                    <method>
                         <signature>void(Heath.Lister.Infrastructure.AppOpenState)</signature>
-                        <name>set_ApplicationStartup</name>
+                        <name>set_AppOpenState</name>
                         <newname>a</newname>
                     </method>
                     <method>
@@ -870,14 +879,19 @@
                         <newname>a</newname>
                     </field>
                     <field>
+                        <signature>Heath.Lister.Infrastructure.AppMonetizationType</signature>
+                        <name>&lt;AppMonetizationType&gt;k__BackingField</name>
+                        <newname>e</newname>
+                    </field>
+                    <field>
                         <signature>Heath.Lister.Infrastructure.AppOpenState</signature>
-                        <name>&lt;ApplicationStartup&gt;k__BackingField</name>
+                        <name>&lt;AppOpenState&gt;k__BackingField</name>
                         <newname>d</newname>
                     </field>
                     <field>
                         <signature>bool</signature>
                         <name>&lt;RemoveBackEntry&gt;k__BackingField</name>
-                        <newname>e</newname>
+                        <newname>f</newname>
                     </field>
                     <field>
                         <signature>Telerik.Windows.Controls.RadPhoneApplicationFrame</signature>
@@ -887,8 +901,12 @@
                 </fieldlist>
                 <propertylist>
                     <property>
+                        <signature>Heath.Lister.Infrastructure.AppMonetizationType()</signature>
+                        <name>AppMonetizationType</name>
+                    </property>
+                    <property>
                         <signature>Heath.Lister.Infrastructure.AppOpenState()</signature>
-                        <name>ApplicationStartup</name>
+                        <name>AppOpenState</name>
                     </property>
                     <property>
                         <signature>bool()</signature>
@@ -1091,6 +1109,26 @@
                 <eventlist />
             </type>
             <type>
+                <name>Heath.Lister.Converters.BooleanToVisibilityConverter</name>
+                <methodlist>
+                    <method>
+                        <signature>void()</signature>
+                        <name>.ctor</name>
+                    </method>
+                    <method>
+                        <signature>object(object, System.Type, object, System.Globalization.CultureInfo)</signature>
+                        <name>Convert</name>
+                    </method>
+                    <method>
+                        <signature>object(object, System.Type, object, System.Globalization.CultureInfo)</signature>
+                        <name>ConvertBack</name>
+                    </method>
+                </methodlist>
+                <fieldlist />
+                <propertylist />
+                <eventlist />
+            </type>
+            <type>
                 <name>Heath.Lister.Converters.ColorToSolidColorBrushConverter</name>
                 <methodlist>
                     <method>
@@ -1195,6 +1233,10 @@
                 <methodlist>
                     <method>
                         <signature>void()</signature>
+                        <name>.cctor</name>
+                    </method>
+                    <method>
+                        <signature>void()</signature>
                         <name>.ctor</name>
                     </method>
                     <method>
@@ -1205,9 +1247,32 @@
                         <signature>object(object, System.Type, object, System.Globalization.CultureInfo)</signature>
                         <name>ConvertBack</name>
                     </method>
+                    <method>
+                        <signature>System.Windows.Media.SolidColorBrush()</signature>
+                        <name>get_DefaultColor</name>
+                    </method>
+                    <method>
+                        <signature>void(System.Windows.Media.SolidColorBrush)</signature>
+                        <name>set_DefaultColor</name>
+                    </method>
                 </methodlist>
-                <fieldlist />
-                <propertylist />
+                <fieldlist>
+                    <field>
+                        <signature>System.Windows.DependencyProperty</signature>
+                        <name>DefaultColorProperty</name>
+                    </field>
+                    <field>
+                        <signature>string</signature>
+                        <name>DefaultColorPropertyName</name>
+                        <newname>a</newname>
+                    </field>
+                </fieldlist>
+                <propertylist>
+                    <property>
+                        <signature>System.Windows.Media.SolidColorBrush()</signature>
+                        <name>DefaultColor</name>
+                    </property>
+                </propertylist>
                 <eventlist />
             </type>
             <type>
@@ -1403,6 +1468,10 @@
                     <method>
                         <signature>string()</signature>
                         <name>get_NoItemsText</name>
+                    </method>
+                    <method>
+                        <signature>string()</signature>
+                        <name>get_NoneText</name>
                     </method>
                     <method>
                         <signature>string()</signature>
@@ -1653,6 +1722,10 @@
                     <property>
                         <signature>string()</signature>
                         <name>NoItemsText</name>
+                    </property>
+                    <property>
+                        <signature>string()</signature>
+                        <name>NoneText</name>
                     </property>
                     <property>
                         <signature>string()</signature>
@@ -2620,6 +2693,14 @@
                         <name>get_ClearTimeCommand</name>
                     </method>
                     <method>
+                        <signature>System.Nullable`1&lt;System.DateTime&gt;()</signature>
+                        <name>get_DueDate</name>
+                    </method>
+                    <method>
+                        <signature>System.Nullable`1&lt;System.DateTime&gt;()</signature>
+                        <name>get_DueTime</name>
+                    </method>
+                    <method>
                         <signature>string()</signature>
                         <name>get_PageName</name>
                     </method>
@@ -2662,6 +2743,14 @@
                         <newname>a</newname>
                     </method>
                     <method>
+                        <signature>void(System.Nullable`1&lt;System.DateTime&gt;)</signature>
+                        <name>set_DueDate</name>
+                    </method>
+                    <method>
+                        <signature>void(System.Nullable`1&lt;System.DateTime&gt;)</signature>
+                        <name>set_DueTime</name>
+                    </method>
+                    <method>
                         <signature>void(string)</signature>
                         <name>set_PageName</name>
                     </method>
@@ -2690,17 +2779,27 @@
                     <field>
                         <signature>System.Windows.Input.ICommand</signature>
                         <name>_cancelCommand</name>
-                        <newname>d</newname>
+                        <newname>f</newname>
                     </field>
                     <field>
                         <signature>System.Windows.Input.ICommand</signature>
                         <name>_clearDateCommand</name>
-                        <newname>e</newname>
+                        <newname>g</newname>
                     </field>
                     <field>
                         <signature>System.Windows.Input.ICommand</signature>
                         <name>_clearTimeCommand</name>
-                        <newname>f</newname>
+                        <newname>h</newname>
+                    </field>
+                    <field>
+                        <signature>System.Nullable`1&lt;System.DateTime&gt;</signature>
+                        <name>_dueDate</name>
+                        <newname>d</newname>
+                    </field>
+                    <field>
+                        <signature>System.Nullable`1&lt;System.DateTime&gt;</signature>
+                        <name>_dueTime</name>
+                        <newname>e</newname>
                     </field>
                     <field>
                         <signature>Heath.Lister.Infrastructure.INavigationService</signature>
@@ -2710,32 +2809,32 @@
                     <field>
                         <signature>string</signature>
                         <name>_pageName</name>
-                        <newname>g</newname>
+                        <newname>i</newname>
                     </field>
                     <field>
                         <signature>bool</signature>
                         <name>_reminder</name>
-                        <newname>h</newname>
+                        <newname>j</newname>
                     </field>
                     <field>
                         <signature>System.Nullable`1&lt;System.DateTime&gt;</signature>
                         <name>_reminderDate</name>
-                        <newname>i</newname>
+                        <newname>k</newname>
                     </field>
                     <field>
                         <signature>System.Nullable`1&lt;System.DateTime&gt;</signature>
                         <name>_reminderTime</name>
-                        <newname>j</newname>
+                        <newname>l</newname>
                     </field>
                     <field>
                         <signature>System.Windows.Input.ICommand</signature>
                         <name>_saveCommand</name>
-                        <newname>k</newname>
+                        <newname>m</newname>
                     </field>
                     <field>
                         <signature>string</signature>
                         <name>&lt;ApplicationTitle&gt;k__BackingField</name>
-                        <newname>l</newname>
+                        <newname>n</newname>
                     </field>
                     <field>
                         <signature>string</signature>
@@ -2768,6 +2867,14 @@
                     <property>
                         <signature>System.Windows.Input.ICommand()</signature>
                         <name>ClearTimeCommand</name>
+                    </property>
+                    <property>
+                        <signature>System.Nullable`1&lt;System.DateTime&gt;()</signature>
+                        <name>DueDate</name>
+                    </property>
+                    <property>
+                        <signature>System.Nullable`1&lt;System.DateTime&gt;()</signature>
+                        <name>DueTime</name>
                     </property>
                     <property>
                         <signature>string()</signature>
@@ -3162,6 +3269,10 @@
                         <name>get_ItemTappedCommand</name>
                     </method>
                     <method>
+                        <signature>bool()</signature>
+                        <name>get_ShowAdds</name>
+                    </method>
+                    <method>
                         <signature>void(Telerik.Windows.Controls.ListBoxItemTapEventArgs)</signature>
                         <name>ItemTapped</name>
                         <newname>a</newname>
@@ -3249,6 +3360,10 @@
                         <signature>System.Windows.Input.ICommand()</signature>
                         <name>ItemTappedCommand</name>
                     </property>
+                    <property>
+                        <signature>bool()</signature>
+                        <name>ShowAdds</name>
+                    </property>
                 </propertylist>
                 <eventlist />
             </type>
@@ -3304,6 +3419,10 @@
                         <name>get_ApplicationTitle</name>
                     </method>
                     <method>
+                        <signature>bool()</signature>
+                        <name>get_ShowAdds</name>
+                    </method>
+                    <method>
                         <signature>void()</signature>
                         <name>GoBack</name>
                         <newname>a</newname>
@@ -3338,6 +3457,10 @@
                     <property>
                         <signature>string()</signature>
                         <name>ApplicationTitle</name>
+                    </property>
+                    <property>
+                        <signature>bool()</signature>
+                        <name>ShowAdds</name>
                     </property>
                 </propertylist>
                 <eventlist />
@@ -3464,73 +3587,73 @@
                     </method>
                     <method>
                         <signature>bool(Heath.Lister.Infrastructure.Models.Item)</signature>
-                        <name>&lt;Activate&gt;b__1</name>
+                        <name>&lt;Activate&gt;b__5</name>
                         <newname>b</newname>
                     </method>
                     <method>
                         <signature>void(Heath.Lister.Infrastructure.Models.Item)</signature>
-                        <name>&lt;Activate&gt;b__2</name>
+                        <name>&lt;Activate&gt;b__6</name>
                         <newname>a</newname>
                     </method>
                     <method>
                         <signature>bool(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;CanCompleteSelected&gt;b__1b</name>
+                        <name>&lt;CanCompleteSelected&gt;b__1f</name>
                         <newname>c</newname>
                     </method>
                     <method>
                         <signature>bool(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;CanDeleteSelected&gt;b__24</name>
+                        <name>&lt;CanDeleteSelected&gt;b__28</name>
                         <newname>a</newname>
                     </method>
                     <method>
                         <signature>bool(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;CompleteSelected&gt;b__19</name>
+                        <name>&lt;CompleteSelected&gt;b__1d</name>
                         <newname>d</newname>
                     </method>
                     <method>
                         <signature>bool(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;DeleteSelected&gt;b__1d</name>
+                        <name>&lt;DeleteSelected&gt;b__21</name>
                         <newname>b</newname>
                     </method>
                     <method>
                         <signature>void(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;IsCheckModeActiveChanged&gt;b__5</name>
+                        <name>&lt;IsCheckModeActiveChanged&gt;b__9</name>
                         <newname>l</newname>
                     </method>
                     <method>
-                        <signature>bool(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;LoadLists&gt;b__7</name>
-                        <newname>k</newname>
-                    </method>
-                    <method>
-                        <signature>System.Nullable`1&lt;System.DateTime&gt;(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;LoadLists&gt;b__8</name>
-                        <newname>j</newname>
-                    </method>
-                    <method>
                         <signature>string(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;LoadLists&gt;b__9</name>
-                        <newname>i</newname>
-                    </method>
-                    <method>
-                        <signature>Heath.Lister.Infrastructure.Models.Priority(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;LoadLists&gt;b__a</name>
-                        <newname>h</newname>
-                    </method>
-                    <method>
-                        <signature>System.Nullable`1&lt;System.DateTime&gt;(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;LoadLists&gt;b__b</name>
-                        <newname>g</newname>
-                    </method>
-                    <method>
-                        <signature>string(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;LoadLists&gt;b__c</name>
+                        <name>&lt;LoadLists&gt;b__10</name>
                         <newname>f</newname>
                     </method>
                     <method>
                         <signature>Heath.Lister.Infrastructure.Models.Priority(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;LoadLists&gt;b__d</name>
+                        <name>&lt;LoadLists&gt;b__11</name>
                         <newname>e</newname>
+                    </method>
+                    <method>
+                        <signature>bool(Heath.Lister.ViewModels.ListItemViewModel)</signature>
+                        <name>&lt;LoadLists&gt;b__b</name>
+                        <newname>k</newname>
+                    </method>
+                    <method>
+                        <signature>System.Nullable`1&lt;System.DateTime&gt;(Heath.Lister.ViewModels.ListItemViewModel)</signature>
+                        <name>&lt;LoadLists&gt;b__c</name>
+                        <newname>j</newname>
+                    </method>
+                    <method>
+                        <signature>string(Heath.Lister.ViewModels.ListItemViewModel)</signature>
+                        <name>&lt;LoadLists&gt;b__d</name>
+                        <newname>i</newname>
+                    </method>
+                    <method>
+                        <signature>Heath.Lister.Infrastructure.Models.Priority(Heath.Lister.ViewModels.ListItemViewModel)</signature>
+                        <name>&lt;LoadLists&gt;b__e</name>
+                        <newname>h</newname>
+                    </method>
+                    <method>
+                        <signature>System.Nullable`1&lt;System.DateTime&gt;(Heath.Lister.ViewModels.ListItemViewModel)</signature>
+                        <name>&lt;LoadLists&gt;b__f</name>
+                        <newname>g</newname>
                     </method>
                     <method>
                         <signature>void()</signature>
@@ -3632,6 +3755,10 @@
                     <method>
                         <signature>System.Windows.Input.ICommand()</signature>
                         <name>get_ShareCommand</name>
+                    </method>
+                    <method>
+                        <signature>bool()</signature>
+                        <name>get_ShowAdds</name>
                     </method>
                     <method>
                         <signature>System.Windows.Input.ICommand()</signature>
@@ -3813,67 +3940,67 @@
                     </field>
                     <field>
                         <signature>System.Func`2&lt;Heath.Lister.ViewModels.ListItemViewModel,bool&gt;</signature>
-                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate10</name>
+                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate14</name>
                         <newname>w</newname>
                     </field>
                     <field>
                         <signature>System.Func`2&lt;Heath.Lister.ViewModels.ListItemViewModel,System.Nullable`1&lt;System.DateTime&gt;&gt;</signature>
-                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate11</name>
+                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate15</name>
                         <newname>x</newname>
                     </field>
                     <field>
                         <signature>System.Func`2&lt;Heath.Lister.ViewModels.ListItemViewModel,string&gt;</signature>
-                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate12</name>
+                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate16</name>
                         <newname>y</newname>
                     </field>
                     <field>
                         <signature>System.Func`2&lt;Heath.Lister.ViewModels.ListItemViewModel,Heath.Lister.Infrastructure.Models.Priority&gt;</signature>
-                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate13</name>
+                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate17</name>
                         <newname>z</newname>
                     </field>
                     <field>
                         <signature>System.Func`2&lt;Heath.Lister.ViewModels.ListItemViewModel,System.Nullable`1&lt;System.DateTime&gt;&gt;</signature>
-                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate14</name>
+                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate18</name>
                         <newname>aa</newname>
                     </field>
                     <field>
                         <signature>System.Func`2&lt;Heath.Lister.ViewModels.ListItemViewModel,string&gt;</signature>
-                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate15</name>
+                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate19</name>
                         <newname>ab</newname>
                     </field>
                     <field>
                         <signature>System.Func`2&lt;Heath.Lister.ViewModels.ListItemViewModel,Heath.Lister.Infrastructure.Models.Priority&gt;</signature>
-                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate16</name>
+                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate1a</name>
                         <newname>ac</newname>
                     </field>
                     <field>
                         <signature>System.Func`2&lt;Heath.Lister.ViewModels.ListItemViewModel,bool&gt;</signature>
-                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate1a</name>
+                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate1e</name>
                         <newname>ad</newname>
                     </field>
                     <field>
                         <signature>System.Func`2&lt;Heath.Lister.ViewModels.ListItemViewModel,bool&gt;</signature>
-                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate1c</name>
+                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate20</name>
                         <newname>ae</newname>
                     </field>
                     <field>
                         <signature>System.Func`2&lt;Heath.Lister.ViewModels.ListItemViewModel,bool&gt;</signature>
-                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate20</name>
+                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate24</name>
                         <newname>af</newname>
                     </field>
                     <field>
                         <signature>System.Func`2&lt;Heath.Lister.ViewModels.ListItemViewModel,bool&gt;</signature>
-                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate25</name>
+                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate29</name>
                         <newname>ag</newname>
                     </field>
                     <field>
                         <signature>System.Func`2&lt;Heath.Lister.Infrastructure.Models.Item,bool&gt;</signature>
-                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate3</name>
+                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate7</name>
                         <newname>u</newname>
                     </field>
                     <field>
                         <signature>System.Action`1&lt;Heath.Lister.ViewModels.ListItemViewModel&gt;</signature>
-                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate6</name>
+                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegatea</name>
                         <newname>v</newname>
                     </field>
                     <field>
@@ -3933,6 +4060,10 @@
                         <name>ShareCommand</name>
                     </property>
                     <property>
+                        <signature>bool()</signature>
+                        <name>ShowAdds</name>
+                    </property>
+                    <property>
                         <signature>System.Windows.Input.ICommand()</signature>
                         <name>SortCommand</name>
                     </property>
@@ -3948,8 +4079,8 @@
                 <eventlist />
             </type>
             <type>
-                <name>Heath.Lister.ViewModels.ListViewModel/&lt;&gt;c__DisplayClass17</name>
-                <newname>Heath.Lister.ViewModels.ListViewModel/a</newname>
+                <name>Heath.Lister.ViewModels.ListViewModel/&lt;&gt;c__DisplayClass1b</name>
+                <newname>Heath.Lister.ViewModels.ListViewModel/c</newname>
                 <methodlist>
                     <method>
                         <signature>void()</signature>
@@ -3957,13 +4088,13 @@
                     </method>
                     <method>
                         <signature>bool(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;LoadLists&gt;b__e</name>
-                        <newname>c</newname>
+                        <name>&lt;LoadLists&gt;b__12</name>
+                        <newname>b</newname>
                     </method>
                     <method>
                         <signature>bool(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;LoadLists&gt;b__f</name>
-                        <newname>b</newname>
+                        <name>&lt;LoadLists&gt;b__13</name>
+                        <newname>c</newname>
                     </method>
                 </methodlist>
                 <fieldlist>
@@ -3977,7 +4108,7 @@
                 <eventlist />
             </type>
             <type>
-                <name>Heath.Lister.ViewModels.ListViewModel/&lt;&gt;c__DisplayClass21</name>
+                <name>Heath.Lister.ViewModels.ListViewModel/&lt;&gt;c__DisplayClass25</name>
                 <newname>Heath.Lister.ViewModels.ListViewModel/b</newname>
                 <methodlist>
                     <method>
@@ -3986,12 +4117,12 @@
                     </method>
                     <method>
                         <signature>void(Telerik.Windows.Controls.MessageBoxClosedEventArgs)</signature>
-                        <name>&lt;DeleteSelected&gt;b__1e</name>
+                        <name>&lt;DeleteSelected&gt;b__22</name>
                         <newname>c</newname>
                     </method>
                     <method>
                         <signature>void(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;DeleteSelected&gt;b__1f</name>
+                        <name>&lt;DeleteSelected&gt;b__23</name>
                         <newname>c</newname>
                     </method>
                 </methodlist>
@@ -4003,7 +4134,7 @@
                     </field>
                     <field>
                         <signature>System.Action`1&lt;Heath.Lister.ViewModels.ListItemViewModel&gt;</signature>
-                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate23</name>
+                        <name>CS$&lt;&gt;9__CachedAnonymousMethodDelegate27</name>
                         <newname>c</newname>
                     </field>
                     <field>
@@ -4016,8 +4147,8 @@
                 <eventlist />
             </type>
             <type>
-                <name>Heath.Lister.ViewModels.ListViewModel/&lt;&gt;c__DisplayClass27</name>
-                <newname>Heath.Lister.ViewModels.ListViewModel/c</newname>
+                <name>Heath.Lister.ViewModels.ListViewModel/&lt;&gt;c__DisplayClass2b</name>
+                <newname>Heath.Lister.ViewModels.ListViewModel/a</newname>
                 <methodlist>
                     <method>
                         <signature>void()</signature>
@@ -4025,7 +4156,7 @@
                     </method>
                     <method>
                         <signature>void(Heath.Lister.ViewModels.ListItemViewModel)</signature>
-                        <name>&lt;Share&gt;b__26</name>
+                        <name>&lt;Share&gt;b__2a</name>
                         <newname>b</newname>
                     </method>
                 </methodlist>
@@ -4594,6 +4725,26 @@
         </module>
         <module>
             <name>Heath.Lister.Infrastructure.dll</name>
+            <type>
+                <name>Heath.Lister.Infrastructure.AppMonetizationType</name>
+                <methodlist />
+                <fieldlist>
+                    <field>
+                        <signature>Heath.Lister.Infrastructure.AppMonetizationType</signature>
+                        <name>Adds</name>
+                    </field>
+                    <field>
+                        <signature>Heath.Lister.Infrastructure.AppMonetizationType</signature>
+                        <name>Paid</name>
+                    </field>
+                    <field>
+                        <signature>int32</signature>
+                        <name>value__</name>
+                    </field>
+                </fieldlist>
+                <propertylist />
+                <eventlist />
+            </type>
             <type>
                 <name>Heath.Lister.Infrastructure.AppOpenState</name>
                 <methodlist />
@@ -5882,6 +6033,10 @@
                         <name>Medium</name>
                     </field>
                     <field>
+                        <signature>Heath.Lister.Infrastructure.Models.Priority</signature>
+                        <name>None</name>
+                    </field>
+                    <field>
                         <signature>int32</signature>
                         <name>value__</name>
                     </field>
@@ -6029,6 +6184,11 @@
                     <method>
                         <arity>1</arity>
                         <signature>!!0(string)</signature>
+                        <name>Load</name>
+                    </method>
+                    <method>
+                        <arity>1</arity>
+                        <signature>!!0(string, !!0)</signature>
                         <name>Load</name>
                     </method>
                     <method>
@@ -6192,19 +6352,19 @@
     <statistics>
         <statisticline>
             <description>Total Classes</description>
-            <statistic>90</statistic>
+            <statistic>92</statistic>
         </statisticline>
         <statisticline>
             <description>Total Methods</description>
-            <statistic>703</statistic>
+            <statistic>720</statistic>
         </statisticline>
         <statisticline>
             <description>Total Fields</description>
-            <statistic>319</statistic>
+            <statistic>328</statistic>
         </statisticline>
         <statisticline>
             <description>Total Properties</description>
-            <statistic>209</statistic>
+            <statistic>217</statistic>
         </statisticline>
         <statisticline>
             <description>Total Events</description>
@@ -6213,17 +6373,17 @@
         <statisticline>
             <description>Total Classes Renamed</description>
             <statistic>22</statistic>
-            <statistic>24.44 %</statistic>
+            <statistic>23.91 %</statistic>
         </statisticline>
         <statisticline>
             <description>Total Methods Renamed</description>
-            <statistic>165</statistic>
-            <statistic>23.47 %</statistic>
+            <statistic>166</statistic>
+            <statistic>23.06 %</statistic>
         </statisticline>
         <statisticline>
             <description>Total Fields Renamed</description>
-            <statistic>205</statistic>
-            <statistic>64.26 %</statistic>
+            <statistic>209</statistic>
+            <statistic>63.72 %</statistic>
         </statisticline>
         <statisticline>
             <description>Total Properties Renamed</description>
@@ -6238,37 +6398,37 @@
         <statisticline>
             <description>Methods Renamed to 'a'</description>
             <statistic>73</statistic>
-            <statistic>10.38 %</statistic>
+            <statistic>10.14 %</statistic>
         </statisticline>
         <statisticline>
             <description>Methods Renamed to 'b'</description>
             <statistic>34</statistic>
-            <statistic>4.84 %</statistic>
+            <statistic>4.72 %</statistic>
         </statisticline>
         <statisticline>
             <description>Methods Renamed to 'c'</description>
             <statistic>23</statistic>
-            <statistic>3.27 %</statistic>
+            <statistic>3.19 %</statistic>
         </statisticline>
         <statisticline>
             <description>Methods Renamed to 'd'</description>
-            <statistic>9</statistic>
-            <statistic>1.28 %</statistic>
+            <statistic>10</statistic>
+            <statistic>1.39 %</statistic>
         </statisticline>
         <statisticline>
             <description>Methods Renamed to 'e'</description>
             <statistic>5</statistic>
-            <statistic>0.71 %</statistic>
+            <statistic>0.69 %</statistic>
         </statisticline>
         <statisticline>
             <description>Methods Renamed to 'f'</description>
             <statistic>4</statistic>
-            <statistic>0.57 %</statistic>
+            <statistic>0.56 %</statistic>
         </statisticline>
         <statisticline>
             <description>Methods Renamed to 'g'</description>
             <statistic>4</statistic>
-            <statistic>0.57 %</statistic>
+            <statistic>0.56 %</statistic>
         </statisticline>
     </statistics>
 </dotfuscatorMap>

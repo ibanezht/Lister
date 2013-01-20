@@ -149,33 +149,35 @@ namespace Heath.Lister.ViewModels
             using (var data = new DataAccess())
             {
                 var list = data.GetList(Id, true);
+
                 Color = new ColorViewModel
                 {
                     Id = list.Color.Id,
                     Text = list.Color.Text,
                     Color = MediaColor.FromArgb(255, list.Color.R, list.Color.G, list.Color.B)
                 };
+
                 CreatedDate = list.CreatedDate;
                 Remaining = list.Items.Count(i => !i.Completed);
                 Title = list.Title;
 
-                list.Items.ForEach(
-                    i =>
-                    {
-                        var listItem = _createListItem();
-                        listItem.Completed = i.Completed;
-                        listItem.CreatedDate = i.CreatedDate;
-                        listItem.DueDate = i.DueDate;
-                        listItem.DueTime = i.DueTime;
-                        listItem.Id = i.Id;
-                        listItem.ListColor = Color;
-                        listItem.ListId = Id;
-                        listItem.ListTitle = Title;
-                        listItem.Notes = i.Notes;
-                        listItem.Priority = i.Priority;
-                        listItem.Title = i.Title;
-                        _listItems.Add(listItem);
-                    });
+                list.Items.ForEach(i =>
+                {
+                    var listItem = _createListItem();
+                    listItem.Completed = i.Completed;
+                    listItem.CreatedDate = i.CreatedDate;
+                    listItem.DueDate = i.DueDate;
+                    listItem.DueTime = i.DueTime;
+                    listItem.Id = i.Id;
+                    listItem.ListColor = Color;
+                    listItem.ListId = Id;
+                    listItem.ListTitle = Title;
+                    listItem.Notes = i.Notes;
+                    listItem.Priority = i.Priority;
+                    listItem.Title = i.Title;
+
+                    _listItems.Add(listItem);
+                });
             }
 
             LoadLists();
@@ -287,14 +289,13 @@ namespace Heath.Lister.ViewModels
                 switch (ListSort.ListSortBy)
                 {
                     case ListSortBy.Due:
-                        sortedList = sortedList.OrderBy(
-                            l =>
-                            {
-                                if (l.DueDate.HasValue && l.DueTime.HasValue)
-                                    return l.DueDate.Value.Date + l.DueTime.Value.TimeOfDay;
+                        sortedList = sortedList.OrderBy(l =>
+                        {
+                            if (l.DueDate.HasValue && l.DueTime.HasValue)
+                                return l.DueDate.Value.Date + l.DueTime.Value.TimeOfDay;
 
-                                return l.DueDate;
-                            });
+                            return l.DueDate;
+                        });
                         sortTitleBuilder.Append(AppResources.SortDueText);
                         break;
 

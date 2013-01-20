@@ -11,10 +11,7 @@ namespace Heath.Lister.Infrastructure
         private const string ValuePropertyName = "Value";
 
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register(
-                ValuePropertyName,
-                typeof(string),
-                typeof(ValueProvider), null);
+            DependencyProperty.Register(ValuePropertyName, typeof(string), typeof(ValueProvider), null);
 
         public string Value
         {

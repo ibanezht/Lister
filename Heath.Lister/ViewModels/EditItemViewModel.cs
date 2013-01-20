@@ -192,12 +192,14 @@ namespace Heath.Lister.ViewModels
                     CreatedDate = item.CreatedDate;
                     dueDate = item.DueDate;
                     dueTime = item.DueTime;
+
                     ListColor = new ColorViewModel
                     {
                         Id = item.List.Color.Id,
                         Text = item.List.Color.Text,
                         Color = Color.FromArgb(255, item.List.Color.R, item.List.Color.G, item.List.Color.B)
                     };
+
                     ListTitle = item.List.Title;
                     notes = item.Notes;
                     priority = item.Priority;
@@ -218,6 +220,7 @@ namespace Heath.Lister.ViewModels
                         Text = list.Color.Text,
                         Color = Color.FromArgb(255, list.Color.R, list.Color.G, list.Color.B)
                     };
+
                     ListTitle = list.Title;
                 }
             }
@@ -274,29 +277,28 @@ namespace Heath.Lister.ViewModels
 
         private void Save()
         {
-            Action<DateTime?> save =
-                r =>
+            Action<DateTime?> save = r =>
+            {
+                var backgroundWorker = new BackgroundWorker();
+                backgroundWorker.DoWork += (sender, args) =>
                 {
-                    var backgroundWorker = new BackgroundWorker();
-                    backgroundWorker.DoWork += (sender, args) =>
+                    Item item;
+
+                    using (var data = new DataAccess())
+                        item = data.UpsertItem(Id, ListId, Completed, DueDate, DueTime, Notes, Priority, Title);
+
+                    if (r.HasValue)
                     {
-                        Item item;
+                        var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", item.Id, ListId), UriKind.Relative));
 
-                        using (var data = new DataAccess())
-                            item = data.UpsertItem(Id, ListId, Completed, DueDate, DueTime, Notes, Priority, Title);
+                        ScheduleReminderHelper.AddReminder(item.Id.ToString(), uri, Title, Notes ?? string.Empty, r.Value);
+                    }
 
-                        if (r.HasValue)
-                        {
-                            var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", item.Id, ListId), UriKind.Relative));
-
-                            ScheduleReminderHelper.AddReminder(item.Id.ToString(), uri, Title, Notes ?? string.Empty, r.Value);
-                        }
-
-                        DispatcherHelper.UIDispatcher.BeginInvoke(UpdatePin);
-                    };
-                    backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
-                    backgroundWorker.RunWorkerAsync();
+                    DispatcherHelper.UIDispatcher.BeginInvoke(UpdatePin);
                 };
+                backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
+                backgroundWorker.RunWorkerAsync();
+            };
 
             if (!Reminder)
                 save(null);

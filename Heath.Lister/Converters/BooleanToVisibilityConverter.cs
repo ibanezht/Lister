@@ -11,6 +11,8 @@ namespace Heath.Lister.Converters
 {
     public class BooleanToVisibilityConverter : IValueConverter
     {
+        #region IValueConverter Members
+
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             return (bool)value ? Visibility.Visible : Visibility.Collapsed;
@@ -20,5 +22,7 @@ namespace Heath.Lister.Converters
         {
             return DependencyProperty.UnsetValue;
         }
+
+        #endregion
     }
 }

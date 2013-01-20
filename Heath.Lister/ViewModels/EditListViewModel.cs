@@ -165,12 +165,11 @@ namespace Heath.Lister.ViewModels
         private void Save()
         {
             var backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork +=
-                (sender, args) =>
-                {
-                    using (var data = new DataAccess())
-                        data.UpsertList(Id, ColorId, Title);
-                };
+            backgroundWorker.DoWork += (sender, args) =>
+            {
+                using (var data = new DataAccess())
+                    data.UpsertList(Id, ColorId, Title);
+            };
             backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
             backgroundWorker.RunWorkerAsync();
         }

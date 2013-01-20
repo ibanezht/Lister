@@ -80,22 +80,23 @@ namespace Heath.Lister.ViewModels
 
             using (var data = new DataAccess())
             {
-                data.GetLists().OrderBy(l => l.CreatedDate).ForEach(
-                    l =>
+                data.GetLists().OrderBy(l => l.CreatedDate).ForEach(l =>
+                {
+                    var hubItem = _createHubItem();
+
+                    hubItem.Color = new ColorViewModel
                     {
-                        var hubItem = _createHubItem();
-                        hubItem.Color = new ColorViewModel
-                        {
-                            Id = l.Color.Id,
-                            Text = l.Color.Text,
-                            Color = Color.FromArgb(255, l.Color.R, l.Color.G, l.Color.B)
-                        };
-                        hubItem.CreatedDate = l.CreatedDate;
-                        hubItem.Id = l.Id;
-                        hubItem.Remaining = l.Items.Count(i => !i.Completed);
-                        hubItem.Title = l.Title;
-                        HubItems.Add(hubItem);
-                    });
+                        Id = l.Color.Id,
+                        Text = l.Color.Text,
+                        Color = Color.FromArgb(255, l.Color.R, l.Color.G, l.Color.B)
+                    };
+
+                    hubItem.CreatedDate = l.CreatedDate;
+                    hubItem.Id = l.Id;
+                    hubItem.Remaining = l.Items.Count(i => !i.Completed);
+                    hubItem.Title = l.Title;
+                    HubItems.Add(hubItem);
+                });
             }
         }
 

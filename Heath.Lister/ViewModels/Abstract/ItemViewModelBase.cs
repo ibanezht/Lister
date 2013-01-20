@@ -277,20 +277,19 @@ namespace Heath.Lister.ViewModels.Abstract
             Action delete = () =>
             {
                 var backgroundWorker = new BackgroundWorker();
-                backgroundWorker.DoWork +=
-                    (sender, args) =>
-                    {
-                        using (var data = new DataAccess())
-                            data.DeleteItem(Id);
+                backgroundWorker.DoWork += (sender, args) =>
+                {
+                    using (var data = new DataAccess())
+                        data.DeleteItem(Id);
 
-                        ScheduleReminderHelper.RemoveReminder(Id.ToString());
+                    ScheduleReminderHelper.RemoveReminder(Id.ToString());
 
-                        // TODO: need a base property for URI; 'new Uri' is duplicated 4 times in this class...
-                        var shellTile = LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative)));
+                    // TODO: need a base property for URI; 'new Uri' is duplicated 4 times in this class...
+                    var shellTile = LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative)));
 
-                        if (shellTile != null)
-                            shellTile.Delete();
-                    };
+                    if (shellTile != null)
+                        shellTile.Delete();
+                };
                 backgroundWorker.RunWorkerCompleted += DeleteCompleted;
                 backgroundWorker.RunWorkerAsync();
             };
@@ -324,14 +323,13 @@ namespace Heath.Lister.ViewModels.Abstract
             Completed = false;
 
             var backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork +=
-                (sender, args) =>
-                {
-                    using (var data = new DataAccess())
-                        data.UpdateItem(Id, Completed);
+            backgroundWorker.DoWork += (sender, args) =>
+            {
+                using (var data = new DataAccess())
+                    data.UpdateItem(Id, Completed);
 
-                    ScheduleReminderHelper.RemoveReminder(Id.ToString());
-                };
+                ScheduleReminderHelper.RemoveReminder(Id.ToString());
+            };
             backgroundWorker.RunWorkerCompleted += IncompleteCompleted;
             backgroundWorker.RunWorkerAsync();
         }
@@ -348,14 +346,12 @@ namespace Heath.Lister.ViewModels.Abstract
             var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
 
             var itemFront = new ItemFrontView();
-            //itemFront.PriorityToSolidColorBrushConverter.DefaultColor = ListColor.Color; // why does this binding not work??!
             itemFront.DataContext = this;
             itemFront.UpdateLayout();
 
             if (!string.IsNullOrEmpty(Notes))
             {
                 var itemBack = new ItemBackView();
-                //itemBack.PriorityToSolidColorBrushConverter.DefaultColor = ListColor.Color;
                 itemBack.DataContext = this;
                 itemBack.UpdateLayout();
 

@@ -42,12 +42,14 @@ namespace Heath.Lister.ViewModels
                 CreatedDate = item.CreatedDate;
                 DueDate = item.DueDate;
                 DueTime = item.DueTime;
+
                 ListColor = new ColorViewModel
                 {
                     Id = item.List.Color.Id,
                     Text = item.List.Color.Text,
                     Color = Color.FromArgb(255, item.List.Color.R, item.List.Color.G, item.List.Color.B)
                 };
+
                 ListTitle = item.List.Title;
                 Notes = item.Notes;
                 Priority = item.Priority;

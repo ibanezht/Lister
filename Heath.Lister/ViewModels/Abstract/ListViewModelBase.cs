@@ -123,26 +123,25 @@ namespace Heath.Lister.ViewModels.Abstract
 
         private void Delete()
         {
-            Action<MessageBoxClosedEventArgs> closedHandler =
-                e =>
+            Action<MessageBoxClosedEventArgs> closedHandler = e =>
+            {
+                if (e.Result != DialogResult.OK)
+                    return;
+
+                var backgroundWorker = new BackgroundWorker();
+                backgroundWorker.DoWork += (sender, args) =>
                 {
-                    if (e.Result != DialogResult.OK)
-                        return;
+                    using (var data = new DataAccess())
+                        data.DeleteList(Id);
 
-                    var backgroundWorker = new BackgroundWorker();
-                    backgroundWorker.DoWork += (sender, args) =>
-                    {
-                        using (var data = new DataAccess())
-                            data.DeleteList(Id);
+                    var shellTile = LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative)));
 
-                        var shellTile = LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/List/{0}", Id), UriKind.Relative)));
-
-                        if (shellTile != null)
-                            shellTile.Delete();
-                    };
-                    backgroundWorker.RunWorkerCompleted += DeleteCompleted;
-                    backgroundWorker.RunWorkerAsync();
+                    if (shellTile != null)
+                        shellTile.Delete();
                 };
+                backgroundWorker.RunWorkerCompleted += DeleteCompleted;
+                backgroundWorker.RunWorkerAsync();
+            };
 
             RadMessageBox.Show(AppResources.DeleteText, MessageBoxButtons.YesNo, AppResources.DeleteListMessage, closedHandler: closedHandler);
         }
