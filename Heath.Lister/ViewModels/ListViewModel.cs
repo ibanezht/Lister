@@ -25,6 +25,7 @@ namespace Heath.Lister.ViewModels
 {
     public class ListViewModel : ListViewModelBase, IHaveId, IPageViewModel
     {
+        private const string ListSortPropertyName = "ListSort";
         private const string SelectedPivotItemPropertyName = "SelectedPivotItem";
         private const string SortTitlePropertyName = "SortTitle";
 
@@ -55,8 +56,6 @@ namespace Heath.Lister.ViewModels
             ApplicationTitle = "LISTER";
 
             Messenger.Default.Register<NotificationMessage<ListItemViewModel>>(this, ListItemNotificationMessageReceived);
-
-            ListSort = _listSortSetting.Value;
 
             AllListItems = new ObservableCollection<ListItemViewModel>();
             TodayListItems = new ObservableCollection<ListItemViewModel>();
@@ -218,6 +217,17 @@ namespace Heath.Lister.ViewModels
             _navigationService.Navigate(new Uri(string.Format("/Item/{0}/{1}", listItemViewModel.Id, listItemViewModel.ListId), UriKind.Relative));
         }
 
+        public void PopupOpening()
+        {
+            ListSort = new ListSortViewModel
+            {
+                ListSortBy = _listSortSetting.Value.ListSortBy, 
+                ListSortDirection = _listSortSetting.Value.ListSortDirection, 
+                HideCompleted = _listSortSetting.Value.HideCompleted
+            };
+            RaisePropertyChanged(ListSortPropertyName);
+        }
+
         // ENDTODO
 
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
@@ -241,7 +251,7 @@ namespace Heath.Lister.ViewModels
 
                     Remaining--;
 
-                    if (ListSort.HideCompleted)
+                    if (_listSortSetting.Value.HideCompleted)
                     {
                         AllListItems.Remove(completedItem);
                         TodayListItems.Remove(completedItem);
@@ -281,12 +291,12 @@ namespace Heath.Lister.ViewModels
             TodayListItems.Clear();
             OverdueListItems.Clear();
 
-            if (ListSort.HideCompleted)
+            if (_listSortSetting.Value.HideCompleted)
                 sortedList = sortedList.Where(s => !s.Completed);
 
-            if (ListSort.ListSortDirection == ListSortDirection.Ascending)
+            if (_listSortSetting.Value.ListSortDirection == ListSortDirection.Ascending)
             {
-                switch (ListSort.ListSortBy)
+                switch (_listSortSetting.Value.ListSortBy)
                 {
                     case ListSortBy.Due:
                         sortedList = sortedList.OrderBy(l =>
@@ -314,7 +324,7 @@ namespace Heath.Lister.ViewModels
             }
             else
             {
-                switch (ListSort.ListSortBy)
+                switch (_listSortSetting.Value.ListSortBy)
                 {
                     case ListSortBy.Due:
                         sortedList = sortedList.OrderByDescending(l =>
@@ -448,9 +458,9 @@ namespace Heath.Lister.ViewModels
         {
             if (e.Button.Text == AppResources.DoneText)
             {
-                LoadLists();
-
                 _listSortSetting.Value = ListSort;
+
+                LoadLists();
             }
 
             Messenger.Default.Send(new NotificationMessage<ListViewModel>(this, "SortCompleted"));

@@ -147,6 +147,10 @@
                         <interactivity:EventTrigger EventName="ApplicationBarButtonClick">
                             <command:EventToCommand Command="{Binding SortCommand}" PassEventArgsToCommand="True" />
                         </interactivity:EventTrigger>
+                        
+                        <interactivity:EventTrigger EventName="PopupOpening">
+                            <interactions:CallMethodAction MethodName="PopupOpening" TargetObject="{Binding}" />
+                        </interactivity:EventTrigger>
                     </interactivity:Interaction.Triggers>
                 </telerikPrimitives:RadPickerBox>
             </Grid>
