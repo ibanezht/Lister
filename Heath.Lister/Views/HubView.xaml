@@ -59,6 +59,6 @@
                 </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
             </telerikPrimitives:RadDataBoundListBox>
         </Grid>
-        <advert:AdControl x:Name="adControl" Visibility="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="2" Width="480" Height="80" AdUnitId="10044565" ApplicationId="7c5d4828-7089-49a4-9bfd-c97b2930853e" ErrorOccurred="AdControlErrorOccurred" />
+        <advert:AdControl x:Name="adControl" Visibility="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" IsEnabled="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="2" Width="480" Height="80" AdUnitId="10044565" ApplicationId="7c5d4828-7089-49a4-9bfd-c97b2930853e" ErrorOccurred="AdControlErrorOccurred" />
     </Grid>
 </phone:PhoneApplicationPage>

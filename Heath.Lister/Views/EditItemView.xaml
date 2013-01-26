@@ -22,7 +22,7 @@
     <phone:PhoneApplicationPage.Resources>
         <DataTemplate x:Key="PriorityDataTemplate">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Converter={StaticResource PriorityToStringConverter}}" Foreground="{Binding Converter={StaticResource BlackDefaultPriorityToSolidColorBrushConverter}}" />
+                <TextBlock Text="{Binding Converter={StaticResource PriorityToStringConverter}}" Foreground="{Binding Converter={StaticResource PhoneTextBoxForegroundDefaultPriorityToSolidColorBrushConverter}}" />
             </StackPanel>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>

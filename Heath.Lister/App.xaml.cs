@@ -1,5 +1,5 @@
 ﻿#define paidbuild
-#undef paidbuild
+//#undef paidbuild
 
 #region usings
 
