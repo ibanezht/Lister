@@ -41,10 +41,10 @@ namespace Heath.Lister.Views
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (App.ApplicationStartup != AppOpenState.Activated || _newInstance)
+            if (App.AppOpenState != AppOpenState.Activated || _newInstance)
                 this.ActivateViewModel();
 
-            App.ApplicationStartup = AppOpenState.None;
+            App.AppOpenState = AppOpenState.None;
             base.OnNavigatedTo(e);
         }
 

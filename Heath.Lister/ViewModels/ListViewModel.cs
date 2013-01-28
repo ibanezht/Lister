@@ -25,6 +25,7 @@ namespace Heath.Lister.ViewModels
 {
     public class ListViewModel : ListViewModelBase, IHaveId, IPageViewModel
     {
+        private const string ListSortPropertyName = "ListSort";
         private const string SelectedPivotItemPropertyName = "SelectedPivotItem";
         private const string SortTitlePropertyName = "SortTitle";
 
@@ -55,8 +56,6 @@ namespace Heath.Lister.ViewModels
             ApplicationTitle = "LISTER";
 
             Messenger.Default.Register<NotificationMessage<ListItemViewModel>>(this, ListItemNotificationMessageReceived);
-
-            ListSort = _listSortSetting.Value;
 
             AllListItems = new ObservableCollection<ListItemViewModel>();
             TodayListItems = new ObservableCollection<ListItemViewModel>();
@@ -112,6 +111,11 @@ namespace Heath.Lister.ViewModels
             get { return _shareCommand ?? (_shareCommand = new RelayCommand(Share)); }
         }
 
+        public bool ShowAdds
+        {
+            get { return App.AppMonetizationType == AppMonetizationType.Adds; }
+        }
+
         public ICommand SortCommand
         {
             get { return _sortCommand ?? (_sortCommand = new RelayCommand<ApplicationBarButtonClickEventArgs>(Sort)); }
@@ -144,33 +148,35 @@ namespace Heath.Lister.ViewModels
             using (var data = new DataAccess())
             {
                 var list = data.GetList(Id, true);
+
                 Color = new ColorViewModel
-                        {
-                            Id = list.Color.Id,
-                            Text = list.Color.Text,
-                            Color = MediaColor.FromArgb(255, list.Color.R, list.Color.G, list.Color.B)
-                        };
+                {
+                    Id = list.Color.Id,
+                    Text = list.Color.Text,
+                    Color = MediaColor.FromArgb(255, list.Color.R, list.Color.G, list.Color.B)
+                };
+
                 CreatedDate = list.CreatedDate;
                 Remaining = list.Items.Count(i => !i.Completed);
                 Title = list.Title;
 
-                list.Items.ForEach(
-                    i =>
-                    {
-                        var listItem = _createListItem();
-                        listItem.Completed = i.Completed;
-                        listItem.CreatedDate = i.CreatedDate;
-                        listItem.DueDate = i.DueDate;
-                        listItem.DueTime = i.DueTime;
-                        listItem.Id = i.Id;
-                        listItem.ListColor = Color;
-                        listItem.ListId = Id;
-                        listItem.ListTitle = Title;
-                        listItem.Notes = i.Notes;
-                        listItem.Priority = i.Priority;
-                        listItem.Title = i.Title;
-                        _listItems.Add(listItem);
-                    });
+                list.Items.ForEach(i =>
+                {
+                    var listItem = _createListItem();
+                    listItem.Completed = i.Completed;
+                    listItem.CreatedDate = i.CreatedDate;
+                    listItem.DueDate = i.DueDate;
+                    listItem.DueTime = i.DueTime;
+                    listItem.Id = i.Id;
+                    listItem.ListColor = Color;
+                    listItem.ListId = Id;
+                    listItem.ListTitle = Title;
+                    listItem.Notes = i.Notes;
+                    listItem.Priority = i.Priority;
+                    listItem.Title = i.Title;
+
+                    _listItems.Add(listItem);
+                });
             }
 
             LoadLists();
@@ -211,6 +217,17 @@ namespace Heath.Lister.ViewModels
             _navigationService.Navigate(new Uri(string.Format("/Item/{0}/{1}", listItemViewModel.Id, listItemViewModel.ListId), UriKind.Relative));
         }
 
+        public void PopupOpening()
+        {
+            ListSort = new ListSortViewModel
+            {
+                ListSortBy = _listSortSetting.Value.ListSortBy, 
+                ListSortDirection = _listSortSetting.Value.ListSortDirection, 
+                HideCompleted = _listSortSetting.Value.HideCompleted
+            };
+            RaisePropertyChanged(ListSortPropertyName);
+        }
+
         // ENDTODO
 
         protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args)
@@ -234,7 +251,7 @@ namespace Heath.Lister.ViewModels
 
                     Remaining--;
 
-                    if (ListSort.HideCompleted)
+                    if (_listSortSetting.Value.HideCompleted)
                     {
                         AllListItems.Remove(completedItem);
                         TodayListItems.Remove(completedItem);
@@ -274,22 +291,21 @@ namespace Heath.Lister.ViewModels
             TodayListItems.Clear();
             OverdueListItems.Clear();
 
-            if (ListSort.HideCompleted)
+            if (_listSortSetting.Value.HideCompleted)
                 sortedList = sortedList.Where(s => !s.Completed);
 
-            if (ListSort.ListSortDirection == ListSortDirection.Ascending)
+            if (_listSortSetting.Value.ListSortDirection == ListSortDirection.Ascending)
             {
-                switch (ListSort.ListSortBy)
+                switch (_listSortSetting.Value.ListSortBy)
                 {
                     case ListSortBy.Due:
-                        sortedList = sortedList.OrderBy(
-                            l =>
-                            {
-                                if (l.DueDate.HasValue && l.DueTime.HasValue)
-                                    return l.DueDate.Value.Date + l.DueTime.Value.TimeOfDay;
+                        sortedList = sortedList.OrderBy(l =>
+                        {
+                            if (l.DueDate.HasValue && l.DueTime.HasValue)
+                                return l.DueDate.Value.Date + l.DueTime.Value.TimeOfDay;
 
-                                return l.DueDate;
-                            });
+                            return l.DueDate;
+                        });
                         sortTitleBuilder.Append(AppResources.SortDueText);
                         break;
 
@@ -308,17 +324,16 @@ namespace Heath.Lister.ViewModels
             }
             else
             {
-                switch (ListSort.ListSortBy)
+                switch (_listSortSetting.Value.ListSortBy)
                 {
                     case ListSortBy.Due:
-                        sortedList = sortedList.OrderByDescending(
-                            l =>
-                            {
-                                if (l.DueDate.HasValue && l.DueTime.HasValue)
-                                    return l.DueDate.Value.Date + l.DueTime.Value.TimeOfDay;
+                        sortedList = sortedList.OrderByDescending(l =>
+                        {
+                            if (l.DueDate.HasValue && l.DueTime.HasValue)
+                                return l.DueDate.Value.Date + l.DueTime.Value.TimeOfDay;
 
-                                return l.DueDate;
-                            });
+                            return l.DueDate;
+                        });
                         sortTitleBuilder.Append(AppResources.SortDueText);
                         break;
 
@@ -384,14 +399,13 @@ namespace Heath.Lister.ViewModels
         {
             var selectedItems = _listItems.Where(l => l.Selected).ToList();
 
-            Action<MessageBoxClosedEventArgs> closedHandler =
-                e =>
-                {
-                    if (e.Result == DialogResult.OK)
-                        selectedItems.ForEach(listItem => listItem.Delete());
+            Action<MessageBoxClosedEventArgs> closedHandler = e =>
+            {
+                if (e.Result == DialogResult.OK)
+                    selectedItems.ForEach(listItem => listItem.Delete());
 
-                    ElementTreeHelper.FindVisualDescendant<RadDataBoundListBox>(SelectedPivotItem).IsCheckModeActive = false;
-                };
+                ElementTreeHelper.FindVisualDescendant<RadDataBoundListBox>(SelectedPivotItem).IsCheckModeActive = false;
+            };
 
             string deleteItemsMessage;
 
@@ -429,12 +443,11 @@ namespace Heath.Lister.ViewModels
             builder.Append(Title);
             builder.AppendLine();
 
-            _listItems.ForEach(
-                i =>
-                {
-                    builder.AppendFormat(" {0}", i.Title);
-                    builder.AppendLine();
-                });
+            _listItems.ForEach(i =>
+            {
+                builder.AppendFormat(" {0}", i.Title);
+                builder.AppendLine();
+            });
 
             var task = new SmsComposeTask();
             task.Body = builder.ToString();
@@ -443,11 +456,11 @@ namespace Heath.Lister.ViewModels
 
         private void Sort(ApplicationBarButtonClickEventArgs e)
         {
-            if (e.Button.Text == "done")
+            if (e.Button.Text == AppResources.DoneText)
             {
-                LoadLists();
-
                 _listSortSetting.Value = ListSort;
+
+                LoadLists();
             }
 
             Messenger.Default.Send(new NotificationMessage<ListViewModel>(this, "SortCompleted"));

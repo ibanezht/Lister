@@ -33,12 +33,11 @@ namespace Heath.Lister.ViewModels
 
             ApplicationTitle = "LISTER";
 
-            Messenger.Default.Register<NotificationMessage<HubItemViewModel>>(
-                this, nm =>
-                      {
-                          if (nm.Notification == "Delete")
-                              HubItems.Remove(HubItems.First(hi => hi.Id == nm.Content.Id));
-                      });
+            Messenger.Default.Register<NotificationMessage<HubItemViewModel>>(this, nm =>
+            {
+                if (nm.Notification == "Delete")
+                    HubItems.Remove(HubItems.First(hi => hi.Id == nm.Content.Id));
+            });
 
             HubItems = new ObservableCollection<HubItemViewModel>();
         }
@@ -62,6 +61,11 @@ namespace Heath.Lister.ViewModels
             get { return _itemTappedCommand ?? (_itemTappedCommand = new RelayCommand<ListBoxItemTapEventArgs>(ItemTapped)); }
         }
 
+        public bool ShowAdds
+        {
+            get { return App.AppMonetizationType == AppMonetizationType.Adds; }
+        }
+
         #region IPageViewModel Members
 
         public void Activate()
@@ -76,26 +80,27 @@ namespace Heath.Lister.ViewModels
 
             using (var data = new DataAccess())
             {
-                data.GetLists().OrderBy(l => l.CreatedDate).ForEach(
-                    l =>
+                data.GetLists().OrderBy(l => l.CreatedDate).ForEach(l =>
+                {
+                    var hubItem = _createHubItem();
+
+                    hubItem.Color = new ColorViewModel
                     {
-                        var hubItem = _createHubItem();
-                        hubItem.Color = new ColorViewModel
-                                        {
-                                            Id = l.Color.Id,
-                                            Text = l.Color.Text,
-                                            Color = Color.FromArgb(255, l.Color.R, l.Color.G, l.Color.B)
-                                        };
-                        hubItem.CreatedDate = l.CreatedDate;
-                        hubItem.Id = l.Id;
-                        hubItem.Remaining = l.Items.Count(i => !i.Completed);
-                        hubItem.Title = l.Title;
-                        HubItems.Add(hubItem);
-                    });
+                        Id = l.Color.Id,
+                        Text = l.Color.Text,
+                        Color = Color.FromArgb(255, l.Color.R, l.Color.G, l.Color.B)
+                    };
+
+                    hubItem.CreatedDate = l.CreatedDate;
+                    hubItem.Id = l.Id;
+                    hubItem.Remaining = l.Items.Count(i => !i.Completed);
+                    hubItem.Title = l.Title;
+                    HubItems.Add(hubItem);
+                });
             }
         }
 
-        public void Deactivate(bool isNavigationInitiator) {}
+        public void Deactivate(bool isNavigationInitiator) { }
 
         public void ViewReady()
         {

@@ -12,8 +12,19 @@ using Color = System.Windows.Media.Color;
 
 namespace Heath.Lister.Converters
 {
-    public class PriorityToSolidColorBrushConverter : IValueConverter
+    public class PriorityToSolidColorBrushConverter : DependencyObject, IValueConverter
     {
+        private const string DefaultColorPropertyName = "DefaultColor";
+
+        public static readonly DependencyProperty DefaultColorProperty =
+            DependencyProperty.Register(DefaultColorPropertyName, typeof(SolidColorBrush), typeof(PriorityToSolidColorBrushConverter), null);
+
+        public SolidColorBrush DefaultColor
+        {
+            get { return (SolidColorBrush)GetValue(DefaultColorProperty); }
+            set { SetValue(DefaultColorProperty, value); }
+        }
+
         #region IValueConverter Members
 
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -35,7 +46,7 @@ namespace Heath.Lister.Converters
                     break;
 
                 default:
-                    retval = new SolidColorBrush(Color.FromArgb(255, 27, 161, 226));
+                    retval = DefaultColor;
                     break;
             }
 

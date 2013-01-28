@@ -69,6 +69,6 @@
             <TextBlock x:Name="notes" Margin="12,-3,12,0" Style="{StaticResource PhoneTextSmallStyle}" Text="{Binding Notes, TargetNullValue={StaticResource NoNotesValueProvider}}" />
         </StackPanel>
 
-        <Rectangle x:Name="priority" Grid.Column="1" Width="15" Margin="0,6,0,3" Fill="{Binding Priority, Converter={StaticResource PriorityToSolidColorBrushConverter}}" />
+        <Rectangle x:Name="priority" Grid.Column="1" Width="15" Margin="0,6,0,3" Fill="{Binding Priority, Converter={StaticResource TransparentDefaultPriorityToSolidColorBrushConverter}}" />
     </Grid>
 </UserControl>

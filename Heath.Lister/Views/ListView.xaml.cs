@@ -5,11 +5,12 @@ using System.Windows;
 using System.Windows.Interactivity;
 using System.Windows.Navigation;
 using GalaSoft.MvvmLight.Messaging;
+using GalaSoft.MvvmLight.Threading;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Localization;
 using Heath.Lister.ViewModels;
-using Heath.Lister.ViewModels.Abstract;
+using Microsoft.Advertising;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
 
@@ -120,7 +121,7 @@ namespace Heath.Lister.Views
                           }
                       });
 
-            App.ApplicationStartup = AppOpenState.None;
+            App.AppOpenState = AppOpenState.None;
             base.OnNavigatedTo(e);
         }
 
@@ -129,6 +130,11 @@ namespace Heath.Lister.Views
             this.DeactivateViewModel(e.IsNavigationInitiator);
             Messenger.Default.Unregister<NotificationMessage<ListViewModel>>(this);
             base.OnNavigatedFrom(e);
+        }
+
+        private void AdControlErrorOccurred(object sender, AdErrorEventArgs e)
+        {
+            DispatcherHelper.UIDispatcher.BeginInvoke(() => { adControl.Visibility = Visibility.Collapsed; });
         }
     }
 }

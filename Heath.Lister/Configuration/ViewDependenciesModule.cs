@@ -16,14 +16,14 @@ namespace Heath.Lister.Configuration
         public override void Load()
         {
             Kernel.Bind<INavigationService>()
-                .ToMethod(_ => new NavigationService(((App)Application.Current).RootFrame))
-                .InSingletonScope();
+                  .ToMethod(_ => new NavigationService(((App)Application.Current).RootFrame))
+                  .InSingletonScope();
 
             Kernel.Bind<Func<HubItemViewModel>>()
-                .ToMethod(c => () => new HubItemViewModel(c.Kernel.Get<INavigationService>()));
+                  .ToMethod(c => () => new HubItemViewModel(c.Kernel.Get<INavigationService>()));
 
             Kernel.Bind<Func<ListItemViewModel>>()
-                .ToMethod(c => () => new ListItemViewModel(c.Kernel.Get<INavigationService>()));
+                  .ToMethod(c => () => new ListItemViewModel(c.Kernel.Get<INavigationService>()));
         }
     }
 }

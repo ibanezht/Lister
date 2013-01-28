@@ -26,6 +26,8 @@ namespace Heath.Lister.ViewModels
 
         private readonly INavigationService _navigationService;
 
+        private DateTime? _dueDate;
+        private DateTime? _dueTime;
         private ICommand _cancelCommand;
         private ICommand _clearDateCommand;
         private ICommand _clearTimeCommand;
@@ -44,6 +46,40 @@ namespace Heath.Lister.ViewModels
         }
 
         public string ApplicationTitle { get; private set; }
+
+        public override DateTime? DueDate
+        {
+            get { return _dueDate; }
+            set
+            {
+                _dueDate = value;
+
+                if (ReminderDate == null)
+                    ReminderDate = _dueDate;
+
+                RaisePropertyChanged(DueDatePropertyName);
+                RaisePropertyChanged(DueDateTimePropertyName);
+            }
+        }
+
+        public override DateTime? DueTime
+        {
+            get { return _dueTime; }
+            set
+            {
+                _dueTime = value;
+
+                if (_dueTime != null && _dueDate == null)
+                    _dueDate = DateTime.Today.Date;
+
+                if (ReminderTime == null)
+                    ReminderTime = _dueTime;
+
+                RaisePropertyChanged(DueTimePropertyName);
+                RaisePropertyChanged(DueDatePropertyName);
+                RaisePropertyChanged(DueDateTimePropertyName);
+            }
+        }
 
         public ICommand CancelCommand
         {
@@ -141,7 +177,7 @@ namespace Heath.Lister.ViewModels
             var dueDate = TombstoningHelper.Load<DateTime?>(DueDatePropertyName);
             var dueTime = TombstoningHelper.Load<DateTime?>(DueTimePropertyName);
             var notes = TombstoningHelper.Load<string>(NotesPropertyName);
-            var priority = TombstoningHelper.Load<Priority>(PriorityPropertyName);
+            var priority = TombstoningHelper.Load(PriorityPropertyName, Priority.None);
             var title = TombstoningHelper.Load<string>(TitlePropertyName);
 
             if (Id != Guid.Empty)
@@ -156,12 +192,14 @@ namespace Heath.Lister.ViewModels
                     CreatedDate = item.CreatedDate;
                     dueDate = item.DueDate;
                     dueTime = item.DueTime;
+
                     ListColor = new ColorViewModel
-                                {
-                                    Id = item.List.Color.Id,
-                                    Text = item.List.Color.Text,
-                                    Color = Color.FromArgb(255, item.List.Color.R, item.List.Color.G, item.List.Color.B)
-                                };
+                    {
+                        Id = item.List.Color.Id,
+                        Text = item.List.Color.Text,
+                        Color = Color.FromArgb(255, item.List.Color.R, item.List.Color.G, item.List.Color.B)
+                    };
+
                     ListTitle = item.List.Title;
                     notes = item.Notes;
                     priority = item.Priority;
@@ -177,11 +215,12 @@ namespace Heath.Lister.ViewModels
                     var list = data.GetList(ListId, false);
 
                     ListColor = new ColorViewModel
-                                {
-                                    Id = list.Color.Id,
-                                    Text = list.Color.Text,
-                                    Color = Color.FromArgb(255, list.Color.R, list.Color.G, list.Color.B)
-                                };
+                    {
+                        Id = list.Color.Id,
+                        Text = list.Color.Text,
+                        Color = Color.FromArgb(255, list.Color.R, list.Color.G, list.Color.B)
+                    };
+
                     ListTitle = list.Title;
                 }
             }
@@ -210,15 +249,15 @@ namespace Heath.Lister.ViewModels
             }
         }
 
-        public void ViewReady() {}
+        public void ViewReady() { }
 
         #endregion
 
-        protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args) {}
+        protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args) { }
 
-        protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args) {}
+        protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args) { }
 
-        protected override void IncompleteCompleted(object sender, RunWorkerCompletedEventArgs args) {}
+        protected override void IncompleteCompleted(object sender, RunWorkerCompletedEventArgs args) { }
 
         private void Cancel()
         {
@@ -238,44 +277,41 @@ namespace Heath.Lister.ViewModels
 
         private void Save()
         {
-            Action<DateTime?> save =
-                r =>
+            Action<DateTime?> save = r =>
+            {
+                var backgroundWorker = new BackgroundWorker();
+                backgroundWorker.DoWork += (sender, args) =>
                 {
-                    var backgroundWorker = new BackgroundWorker();
-                    backgroundWorker.DoWork +=
-                        (sender, args) =>
-                        {
-                            Item item;
+                    Item item;
 
-                            using (var data = new DataAccess())
-                                item = data.UpsertItem(Id, ListId, Completed, DueDate, DueTime, Notes, Priority, Title);
+                    using (var data = new DataAccess())
+                        item = data.UpsertItem(Id, ListId, Completed, DueDate, DueTime, Notes, Priority, Title);
 
-                            if (r.HasValue)
-                            {
-                                var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", item.Id, ListId), UriKind.Relative));
+                    if (r.HasValue)
+                    {
+                        var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", item.Id, ListId), UriKind.Relative));
 
-                                ScheduleReminderHelper.AddReminder(item.Id.ToString(), uri, Title, Notes ?? string.Empty, r.Value);
-                            }
+                        ScheduleReminderHelper.AddReminder(item.Id.ToString(), uri, Title, Notes ?? string.Empty, r.Value);
+                    }
 
-                            DispatcherHelper.UIDispatcher.BeginInvoke(UpdatePin);
-                        };
-                    backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
-                    backgroundWorker.RunWorkerAsync();
+                    DispatcherHelper.UIDispatcher.BeginInvoke(UpdatePin);
                 };
+                backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
+                backgroundWorker.RunWorkerAsync();
+            };
 
             if (!Reminder)
                 save(null);
 
             else
             {
-                Action<MessageBoxClosedEventArgs> closedHandler =
-                    e =>
-                    {
-                        if (e.Result != DialogResult.OK)
-                            return;
+                Action<MessageBoxClosedEventArgs> closedHandler = e =>
+                {
+                    if (e.Result != DialogResult.OK)
+                        return;
 
-                        save(null);
-                    };
+                    save(null);
+                };
 
                 if (!ReminderDate.HasValue || !ReminderTime.HasValue)
                     RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.YesNo, AppResources.ReminderMessageText, closedHandler: closedHandler);

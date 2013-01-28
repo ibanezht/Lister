@@ -97,11 +97,11 @@ namespace Heath.Lister.ViewModels
                 {
                     data.GetColors()
                         .Select(c => new ColorViewModel
-                                     {
-                                         Id = c.Id,
-                                         Text = c.Text,
-                                         Color = MediaColor.FromArgb(255, c.R, c.G, c.B)
-                                     })
+                        {
+                            Id = c.Id,
+                            Text = c.Text,
+                            Color = MediaColor.FromArgb(255, c.R, c.G, c.B)
+                        })
                         .ForEach(Colors.Add);
                 }
             }
@@ -151,11 +151,11 @@ namespace Heath.Lister.ViewModels
             UpdatePin();
         }
 
-        public void ViewReady() {}
+        public void ViewReady() { }
 
         #endregion
 
-        protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args) {}
+        protected override void DeleteCompleted(object sender, RunWorkerCompletedEventArgs args) { }
 
         private void Cancel()
         {
@@ -165,12 +165,11 @@ namespace Heath.Lister.ViewModels
         private void Save()
         {
             var backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork +=
-                (sender, args) =>
-                {
-                    using (var data = new DataAccess())
-                        data.UpsertList(Id, ColorId, Title);
-                };
+            backgroundWorker.DoWork += (sender, args) =>
+            {
+                using (var data = new DataAccess())
+                    data.UpsertList(Id, ColorId, Title);
+            };
             backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
             backgroundWorker.RunWorkerAsync();
         }

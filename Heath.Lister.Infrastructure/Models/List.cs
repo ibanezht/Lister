@@ -16,16 +16,14 @@ namespace Heath.Lister.Infrastructure.Models
 
         private EntityRef<Color> _color;
 
-        [Column]
-        private Guid _colorId;
+        [Column] private Guid _colorId;
 
         private DateTime _createdDate;
         private bool _deleted;
         private Guid _id;
         private string _title;
 
-        [Column(IsVersion = true)]
-        private Binary _version;
+        [Column(IsVersion = true)] private Binary _version;
 
         [Association(Storage = "_color", ThisKey = "_colorId", OtherKey = "Id", IsForeignKey = true)]
         public Color Color

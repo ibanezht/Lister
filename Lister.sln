@@ -1,13 +1,13 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 11.00
-# Visual Studio 2010
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heath.Lister", "Heath.Lister\Heath.Lister.csproj", "{278F185E-6064-4C9B-9453-34CBFDADDE1E}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heath.Lister.Infrastructure", "Heath.Lister.Infrastructure\Heath.Lister.Infrastructure.csproj", "{A15D5454-9D07-4521-8D7A-297D563D3647}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heath.Lister.About", "Heath.Lister.About\Heath.Lister.About.csproj", "{0FF34884-84DD-4B5A-9590-70267224CA1D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heath.Lister.Controls", "Heath.Lister.Controls\Heath.Lister.Controls.csproj", "{DA1E721E-C2B7-4FF4-BE65-930E27D122E5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Heath.Lister.Infrastructure", "Heath.Lister.Infrastructure\Heath.Lister.Infrastructure.csproj", "{A15D5454-9D07-4521-8D7A-297D563D3647}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,10 +21,6 @@ Global
 		{278F185E-6064-4C9B-9453-34CBFDADDE1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{278F185E-6064-4C9B-9453-34CBFDADDE1E}.Release|Any CPU.Build.0 = Release|Any CPU
 		{278F185E-6064-4C9B-9453-34CBFDADDE1E}.Release|Any CPU.Deploy.0 = Release|Any CPU
-		{A15D5454-9D07-4521-8D7A-297D563D3647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A15D5454-9D07-4521-8D7A-297D563D3647}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A15D5454-9D07-4521-8D7A-297D563D3647}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A15D5454-9D07-4521-8D7A-297D563D3647}.Release|Any CPU.Build.0 = Release|Any CPU
 		{0FF34884-84DD-4B5A-9590-70267224CA1D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{0FF34884-84DD-4B5A-9590-70267224CA1D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0FF34884-84DD-4B5A-9590-70267224CA1D}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -33,6 +29,10 @@ Global
 		{DA1E721E-C2B7-4FF4-BE65-930E27D122E5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DA1E721E-C2B7-4FF4-BE65-930E27D122E5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DA1E721E-C2B7-4FF4-BE65-930E27D122E5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A15D5454-9D07-4521-8D7A-297D563D3647}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A15D5454-9D07-4521-8D7A-297D563D3647}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A15D5454-9D07-4521-8D7A-297D563D3647}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A15D5454-9D07-4521-8D7A-297D563D3647}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

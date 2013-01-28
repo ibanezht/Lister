@@ -3,9 +3,11 @@
 using System;
 using System.Windows;
 using System.Windows.Navigation;
+using GalaSoft.MvvmLight.Threading;
 using Heath.Lister.Infrastructure;
 using Heath.Lister.Infrastructure.Extensions;
 using Heath.Lister.Localization;
+using Microsoft.Advertising;
 using Microsoft.Phone.Shell;
 using Telerik.Windows.Controls;
 
@@ -37,7 +39,7 @@ namespace Heath.Lister.Views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             this.ActivateViewModel();
-            App.ApplicationStartup = AppOpenState.None;
+            App.AppOpenState = AppOpenState.None;
             base.OnNavigatedTo(e);
         }
 
@@ -50,6 +52,11 @@ namespace Heath.Lister.Views
         private void HubItemsListBoxItemTap(object sender, ListBoxItemTapEventArgs e)
         {
             SetValue(RadTileAnimation.ElementToDelayProperty, e.Item);
+        }
+
+        private void AdControlErrorOccurred(object sender, AdErrorEventArgs e)
+        {
+            DispatcherHelper.UIDispatcher.BeginInvoke(() => { adControl.Visibility = Visibility.Collapsed; });
         }
     }
 }

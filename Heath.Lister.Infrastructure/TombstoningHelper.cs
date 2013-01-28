@@ -31,6 +31,18 @@ namespace Heath.Lister.Infrastructure
             return (T)result;
         }
 
+        public static T Load<T>(string key, T defaultValue)
+        {
+            object result;
+
+            if (_state.TryGetValue(key, out result))
+                _state.Remove(key);
+            else
+                result = defaultValue;
+
+            return (T)result;
+        }
+
         public static void Clear()
         {
             _state.Clear();

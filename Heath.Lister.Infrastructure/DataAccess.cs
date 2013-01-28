@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Data.Linq;
 using System.Linq;
 using Heath.Lister.Infrastructure.Models;
-using Color = Heath.Lister.Infrastructure.Models.Color;
 
 #endregion
 
@@ -67,12 +66,12 @@ namespace Heath.Lister.Infrastructure
             _data.Items.InsertOnSubmit(
                 new Item
                 {
-                    Id = Guid.NewGuid(), 
-                    Title = "tap me!", 
-                    Notes = "Thank you for downloading Lister! For questions, comments or suggestions about this app please email listerapp@hotmail.com.", 
-                    List = welcome, 
-                    DueDate = DateTime.Now.Date, 
-                    Priority = Priority.Low, 
+                    Id = Guid.NewGuid(),
+                    Title = "tap me!",
+                    Notes = "Thank you for downloading Lister! For questions, comments or suggestions about this app please email listerapp@hotmail.com.",
+                    List = welcome,
+                    DueDate = DateTime.Now.Date,
+                    Priority = Priority.None,
                     CreatedDate = DateTime.Now
                 });
 

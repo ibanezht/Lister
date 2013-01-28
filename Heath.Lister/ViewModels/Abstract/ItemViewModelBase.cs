@@ -101,7 +101,7 @@ namespace Heath.Lister.ViewModels.Abstract
             get { return _deleteCommand ?? (_deleteCommand = new RelayCommand(Delete)); }
         }
 
-        public DateTime? DueDate
+        public virtual DateTime? DueDate
         {
             get { return _dueDate; }
             set
@@ -133,7 +133,7 @@ namespace Heath.Lister.ViewModels.Abstract
             }
         }
 
-        public DateTime? DueTime
+        public virtual DateTime? DueTime
         {
             get { return _dueTime; }
             set
@@ -249,14 +249,18 @@ namespace Heath.Lister.ViewModels.Abstract
             Completed = true;
 
             var backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork +=
-                (sender, args) =>
-                {
-                    using (var data = new DataAccess())
-                        data.UpdateItem(Id, Completed);
+            backgroundWorker.DoWork += (sender, args) =>
+            {
+                using (var data = new DataAccess())
+                    data.UpdateItem(Id, Completed);
 
-                    ScheduleReminderHelper.RemoveReminder(Id.ToString());
-                };
+                ScheduleReminderHelper.RemoveReminder(Id.ToString());
+
+                // TODO: Shouldn't the pinned tiles also be removed??
+
+                // TODO: Consider a dialog before delete/complete that warns about
+                // removing reminders with a "don't show this again" check box.     
+            };
             backgroundWorker.RunWorkerCompleted += CompleteCompleted;
             backgroundWorker.RunWorkerAsync();
         }
@@ -270,40 +274,38 @@ namespace Heath.Lister.ViewModels.Abstract
 
         public void Delete()
         {
-            Action delete =
-                () =>
+            Action delete = () =>
+            {
+                var backgroundWorker = new BackgroundWorker();
+                backgroundWorker.DoWork += (sender, args) =>
                 {
-                    var backgroundWorker = new BackgroundWorker();
-                    backgroundWorker.DoWork +=
-                        (sender, args) =>
-                        {
-                            using (var data = new DataAccess())
-                                data.DeleteItem(Id);
+                    using (var data = new DataAccess())
+                        data.DeleteItem(Id);
 
-                            ScheduleReminderHelper.RemoveReminder(Id.ToString());
+                    ScheduleReminderHelper.RemoveReminder(Id.ToString());
 
-                            // TODO: need a base property for URI; 'new Uri' is duplicated 4 times in this class...
-                            var shellTile = LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative)));
-                            if (shellTile != null)
-                                shellTile.Delete();
-                        };
-                    backgroundWorker.RunWorkerCompleted += DeleteCompleted;
-                    backgroundWorker.RunWorkerAsync();
+                    // TODO: need a base property for URI; 'new Uri' is duplicated 4 times in this class...
+                    var shellTile = LiveTileHelper.GetTile(UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative)));
+
+                    if (shellTile != null)
+                        shellTile.Delete();
                 };
+                backgroundWorker.RunWorkerCompleted += DeleteCompleted;
+                backgroundWorker.RunWorkerAsync();
+            };
 
             if (Selected)
                 delete();
 
             else
             {
-                Action<MessageBoxClosedEventArgs> closedHandler =
-                    e =>
-                    {
-                        if (e.Result != DialogResult.OK)
-                            return;
+                Action<MessageBoxClosedEventArgs> closedHandler = e =>
+                {
+                    if (e.Result != DialogResult.OK)
+                        return;
 
-                        delete();
-                    };
+                    delete();
+                };
 
                 RadMessageBox.Show(AppResources.DeleteText, MessageBoxButtons.YesNo, AppResources.DeleteItemMessage, closedHandler: closedHandler);
             }
@@ -321,14 +323,13 @@ namespace Heath.Lister.ViewModels.Abstract
             Completed = false;
 
             var backgroundWorker = new BackgroundWorker();
-            backgroundWorker.DoWork +=
-                (sender, args) =>
-                {
-                    using (var data = new DataAccess())
-                        data.UpdateItem(Id, Completed);
+            backgroundWorker.DoWork += (sender, args) =>
+            {
+                using (var data = new DataAccess())
+                    data.UpdateItem(Id, Completed);
 
-                    ScheduleReminderHelper.RemoveReminder(Id.ToString());
-                };
+                ScheduleReminderHelper.RemoveReminder(Id.ToString());
+            };
             backgroundWorker.RunWorkerCompleted += IncompleteCompleted;
             backgroundWorker.RunWorkerAsync();
         }
@@ -345,14 +346,12 @@ namespace Heath.Lister.ViewModels.Abstract
             var uri = UriMappings.Instance.MapUri(new Uri(string.Format("/Item/{0}/{1}", Id, ListId), UriKind.Relative));
 
             var itemFront = new ItemFrontView();
-
             itemFront.DataContext = this;
             itemFront.UpdateLayout();
 
             if (!string.IsNullOrEmpty(Notes))
             {
                 var itemBack = new ItemBackView();
-
                 itemBack.DataContext = this;
                 itemBack.UpdateLayout();
 
@@ -377,18 +376,20 @@ namespace Heath.Lister.ViewModels.Abstract
                 return;
 
             var itemFront = new ItemFrontView();
-
             itemFront.DataContext = this;
             itemFront.UpdateLayout();
 
             if (!string.IsNullOrEmpty(Notes))
             {
                 var itemBack = new ItemBackView();
-
                 itemBack.DataContext = this;
                 itemBack.UpdateLayout();
 
-                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData { VisualElement = itemFront, BackVisualElement = itemBack });
+                LiveTileHelper.UpdateTile(shellTile, new RadExtendedTileData
+                {
+                    VisualElement = itemFront,
+                    BackVisualElement = itemBack
+                });
             }
 
             else

@@ -12,7 +12,7 @@ namespace Heath.Lister.ViewModels
     public class ListItemViewModel : ItemViewModelBase
     {
         public ListItemViewModel(INavigationService navigationService)
-            : base(navigationService) {}
+            : base(navigationService) { }
 
         protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {

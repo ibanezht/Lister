@@ -1,21 +1,19 @@
-﻿<phone:PhoneApplicationPage x:Class="Heath.Lister.About.Views.AboutView" 
-                            xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
-                            xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-                            xmlns:aboutLocalization="clr-namespace:Heath.Lister.About.Localization" 
-                            xmlns:aboutViewModels="clr-namespace:Heath.Lister.About.ViewModels" 
-                            xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-                            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-                            xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
-                            xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
-                            xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" 
-                            d:DesignHeight="768" d:DesignWidth="480" 
-                            FontFamily="{StaticResource PhoneFontFamilyNormal}" 
-                            FontSize="{StaticResource PhoneFontSizeNormal}" 
-                            Foreground="{StaticResource PhoneForegroundBrush}" 
-                            shell:SystemTray.IsVisible="True" 
-                            SupportedOrientations="PortraitOrLandscape" 
-                            telerikCore:InteractionEffectManager.IsInteractionEnabled="True" 
-                            mc:Ignorable="d">
+﻿<phone:PhoneApplicationPage 
+    x:Class="Heath.Lister.About.Views.AboutView" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:aboutLocalization="clr-namespace:Heath.Lister.About.Localization" 
+    xmlns:aboutViewModels="clr-namespace:Heath.Lister.About.ViewModels" 
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
+    xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" 
+    d:DesignHeight="768" d:DesignWidth="480" 
+    shell:SystemTray.IsVisible="True" 
+    SupportedOrientations="PortraitOrLandscape" 
+    telerikCore:InteractionEffectManager.IsInteractionEnabled="True" 
+    mc:Ignorable="d">
 
     <phone:PhoneApplicationPage.Resources>
         <aboutViewModels:ViewModelLocator x:Key="Locator" d:IsDataSource="True" />

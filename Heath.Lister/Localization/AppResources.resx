@@ -285,4 +285,7 @@
   <data name="ReminderText" xml:space="preserve">
     <value>reminder</value>
   </data>
+  <data name="NoneText" xml:space="preserve">
+    <value>None</value>
+  </data>
 </root>

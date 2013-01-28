@@ -2,6 +2,7 @@
     x:Class="Heath.Lister.Views.ItemDetailsView" 
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:advert="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
@@ -10,7 +11,7 @@
     d:DesignHeight="768" d:DesignWidth="480" 
     DataContext="{Binding ItemDetails, Source={StaticResource Locator}}" 
     shell:SystemTray.IsVisible="True" 
-    SupportedOrientations="PortraitOrLandscape" 
+    SupportedOrientations="Portrait" 
     telerikCore:InteractionEffectManager.IsInteractionEnabled="True" 
     mc:Ignorable="d">
 
@@ -18,6 +19,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
         <StackPanel Style="{StaticResource TitlePanelStyle}">
@@ -46,7 +48,7 @@
                 <TextBlock Margin="12,0,12,12" Style="{StaticResource PhoneTextExtraLargeStyle}" Text="{Binding Title}" />
                 <TextBlock Grid.Row="1" Margin="12,0,12,12" Foreground="{Binding ListColor.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" Style="{StaticResource ListTitleStyle}" Text="{Binding ListTitle}" />
                 <TextBlock Grid.Row="2" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.PriorityText, Source={StaticResource LocalizedStrings}}" />
-                <TextBlock Grid.Row="3" Foreground="{Binding Priority, Converter={StaticResource PriorityToSolidColorBrushConverter}}" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding Priority, Converter={StaticResource PriorityToStringConverter}}" />
+                <TextBlock Grid.Row="3" Foreground="{Binding Priority, Converter={StaticResource ForegroundDefaultPriorityToSolidColorBrushConverter}}" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding Priority, Converter={StaticResource PriorityToStringConverter}}" />
                 <TextBlock Grid.Row="5" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.DueText, Source={StaticResource LocalizedStrings}}" />
                 <TextBlock Grid.Row="6" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding DueDateTime}" />
                 <TextBlock Grid.Row="8" Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.NotesText, Source={StaticResource LocalizedStrings}}" />
@@ -55,5 +57,6 @@
                 <TextBlock Grid.Row="12" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding Completed, Converter={StaticResource CompletedBooleanToTextValueConverter}}" />
             </Grid>
         </ScrollViewer>
+        <advert:AdControl x:Name="adControl" Visibility="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" IsEnabled="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="2" Width="480" Height="80" AdUnitId="10044565" ApplicationId="7c5d4828-7089-49a4-9bfd-c97b2930853e" ErrorOccurred="AdControlErrorOccurred" />
     </Grid>
 </phone:PhoneApplicationPage>

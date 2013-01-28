@@ -1,4 +1,7 @@
-﻿#region usings
+﻿#define paidbuild
+//#undef paidbuild
+
+#region usings
 
 using System.Diagnostics;
 using System.Windows;
@@ -22,6 +25,12 @@ namespace Heath.Lister
 
             InitializeComponent();
 
+#if paidbuild
+            AppMonetizationType = AppMonetizationType.Paid;
+#else
+            AppMonetizationType = AppMonetizationType.Adds;
+#endif
+
             InitializePhoneApplication();
 
             var radDiagnostics = new RadDiagnostics();
@@ -35,7 +44,9 @@ namespace Heath.Lister
             DispatcherHelper.Initialize();
 
             using (var data = new DataAccess())
+            {
                 data.Initialize();
+            }
 
             InteractionEffectManager.AllowedTypes.Add(typeof(Button));
             InteractionEffectManager.AllowedTypes.Add(typeof(RadDataBoundListBoxItem));
@@ -64,7 +75,9 @@ namespace Heath.Lister
 
         public RadPhoneApplicationFrame RootFrame { get; private set; }
 
-        internal static AppOpenState ApplicationStartup { get; set; }
+        internal static AppOpenState AppOpenState { get; set; }
+
+        internal static AppMonetizationType AppMonetizationType { get; set; }
 
         internal static bool RemoveBackEntry { get; set; }
 
@@ -72,7 +85,7 @@ namespace Heath.Lister
         {
             ApplicationUsageHelper.Init("1.1");
 
-            ApplicationStartup = AppOpenState.Launching;
+            AppOpenState = AppOpenState.Launching;
         }
 
         private void ApplicationActivated(object sender, ActivatedEventArgs e)
@@ -80,17 +93,17 @@ namespace Heath.Lister
             if (!e.IsApplicationInstancePreserved)
                 ApplicationUsageHelper.OnApplicationActivated();
 
-            ApplicationStartup = AppOpenState.Activated;
+            AppOpenState = AppOpenState.Activated;
         }
 
         private void ApplicationDeactivated(object sender, DeactivatedEventArgs e)
         {
-            ApplicationStartup = AppOpenState.Deactivated;
+            AppOpenState = AppOpenState.Deactivated;
         }
 
         private void ApplicationClosing(object sender, ClosingEventArgs e)
         {
-            ApplicationStartup = AppOpenState.Closing;
+            AppOpenState = AppOpenState.Closing;
         }
 
         private static void RootFrameNavigationFailed(object sender, NavigationFailedEventArgs e)
