@@ -6,6 +6,7 @@
     xmlns:listerConverters="clr-namespace:Heath.Lister.Converters" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     Width="173" Height="173" 
+    d:DataContext="{d:DesignData /SampleData/ListItemViewModelSampleData.xaml}" 
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -13,7 +14,7 @@
         <listerConverters:PriorityToSolidColorBrushConverter x:Key="PriorityToSolidColorBrushConverter" DefaultColor="{StaticResource DefaultColor}" />
     </UserControl.Resources>
 
-    <Grid Background="{Binding Priority, Converter={StaticResource PriorityToSolidColorBrushConverter}}" d:DataContext="{d:DesignData /SampleData/ListItemViewModelSampleData.xaml}">
+    <Grid Background="{Binding Priority, Converter={StaticResource PriorityToSolidColorBrushConverter}}">
         <Grid.RowDefinitions>
             <RowDefinition />
             <RowDefinition />
@@ -22,6 +23,6 @@
 
         <TextBlock Margin="12,12,12,0" Foreground="#FFFFFFFF" Style="{StaticResource PhoneTextTitle3Style}" Text="{Binding Title}" />
         <TextBlock Grid.Row="1" Margin="12,-12,12,0" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="#FFFFFFFF" Text="{Binding DueDateTime}" />
-        <TextBlock Grid.Row="2" Margin="12,0,12,12" VerticalAlignment="Bottom" Foreground="#FFFFFFFF" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding ListTitle}" />
+        <TextBlock Grid.Row="2" Margin="12,0,12,6" VerticalAlignment="Bottom" Foreground="#FFFFFFFF" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding ListTitle}" />
     </Grid>
 </UserControl>

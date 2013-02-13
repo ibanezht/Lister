@@ -6,6 +6,7 @@
     xmlns:listerConverters="clr-namespace:Heath.Lister.Converters" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     Width="173" Height="173" 
+    d:DataContext="{d:DesignData /SampleData/ListItemViewModelSampleData.xaml}" 
     mc:Ignorable="d">
 
     <UserControl.Resources>
@@ -13,7 +14,7 @@
         <listerConverters:PriorityToSolidColorBrushConverter x:Key="PriorityToSolidColorBrushConverter" DefaultColor="{StaticResource DefaultColor}" />
     </UserControl.Resources>
 
-    <Grid Background="{Binding Priority, Converter={StaticResource PriorityToSolidColorBrushConverter}}" d:DataContext="{d:DesignData /SampleData/ListItemViewModelSampleData.xaml}">
+    <Grid Background="{Binding Priority, Converter={StaticResource PriorityToSolidColorBrushConverter}}">
         <TextBlock Margin="12" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="#FFFFFFFF" Text="{Binding Notes}" TextWrapping="Wrap" />
     </Grid>
 </UserControl>
