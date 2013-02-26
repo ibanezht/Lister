@@ -41,8 +41,8 @@
                                 </VisualStateGroup>
                             </VisualStateManager.VisualStateGroups>
 
-                            <TextBlock Foreground="{TemplateBinding Foreground}" Style="{StaticResource PhoneTextExtraLargeStyle}" Text="{TemplateBinding MessageLarge}" />
-                            <TextBlock Grid.Row="1" Margin="12,-6,12,0" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding MessageSmall}" />
+                            <TextBlock Foreground="{TemplateBinding Foreground}" Style="{StaticResource PhoneTextLargeStyle}" Text="{TemplateBinding MessageLarge}" />
+                            <TextBlock Grid.Row="1" Margin="12,-9,12,0" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="{TemplateBinding Foreground}" Text="{TemplateBinding MessageSmall}" />
                             <TextBlock Grid.Row="2" Margin="12,0,12,6" VerticalAlignment="Bottom" Foreground="{TemplateBinding Foreground}" Style="{StaticResource PhoneTextNormalStyle}" Text="{TemplateBinding Title}" />
                         </Grid>
                     </ControlTemplate>

@@ -21,8 +21,8 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <TextBlock Margin="12,12,12,0" Foreground="#FFFFFFFF" Style="{StaticResource PhoneTextTitle3Style}" Text="{Binding Title}" />
-        <TextBlock Grid.Row="1" Margin="12,-12,12,0" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="#FFFFFFFF" Text="{Binding DueDateTime}" />
+        <TextBlock Foreground="#FFFFFFFF" Style="{StaticResource PhoneTextLargeStyle}" Text="{Binding Title}" />
+        <TextBlock Grid.Row="1" Margin="12,-9,12,0" FontFamily="{StaticResource PhoneFontFamilyLight}" FontSize="{StaticResource PhoneFontSizeSmall}" Foreground="#FFFFFFFF" Text="{Binding DueDateTime}" />
         <TextBlock Grid.Row="2" Margin="12,0,12,6" VerticalAlignment="Bottom" Foreground="#FFFFFFFF" Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding ListTitle}" />
     </Grid>
 </UserControl>
