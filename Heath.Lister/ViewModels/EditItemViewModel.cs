@@ -31,6 +31,7 @@ namespace Heath.Lister.ViewModels
         private ICommand _cancelCommand;
         private ICommand _clearDateCommand;
         private ICommand _clearTimeCommand;
+        private ICommand _nextCommand;
         private string _pageName;
         private bool _reminder;
         private DateTime? _reminderDate;
@@ -101,6 +102,11 @@ namespace Heath.Lister.ViewModels
             get { return _clearTimeCommand ?? (_clearTimeCommand = new RelayCommand(ClearTime)); }
         }
 
+        public ICommand NextCommand
+        {
+            get { return _nextCommand ?? (_nextCommand = new RelayCommand(Next, CanSave)); }
+        }
+
         public string PageName
         {
             get { return _pageName; }
@@ -166,6 +172,7 @@ namespace Heath.Lister.ViewModels
             {
                 base.Title = value;
                 ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
+                ((RelayCommand)NextCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -275,7 +282,17 @@ namespace Heath.Lister.ViewModels
             DueTime = null;
         }
 
+        private void Next()
+        {
+            SaveInternal(false);
+        }
+
         private void Save()
+        {
+            SaveInternal(true);
+        }
+
+        private void SaveInternal(bool goBack)
         {
             Action<DateTime?> save = r =>
             {
@@ -296,7 +313,23 @@ namespace Heath.Lister.ViewModels
 
                     DispatcherHelper.UIDispatcher.BeginInvoke(UpdatePin);
                 };
-                backgroundWorker.RunWorkerCompleted += (sender, args) => _navigationService.GoBack();
+
+                backgroundWorker.RunWorkerCompleted += (sender, args) =>
+                {
+                    if (goBack)
+                        _navigationService.GoBack();
+
+                    else
+                    {
+                        Completed = false;
+                        DueDate = null;
+                        DueTime = null;
+                        Notes = null;
+                        Priority = Priority.None;
+                        Title = null;
+                    }
+                };
+
                 backgroundWorker.RunWorkerAsync();
             };
 

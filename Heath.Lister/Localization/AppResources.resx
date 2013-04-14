@@ -288,4 +288,7 @@
   <data name="NoneText" xml:space="preserve">
     <value>None</value>
   </data>
+  <data name="NextText" xml:space="preserve">
+    <value>Next</value>
+  </data>
 </root>

@@ -58,8 +58,8 @@ namespace Heath.Lister.Infrastructure
             if (_data.Lists.Any())
                 return;
 
-            var lime = _data.Colors.Single(c => c.Text == "blue");
-            var welcome = new List { Id = Guid.NewGuid(), Color = lime, Title = "welcome!", CreatedDate = DateTime.Now };
+            var blue = _data.Colors.Single(c => c.Text == "blue");
+            var welcome = new List { Id = Guid.NewGuid(), Color = blue, Title = "welcome!", CreatedDate = DateTime.Now };
 
             _data.Lists.InsertOnSubmit(welcome);
 
