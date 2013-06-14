@@ -329,7 +329,6 @@ namespace Heath.Lister.ViewModels
                         Title = null;
                     }
                 };
-
                 backgroundWorker.RunWorkerAsync();
             };
 
