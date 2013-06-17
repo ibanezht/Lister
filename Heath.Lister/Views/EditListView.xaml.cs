@@ -30,7 +30,7 @@ namespace Heath.Lister.Views
         {
             ApplicationBar = new ApplicationBar();
 
-            this.AddApplicationBarIconButton(new Uri("/Images/appbar.save.rest.png", UriKind.Relative), AppResources.SaveText, new PropertyPath("SaveCommand"));
+            this.AddApplicationBarIconButton(new Uri("/Images/Save.png", UriKind.Relative), AppResources.SaveText, new PropertyPath("SaveCommand"));
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.cancel.rest.png", UriKind.Relative), AppResources.CancelText, new PropertyPath("CancelCommand"));
         }
 
