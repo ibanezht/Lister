@@ -35,7 +35,7 @@ namespace Heath.Lister.Views
             ApplicationBar = new ApplicationBar();
 
             this.AddApplicationBarIconButton(new Uri("/Images/Save.png", UriKind.Relative), AppResources.SaveText, new PropertyPath("SaveCommand"));
-            this.AddApplicationBarIconButton(new Uri("/Images/SaveNext.png", UriKind.Relative), AppResources.SaveNextText, new PropertyPath("NextCommand"));
+            this.AddApplicationBarIconButton(new Uri("/Images/SaveNext.png", UriKind.Relative), AppResources.SaveNextText, new PropertyPath("SaveNextCommand"));
             this.AddApplicationBarIconButton(new Uri("/Images/appbar.cancel.rest.png", UriKind.Relative), AppResources.CancelText, new PropertyPath("CancelCommand"));
         }
 
@@ -75,7 +75,7 @@ namespace Heath.Lister.Views
 
         private static void Show(StackPanel stackPanel)
         {
-            var height = stackPanel.Children.Sum(c => c.DesiredSize.Height);
+            //var height = stackPanel.Children.Sum(c => c.DesiredSize.Height);
 
             var radResizeHeightAnimation = new RadResizeHeightAnimation();
             radResizeHeightAnimation.Duration = new Duration(TimeSpan.FromMilliseconds(150));

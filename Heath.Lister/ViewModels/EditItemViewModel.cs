@@ -31,7 +31,7 @@ namespace Heath.Lister.ViewModels
         private ICommand _cancelCommand;
         private ICommand _clearDateCommand;
         private ICommand _clearTimeCommand;
-        private ICommand _nextCommand;
+        private ICommand _saveNextCommand;
         private string _pageName;
         private bool _reminder;
         private DateTime? _reminderDate;
@@ -102,11 +102,6 @@ namespace Heath.Lister.ViewModels
             get { return _clearTimeCommand ?? (_clearTimeCommand = new RelayCommand(ClearTime)); }
         }
 
-        public ICommand NextCommand
-        {
-            get { return _nextCommand ?? (_nextCommand = new RelayCommand(Next, CanSave)); }
-        }
-
         public string PageName
         {
             get { return _pageName; }
@@ -152,6 +147,11 @@ namespace Heath.Lister.ViewModels
             get { return _saveCommand ?? (_saveCommand = new RelayCommand(Save, CanSave)); }
         }
 
+        public ICommand SaveNextCommand
+        {
+            get { return _saveNextCommand ?? (_saveNextCommand = new RelayCommand(SaveNext, CanSave)); }
+        }
+
         public IEnumerable<string> Suggestions
         {
             get
@@ -172,7 +172,7 @@ namespace Heath.Lister.ViewModels
             {
                 base.Title = value;
                 ((RelayCommand)SaveCommand).RaiseCanExecuteChanged();
-                ((RelayCommand)NextCommand).RaiseCanExecuteChanged();
+                ((RelayCommand)SaveNextCommand).RaiseCanExecuteChanged();
             }
         }
 
@@ -282,7 +282,7 @@ namespace Heath.Lister.ViewModels
             DueTime = null;
         }
 
-        private void Next()
+        private void SaveNext()
         {
             SaveInternal(false);
         }
@@ -321,12 +321,15 @@ namespace Heath.Lister.ViewModels
 
                     else
                     {
+                        Id = Guid.Empty;
                         Completed = false;
                         DueDate = null;
                         DueTime = null;
                         Notes = null;
                         Priority = Priority.None;
                         Title = null;
+                        ReminderDate = null;
+                        ReminderTime = null;
                     }
                 };
                 backgroundWorker.RunWorkerAsync();
