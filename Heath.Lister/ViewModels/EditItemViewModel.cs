@@ -26,17 +26,17 @@ namespace Heath.Lister.ViewModels
 
         private readonly INavigationService _navigationService;
 
-        private DateTime? _dueDate;
-        private DateTime? _dueTime;
         private ICommand _cancelCommand;
         private ICommand _clearDateCommand;
         private ICommand _clearTimeCommand;
-        private ICommand _saveNextCommand;
+        private DateTime? _dueDate;
+        private DateTime? _dueTime;
         private string _pageName;
         private bool _reminder;
         private DateTime? _reminderDate;
         private DateTime? _reminderTime;
         private ICommand _saveCommand;
+        private ICommand _saveNextCommand;
 
         public EditItemViewModel(INavigationService navigationService)
             : base(navigationService)
@@ -282,14 +282,14 @@ namespace Heath.Lister.ViewModels
             DueTime = null;
         }
 
-        private void SaveNext()
-        {
-            SaveInternal(false);
-        }
-
         private void Save()
         {
             SaveInternal(true);
+        }
+
+        private void SaveNext()
+        {
+            SaveInternal(false);
         }
 
         private void SaveInternal(bool goBack)
@@ -317,8 +317,16 @@ namespace Heath.Lister.ViewModels
                 backgroundWorker.RunWorkerCompleted += (sender, args) =>
                 {
                     if (goBack)
-                        _navigationService.GoBack();
+                    {
+                        if (App.RemoveBackOnNext && Id == Guid.Empty)
+                        {
+                            _navigationService.Navigate(new Uri(string.Format("/List/{0}", ListId), UriKind.Relative));
+                            App.RemoveBackEntry = true;
+                        }
 
+                        else _navigationService.GoBack();
+                        App.RemoveBackOnNext = false;
+                    }
                     else
                     {
                         Id = Guid.Empty;

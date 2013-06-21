@@ -81,6 +81,8 @@ namespace Heath.Lister
 
         internal static bool RemoveBackEntry { get; set; }
 
+        internal static bool RemoveBackOnNext { get; set; }
+
         private void ApplicationLaunching(object sender, LaunchingEventArgs e)
         {
             ApplicationUsageHelper.Init("1.1");

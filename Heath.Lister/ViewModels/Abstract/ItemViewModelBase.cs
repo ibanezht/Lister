@@ -316,6 +316,7 @@ namespace Heath.Lister.ViewModels.Abstract
         private void Edit()
         {
             _navigationService.Navigate(new Uri(string.Format("/EditItem/{0}/{1}", Id, ListId), UriKind.Relative));
+            App.RemoveBackOnNext = true;
         }
 
         private void Incomplete()
