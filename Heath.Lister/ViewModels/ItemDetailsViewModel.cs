@@ -67,6 +67,12 @@ namespace Heath.Lister.ViewModels
 
         #endregion
 
+        protected override void Edit()
+        {
+            base.Edit();
+            App.RemoveBackOnNext = true;
+        }
+
         protected override void CompleteCompleted(object sender, RunWorkerCompletedEventArgs args)
         {
             GoBack();
