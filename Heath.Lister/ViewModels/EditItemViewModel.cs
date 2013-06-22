@@ -268,7 +268,7 @@ namespace Heath.Lister.ViewModels
 
         private void Cancel()
         {
-            _navigationService.GoBack();
+            GoBack();
         }
 
         private void ClearDate()
@@ -317,18 +317,13 @@ namespace Heath.Lister.ViewModels
                 backgroundWorker.RunWorkerCompleted += (sender, args) =>
                 {
                     if (goBack)
-                    {
-                        if (App.RemoveBackOnNext && Id == Guid.Empty)
-                        {
-                            _navigationService.Navigate(new Uri(string.Format("/List/{0}", ListId), UriKind.Relative));
-                            App.RemoveBackEntry = true;
-                        }
+                        GoBack();
 
-                        else _navigationService.GoBack();
-                        App.RemoveBackOnNext = false;
-                    }
                     else
                     {
+                        if (App.RemoveBackOnNext && Id != Guid.Empty)
+                            _navigationService.RemoveBackEntry();
+
                         Id = Guid.Empty;
                         Completed = false;
                         DueDate = null;
@@ -343,10 +338,7 @@ namespace Heath.Lister.ViewModels
                 backgroundWorker.RunWorkerAsync();
             };
 
-            if (!Reminder)
-                save(null);
-
-            else
+            if (Reminder)
             {
                 Action<MessageBoxClosedEventArgs> closedHandler = e =>
                 {
@@ -370,6 +362,20 @@ namespace Heath.Lister.ViewModels
                         RadMessageBox.Show(AppResources.ReminderText, MessageBoxButtons.YesNo, AppResources.ReminderMessageText, closedHandler: closedHandler);
                 }
             }
+
+            else save(null);
+        }
+
+        private void GoBack()
+        {
+            if (App.RemoveBackOnNext && Id == Guid.Empty)
+            {
+                _navigationService.Navigate(new Uri(string.Format("/List/{0}", ListId), UriKind.Relative));
+                App.RemoveBackEntry = true;
+            }
+
+            else _navigationService.GoBack();
+            App.RemoveBackOnNext = false;
         }
 
         private bool CanSave()
