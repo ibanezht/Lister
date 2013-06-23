@@ -41,16 +41,26 @@ namespace Heath.Lister.Infrastructure
             _data.Colors.InsertAllOnSubmit(
                 new List<Color>
                 {
-                    new Color { Id = Guid.NewGuid(), Text = "blue", R = 27, G = 161, B = 226 },
-                    new Color { Id = Guid.NewGuid(), Text = "brown", R = 160, G = 80, B = 0 },
-                    new Color { Id = Guid.NewGuid(), Text = "green", R = 51, G = 153, B = 51 },
-                    new Color { Id = Guid.NewGuid(), Text = "lime", R = 162, G = 193, B = 57 },
+                    new Color { Id = Guid.NewGuid(), Text = "lime", R = 164, G = 196, B = 0 },
+                    new Color { Id = Guid.NewGuid(), Text = "green", R = 96, G = 169, B = 23 },
+                    new Color { Id = Guid.NewGuid(), Text = "emerald", R = 0, G = 138, B = 0 },
+                    new Color { Id = Guid.NewGuid(), Text = "teal", R = 0, G = 171, B = 169 },
+                    new Color { Id = Guid.NewGuid(), Text = "cyan", R = 27, G = 161, B = 226 },
+                    new Color { Id = Guid.NewGuid(), Text = "cobalt", R = 0, G = 80, B = 239 },
+                    new Color { Id = Guid.NewGuid(), Text = "indigo", R = 106, G = 0, B = 255 },
+                    new Color { Id = Guid.NewGuid(), Text = "violet", R = 170, G = 0, B = 255 },
+                    new Color { Id = Guid.NewGuid(), Text = "pink", R = 244, G = 114, B = 208 },
                     new Color { Id = Guid.NewGuid(), Text = "magenta", R = 216, G = 0, B = 115 },
-                    new Color { Id = Guid.NewGuid(), Text = "mango", R = 240, G = 150, B = 9 },
-                    new Color { Id = Guid.NewGuid(), Text = "pink", R = 230, G = 113, B = 184 },
-                    new Color { Id = Guid.NewGuid(), Text = "purple", R = 162, G = 0, B = 255 },
+                    new Color { Id = Guid.NewGuid(), Text = "crimson", R = 162, G = 0, B = 37 },
                     new Color { Id = Guid.NewGuid(), Text = "red", R = 229, G = 20, B = 0 },
-                    new Color { Id = Guid.NewGuid(), Text = "teal", R = 0, G = 171, B = 169 }
+                    new Color { Id = Guid.NewGuid(), Text = "orange", R = 250, G = 104, B = 0 },
+                    new Color { Id = Guid.NewGuid(), Text = "amber", R = 240, G = 163, B = 10 },
+                    new Color { Id = Guid.NewGuid(), Text = "yellow", R = 227, G = 200, B = 0 },
+                    new Color { Id = Guid.NewGuid(), Text = "brown", R = 130, G = 90, B = 44 },
+                    new Color { Id = Guid.NewGuid(), Text = "olive", R = 109, G = 135, B = 100 },
+                    new Color { Id = Guid.NewGuid(), Text = "steel", R = 100, G = 118, B = 135 },
+                    new Color { Id = Guid.NewGuid(), Text = "mauve", R = 118, G = 96, B = 138 },
+                    new Color { Id = Guid.NewGuid(), Text = "taupe", R = 135, G = 121, B = 78 },
                 });
 
             _data.SubmitChanges();
@@ -58,8 +68,8 @@ namespace Heath.Lister.Infrastructure
             if (_data.Lists.Any())
                 return;
 
-            var blue = _data.Colors.Single(c => c.Text == "blue");
-            var welcome = new List { Id = Guid.NewGuid(), Color = blue, Title = "welcome!", CreatedDate = DateTime.Now };
+            var steel = _data.Colors.Single(c => c.Text == "steel");
+            var welcome = new List { Id = Guid.NewGuid(), Color = steel, Title = "welcome!", CreatedDate = DateTime.Now };
 
             _data.Lists.InsertOnSubmit(welcome);
 
