@@ -241,6 +241,15 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to email.
+        /// </summary>
+        public static string EmailText {
+            get {
+                return ResourceManager.GetString("EmailText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to HIDE COMPLETED.
         /// </summary>
         public static string HideCompletedText {
@@ -475,6 +484,15 @@ namespace Heath.Lister.Localization {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to How do you want to share your list?.
+        /// </summary>
+        public static string ShareListMessage {
+            get {
+                return ResourceManager.GetString("ShareListMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to share.
         /// </summary>
         public static string ShareText {
@@ -543,6 +561,15 @@ namespace Heath.Lister.Localization {
         public static string SortTitleText {
             get {
                 return ResourceManager.GetString("SortTitleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to text.
+        /// </summary>
+        public static string TextText {
+            get {
+                return ResourceManager.GetString("TextText", resourceCulture);
             }
         }
         

@@ -291,4 +291,13 @@
   <data name="SaveNextText" xml:space="preserve">
     <value>Save Next</value>
   </data>
+  <data name="EmailText" xml:space="preserve">
+    <value>email</value>
+  </data>
+  <data name="TextText" xml:space="preserve">
+    <value>text</value>
+  </data>
+  <data name="ShareListMessage" xml:space="preserve">
+    <value>How do you want to share your list?</value>
+  </data>
 </root>

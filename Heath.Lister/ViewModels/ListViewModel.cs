@@ -221,8 +221,8 @@ namespace Heath.Lister.ViewModels
         {
             ListSort = new ListSortViewModel
             {
-                ListSortBy = _listSortSetting.Value.ListSortBy, 
-                ListSortDirection = _listSortSetting.Value.ListSortDirection, 
+                ListSortBy = _listSortSetting.Value.ListSortBy,
+                ListSortDirection = _listSortSetting.Value.ListSortDirection,
                 HideCompleted = _listSortSetting.Value.HideCompleted
             };
             RaisePropertyChanged(ListSortPropertyName);
@@ -439,19 +439,58 @@ namespace Heath.Lister.ViewModels
 
         private void Share()
         {
-            var builder = new StringBuilder();
-            builder.Append(Title);
-            builder.AppendLine();
-
-            _listItems.ForEach(i =>
+            Action<MessageBoxClosedEventArgs> closedHandler = e =>
             {
-                builder.AppendFormat(" {0}", i.Title);
-                builder.AppendLine();
-            });
+                switch (e.ButtonIndex)
+                {
+                    case 0:
+                        var emailBuilder = new StringBuilder();
 
-            var task = new SmsComposeTask();
-            task.Body = builder.ToString();
-            task.Show();
+                        _listItems.ForEach(i =>
+                        {
+                            emailBuilder.AppendFormat("{0}, {1}", i.Title, i.DueDateTime);
+                            emailBuilder.AppendLine();
+                            
+                            if (!string.IsNullOrEmpty(i.Notes))
+                            {
+                                emailBuilder.AppendFormat(" {0}", i.Notes);
+                                emailBuilder.AppendLine();
+                            }
+
+                            emailBuilder.AppendLine();
+                        });
+
+                        var emailComposeTask = new EmailComposeTask();
+
+                        emailComposeTask.Subject = Title;
+                        emailComposeTask.Body = emailBuilder.ToString();
+                        emailComposeTask.Show();
+
+                        break;
+
+                    case 1:
+                        var textBuilder = new StringBuilder();
+
+                        textBuilder.Append(Title);
+                        textBuilder.AppendLine();
+
+                        _listItems.ForEach(i =>
+                        {
+                            textBuilder.AppendFormat("{0}, {1}", i.Title, i.DueDateTime);
+                            textBuilder.AppendLine();
+                        });
+
+                        var smsComposeTask = new SmsComposeTask();
+
+                        smsComposeTask.Body = textBuilder.ToString();
+                        smsComposeTask.Show();
+
+                        break;
+                }
+            };
+
+            RadMessageBox.Show(new[] { AppResources.EmailText, AppResources.TextText, AppResources.CancelText }, 
+                AppResources.ShareText, AppResources.ShareListMessage, closedHandler: closedHandler);
         }
 
         private void Sort(ApplicationBarButtonClickEventArgs e)
