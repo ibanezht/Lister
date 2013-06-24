@@ -85,7 +85,7 @@ namespace Heath.Lister
 
         private void ApplicationLaunching(object sender, LaunchingEventArgs e)
         {
-            ApplicationUsageHelper.Init("1.1");
+            ApplicationUsageHelper.Init("1.5");
 
             AppOpenState = AppOpenState.Launching;
         }

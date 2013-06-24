@@ -461,7 +461,6 @@ namespace Heath.Lister.ViewModels
                         });
 
                         var emailComposeTask = new EmailComposeTask();
-
                         emailComposeTask.Subject = Title;
                         emailComposeTask.Body = emailBuilder.ToString();
                         emailComposeTask.Show();
@@ -470,7 +469,6 @@ namespace Heath.Lister.ViewModels
 
                     case 1:
                         var textBuilder = new StringBuilder();
-
                         textBuilder.Append(Title);
                         textBuilder.AppendLine();
 
@@ -481,7 +479,6 @@ namespace Heath.Lister.ViewModels
                         });
 
                         var smsComposeTask = new SmsComposeTask();
-
                         smsComposeTask.Body = textBuilder.ToString();
                         smsComposeTask.Show();
 
