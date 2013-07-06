@@ -27,7 +27,7 @@ namespace Heath.Lister.ViewModels
 
         public bool ShowAdds
         {
-            get { return App.AppMonetizationType == AppMonetizationType.Adds; }
+            get { return App.AppMonetizationType == AppMonetizationType.Ads; }
         }
 
         #region IPageViewModel Members

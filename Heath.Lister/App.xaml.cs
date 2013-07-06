@@ -1,5 +1,5 @@
 ﻿#define paidbuild
-//#undef paidbuild
+#undef paidbuild
 
 #region usings
 
@@ -28,7 +28,7 @@ namespace Heath.Lister
 #if paidbuild
             AppMonetizationType = AppMonetizationType.Paid;
 #else
-            AppMonetizationType = AppMonetizationType.Adds;
+            AppMonetizationType = AppMonetizationType.Ads;
 #endif
 
             InitializePhoneApplication();
