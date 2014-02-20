@@ -18,10 +18,10 @@ namespace Heath.Lister.Infrastructure.Interactivity
         private const string CommandParameterPropertyName = "CommandParameter";
 
         public static readonly DependencyProperty CommandProperty =
-            DependencyProperty.Register(CommandPropertyName, typeof(ICommand), typeof(ApplicationBarMenuItemBehavior), null);
+            DependencyProperty.Register(CommandPropertyName, typeof (ICommand), typeof (ApplicationBarMenuItemBehavior), null);
 
         public static readonly DependencyProperty CommandParameterProperty =
-            DependencyProperty.Register(CommandParameterPropertyName, typeof(object), typeof(ApplicationBarMenuItemBehavior), null);
+            DependencyProperty.Register(CommandParameterPropertyName, typeof (object), typeof (ApplicationBarMenuItemBehavior), null);
 
         private ClickCommandBinding _binding;
 

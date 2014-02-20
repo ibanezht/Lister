@@ -22,32 +22,32 @@ namespace Heath.Lister.Controls
         public static readonly DependencyProperty MessageLargeProperty =
             DependencyProperty.Register(
                 MessageLargePropertyName,
-                typeof(string),
-                typeof(HubTile),
+                typeof (string),
+                typeof (HubTile),
                 null);
 
         public static readonly DependencyProperty MessageSmallProperty =
             DependencyProperty.Register(
                 MessageSmallPropertyName,
-                typeof(string),
-                typeof(HubTile),
+                typeof (string),
+                typeof (HubTile),
                 null);
 
         public static readonly DependencyProperty StateProperty =
             DependencyProperty.Register(
                 StatePropertyName,
-                typeof(HubTileState),
-                typeof(HubTile),
+                typeof (HubTileState),
+                typeof (HubTile),
                 new PropertyMetadata(HubTileState.Normal, OnStateChanged));
 
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register(TitlePropertyName, typeof(string), typeof(HubTile), null);
+            DependencyProperty.Register(TitlePropertyName, typeof (string), typeof (HubTile), null);
 
         internal int StallingCounter;
 
         public HubTile()
         {
-            DefaultStyleKey = typeof(HubTile);
+            DefaultStyleKey = typeof (HubTile);
 
             Loaded += (sender, e) => HubTileService.InitializeReference(this);
             Unloaded += (sender, e) => HubTileService.FinalizeReference(this);

@@ -1,5 +1,4 @@
-﻿
-#if DEBUG
+﻿#if DEBUG
 
 #region usings
 
@@ -16,11 +15,11 @@ using System.Windows.Shapes;
 namespace Heath.Lister.Infrastructure
 {
     /// <summary>
-    ///   A utility class that overlays a designer-friendly grid on top of the 
-    ///   application frame, for use similar to the performance counters in
-    ///   App.xaml.cs. The color and opacity are configurable. The grid contains 
-    ///   a number of squares that are 24x24, offset with 12px gutters, and all
-    ///   24px away from the edge of the device.
+    ///     A utility class that overlays a designer-friendly grid on top of the
+    ///     application frame, for use similar to the performance counters in
+    ///     App.xaml.cs. The color and opacity are configurable. The grid contains
+    ///     a number of squares that are 24x24, offset with 12px gutters, and all
+    ///     24px away from the edge of the device.
     /// </summary>
     public static class MetroGridHelper
     {
@@ -31,8 +30,8 @@ namespace Heath.Lister.Infrastructure
         private static Grid _grid;
 
         /// <summary>
-        ///   Gets or sets a value indicating whether the designer grid is 
-        ///   visible on top of the application's frame.
+        ///     Gets or sets a value indicating whether the designer grid is
+        ///     visible on top of the application's frame.
         /// </summary>
         public static bool IsVisible
         {
@@ -45,7 +44,7 @@ namespace Heath.Lister.Infrastructure
         }
 
         /// <summary>
-        ///   Gets or sets the color to use for the grid's squares.
+        ///     Gets or sets the color to use for the grid's squares.
         /// </summary>
         public static Color Color
         {
@@ -58,7 +57,7 @@ namespace Heath.Lister.Infrastructure
         }
 
         /// <summary>
-        ///   Gets or sets a value indicating the opacity for the grid's squares.
+        ///     Gets or sets a value indicating the opacity for the grid's squares.
         /// </summary>
         public static double Opacity
         {
@@ -71,8 +70,8 @@ namespace Heath.Lister.Infrastructure
         }
 
         /// <summary>
-        ///   Updates the grid (if it already has been created) or initializes it
-        ///   otherwise.
+        ///     Updates the grid (if it already has been created) or initializes it
+        ///     otherwise.
         /// </summary>
         private static void UpdateGrid()
         {
@@ -96,7 +95,7 @@ namespace Heath.Lister.Infrastructure
         }
 
         /// <summary>
-        ///   Builds the grid.
+        ///     Builds the grid.
         /// </summary>
         private static void BuildGrid()
         {
@@ -144,12 +143,12 @@ namespace Heath.Lister.Infrastructure
         }
 
         /// <summary>
-        ///   Does the actual work of preparing the grid once the parent frame is
-        ///   in the visual tree and we have a Grid instance to work with for
-        ///   placing the chilren.
+        ///     Does the actual work of preparing the grid once the parent frame is
+        ///     in the visual tree and we have a Grid instance to work with for
+        ///     placing the chilren.
         /// </summary>
-        /// <param name = "frame">The phone application frame.</param>
-        /// <param name = "parent">The parent grid to insert the sub-grid into.</param>
+        /// <param name="frame">The phone application frame.</param>
+        /// <param name="parent">The parent grid to insert the sub-grid into.</param>
         private static void PrepareGrid(Frame frame, Grid parent)
         {
             var brush = new SolidColorBrush(_color);

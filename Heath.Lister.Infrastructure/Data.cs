@@ -12,7 +12,7 @@ namespace Heath.Lister.Infrastructure
         private const string ConnectionString = "isostore:/lister.sdf";
 
         public Data()
-            : base(ConnectionString) {}
+            : base(ConnectionString) { }
 
         public Table<Color> Colors
         {

@@ -31,8 +31,8 @@ namespace Heath.Lister.ViewModels
             get
             {
                 return IsInDesignMode
-                           ? new HubViewModel(null, null)
-                           : DependencyContainer.Instance.Get<HubViewModel>();
+                    ? new HubViewModel(null, null)
+                    : DependencyContainer.Instance.Get<HubViewModel>();
             }
         }
 
@@ -49,8 +49,8 @@ namespace Heath.Lister.ViewModels
             get
             {
                 return IsInDesignMode
-                           ? new ListViewModel(null, null)
-                           : DependencyContainer.Instance.Get<ListViewModel>();
+                    ? new ListViewModel(null, null)
+                    : DependencyContainer.Instance.Get<ListViewModel>();
             }
         }
 
@@ -67,8 +67,8 @@ namespace Heath.Lister.ViewModels
             get
             {
                 return IsInDesignMode
-                           ? new EditListViewModel(null)
-                           : DependencyContainer.Instance.Get<EditListViewModel>();
+                    ? new EditListViewModel(null)
+                    : DependencyContainer.Instance.Get<EditListViewModel>();
             }
         }
 
@@ -85,8 +85,8 @@ namespace Heath.Lister.ViewModels
             get
             {
                 return IsInDesignMode
-                           ? new EditItemViewModel(null)
-                           : DependencyContainer.Instance.Get<EditItemViewModel>();
+                    ? new EditItemViewModel(null)
+                    : DependencyContainer.Instance.Get<EditItemViewModel>();
             }
         }
 
@@ -103,8 +103,8 @@ namespace Heath.Lister.ViewModels
             get
             {
                 return IsInDesignMode
-                           ? new ItemDetailsViewModel(null)
-                           : DependencyContainer.Instance.Get<ItemDetailsViewModel>();
+                    ? new ItemDetailsViewModel(null)
+                    : DependencyContainer.Instance.Get<ItemDetailsViewModel>();
             }
         }
 

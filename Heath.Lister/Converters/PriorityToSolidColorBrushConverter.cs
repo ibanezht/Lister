@@ -17,7 +17,7 @@ namespace Heath.Lister.Converters
         private const string DefaultColorPropertyName = "DefaultColor";
 
         public static readonly DependencyProperty DefaultColorProperty =
-            DependencyProperty.Register(DefaultColorPropertyName, typeof(SolidColorBrush), typeof(PriorityToSolidColorBrushConverter), null);
+            DependencyProperty.Register(DefaultColorPropertyName, typeof (SolidColorBrush), typeof (PriorityToSolidColorBrushConverter), null);
 
         public SolidColorBrush DefaultColor
         {

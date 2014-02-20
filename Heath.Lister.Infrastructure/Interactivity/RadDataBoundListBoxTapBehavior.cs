@@ -15,10 +15,10 @@ namespace Heath.Lister.Infrastructure.Interactivity
         private const string TargetPropertyName = "Target";
 
         public static readonly DependencyProperty MethodNameProperty =
-            DependencyProperty.Register(MethodNamePropertyName, typeof(string), typeof(RadDataBoundListBoxTapBehavior), new PropertyMetadata(TargetChanged));
+            DependencyProperty.Register(MethodNamePropertyName, typeof (string), typeof (RadDataBoundListBoxTapBehavior), new PropertyMetadata(TargetChanged));
 
         public static readonly DependencyProperty TargetObjectProperty =
-            DependencyProperty.Register(TargetPropertyName, typeof(object), typeof(RadDataBoundListBoxTapBehavior), new PropertyMetadata(TargetChanged));
+            DependencyProperty.Register(TargetPropertyName, typeof (object), typeof (RadDataBoundListBoxTapBehavior), new PropertyMetadata(TargetChanged));
 
         private bool _canTap = true;
         private MethodInfo _methodInfo;

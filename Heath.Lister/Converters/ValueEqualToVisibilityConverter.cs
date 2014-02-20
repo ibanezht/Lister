@@ -14,7 +14,7 @@ namespace Heath.Lister.Converters
         private const string ValuePropertyName = "Value";
 
         public static readonly DependencyProperty ValueProperty =
-            DependencyProperty.Register(ValuePropertyName, typeof(object), typeof(ValueEqualToVisibilityConverter), null);
+            DependencyProperty.Register(ValuePropertyName, typeof (object), typeof (ValueEqualToVisibilityConverter), null);
 
         public object Value
         {

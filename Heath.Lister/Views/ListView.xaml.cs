@@ -114,12 +114,12 @@ namespace Heath.Lister.Views
 
             Messenger.Default.Register<NotificationMessage<ListViewModel>>(
                 this, nm =>
-                      {
-                          if (nm.Notification == "SortCompleted")
-                          {
-                              ElementTreeHelper.FindVisualDescendant<RadPickerBox>(this).IsPopupOpen = false;
-                          }
-                      });
+                {
+                    if (nm.Notification == "SortCompleted")
+                    {
+                        ElementTreeHelper.FindVisualDescendant<RadPickerBox>(this).IsPopupOpen = false;
+                    }
+                });
 
             App.AppOpenState = AppOpenState.None;
             base.OnNavigatedTo(e);

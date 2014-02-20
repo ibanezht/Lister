@@ -331,6 +331,7 @@ namespace Heath.Lister.ViewModels
                         Notes = null;
                         Priority = Priority.None;
                         Title = null;
+                        Reminder = false;
                         ReminderDate = null;
                         ReminderTime = null;
                     }

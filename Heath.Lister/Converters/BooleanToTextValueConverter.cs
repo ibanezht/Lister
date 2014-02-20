@@ -15,10 +15,10 @@ namespace Heath.Lister.Converters
         private const string FalseTextPropertyName = "FalseText";
 
         public static readonly DependencyProperty TrueTextProperty =
-            DependencyProperty.Register(TrueTextPropertyName, typeof(string), typeof(BooleanToTextValueConverter), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(TrueTextPropertyName, typeof (string), typeof (BooleanToTextValueConverter), new PropertyMetadata(string.Empty));
 
         public static readonly DependencyProperty FalseTextProperty =
-            DependencyProperty.Register(FalseTextPropertyName, typeof(string), typeof(BooleanToTextValueConverter), new PropertyMetadata(string.Empty));
+            DependencyProperty.Register(FalseTextPropertyName, typeof (string), typeof (BooleanToTextValueConverter), new PropertyMetadata(string.Empty));
 
         public string TrueText
         {

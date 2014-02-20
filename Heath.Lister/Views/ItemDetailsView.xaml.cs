@@ -30,10 +30,10 @@ namespace Heath.Lister.Views
             _newInstance = true;
 
             Loaded += (sender, args) =>
-                      {
-                          InitializeApplicationBar();
-                          this.ViewReady();
-                      };
+            {
+                InitializeApplicationBar();
+                this.ViewReady();
+            };
         }
 
         private void InitializeApplicationBar()

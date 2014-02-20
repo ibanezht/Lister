@@ -12,19 +12,51 @@
     xmlns:listerViews="clr-namespace:Heath.Lister.Views" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
+    xmlns:primitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone" 
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" 
     xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input" 
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" 
     xmlns:telerikToggleSwitch="clr-namespace:Telerik.Windows.Controls.ToggleSwitch;assembly=Telerik.Windows.Controls.Primitives" 
-    d:DesignHeight="768" d:DesignWidth="480" 
     DataContext="{Binding List, Source={StaticResource Locator}}" 
-    shell:SystemTray.IsVisible="True" 
     SupportedOrientations="Portrait" 
-    telerikCore:InteractionEffectManager.IsInteractionEnabled="True"
+    d:DesignHeight="768" d:DesignWidth="480" 
+    shell:SystemTray.IsVisible="True" 
+    telerikCore:InteractionEffectManager.IsInteractionEnabled="True" 
     mc:Ignorable="d">
 
     <phone:PhoneApplicationPage.Resources>
+        <Style x:Key="PivotStyle" TargetType="phone:Pivot">
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Foreground" Value="{StaticResource PhoneForegroundBrush}" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="ItemsPanel">
+                <Setter.Value>
+                    <ItemsPanelTemplate>
+                        <Grid />
+                    </ItemsPanelTemplate>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="phone:Pivot">
+                        <Grid HorizontalAlignment="{TemplateBinding HorizontalAlignment}" VerticalAlignment="{TemplateBinding VerticalAlignment}">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid Grid.RowSpan="3" Background="{TemplateBinding Background}" />
+                            <ContentControl Margin="24,17,0,-7" HorizontalContentAlignment="Stretch" Content="{TemplateBinding Title}" ContentTemplate="{TemplateBinding TitleTemplate}" Style="{StaticResource PivotTitleStyle}" />
+                            <primitives:PivotHeadersControl x:Name="HeadersListElement" Grid.Row="1" />
+                            <ItemsPresenter x:Name="PivotItemPresenter" Grid.Row="2" Margin="{TemplateBinding Padding}" />
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="ItemCheckBoxStyle" TargetType="telerikPrimitives:ItemCheckBox">
             <Setter Property="Margin" Value="0,15,0,0" />
         </Style>
@@ -128,8 +160,8 @@
                         <DataTemplate>
                             <Grid Background="{StaticResource PhoneChromeBrush}" d:DesignHeight="768" d:DesignWidth="480">
                                 <StackPanel Margin="12,55,12,0">
-                                    <telerikInput:RadListPicker Header="{Binding LocalizedResources.SortByText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemsSource="{Binding ListSortBy, Converter={StaticResource EnumValuesConverter}}" ItemTemplate="{StaticResource ListSortByDataTemplate}" SelectedItem="{Binding ListSortBy, Mode=TwoWay}" />
-                                    <telerikInput:RadListPicker Margin="12,24,12,12" Header="{Binding LocalizedResources.DirectionText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemsSource="{Binding ListSortDirection, Converter={StaticResource EnumValuesConverter}}" ItemTemplate="{StaticResource ListSortDirectionDataTemplate}" SelectedItem="{Binding ListSortDirection, Mode=TwoWay}" />
+                                    <telerikInput:RadListPicker Header="{Binding LocalizedResources.SortByText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemTemplate="{StaticResource ListSortByDataTemplate}" ItemsSource="{Binding ListSortBy, Converter={StaticResource EnumValuesConverter}}" SelectedItem="{Binding ListSortBy, Mode=TwoWay}" />
+                                    <telerikInput:RadListPicker Margin="12,24,12,12" Header="{Binding LocalizedResources.DirectionText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemTemplate="{StaticResource ListSortDirectionDataTemplate}" ItemsSource="{Binding ListSortDirection, Converter={StaticResource EnumValuesConverter}}" SelectedItem="{Binding ListSortDirection, Mode=TwoWay}" />
                                     <telerikPrimitives:RadToggleSwitch Margin="12,24,12,12" VerticalAlignment="Top" Header="{Binding LocalizedResources.HideCompletedText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" IsChecked="{Binding HideCompleted, Mode=TwoWay}">
                                         <telerikPrimitives:RadToggleSwitch.ButtonStyle>
                                             <Style TargetType="telerikToggleSwitch:ToggleSwitchButton">
@@ -146,7 +178,7 @@
                         <interactivity:EventTrigger EventName="ApplicationBarButtonClick">
                             <command:EventToCommand Command="{Binding SortCommand}" PassEventArgsToCommand="True" />
                         </interactivity:EventTrigger>
-                        
+
                         <interactivity:EventTrigger EventName="PopupOpening">
                             <interactions:CallMethodAction MethodName="PopupOpening" TargetObject="{Binding}" />
                         </interactivity:EventTrigger>
@@ -168,9 +200,9 @@
 
         <TextBlock Margin="21,0,0,0" VerticalAlignment="Bottom" Foreground="{Binding Color.Color, Converter={StaticResource ColorToSolidColorBrushConverter}}" Opacity="0.5" Style="{StaticResource PhoneTextTitle1Style}" Text="{Binding Title}" />
 
-        <controls:Pivot x:Name="listPivot" Title="{Binding}" SelectedItem="{Binding SelectedPivotItem, Mode=TwoWay}" TitleTemplate="{StaticResource TitleDataTemplate}">
+        <controls:Pivot x:Name="listPivot" Title="{Binding}" SelectedItem="{Binding SelectedPivotItem, Mode=TwoWay}" Style="{StaticResource PivotStyle}" TitleTemplate="{StaticResource TitleDataTemplate}">
             <controls:PivotItem Header="{Binding LocalizedResources.AllText, Source={StaticResource LocalizedStrings}}">
-                <telerikPrimitives:RadDataBoundListBox x:Name="allListItemsListBox" Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemsSource="{Binding AllListItems}" ItemTap="ListItemsRadDataBoundListBoxItemTap">
+                <telerikPrimitives:RadDataBoundListBox x:Name="allListItemsListBox" Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemTap="ListItemsRadDataBoundListBoxItemTap" ItemsSource="{Binding AllListItems}">
                     <telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
                         <DataTemplate>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LocalizedResources.NoItemsText, Source={StaticResource LocalizedStrings}}" />
@@ -200,7 +232,7 @@
             </controls:PivotItem>
 
             <controls:PivotItem Header="{Binding LocalizedResources.TodayText, Source={StaticResource LocalizedStrings}}">
-                <telerikPrimitives:RadDataBoundListBox x:Name="todayListItemsListBox" Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemsSource="{Binding TodayListItems}" ItemTap="ListItemsRadDataBoundListBoxItemTap">
+                <telerikPrimitives:RadDataBoundListBox x:Name="todayListItemsListBox" Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemTap="ListItemsRadDataBoundListBoxItemTap" ItemsSource="{Binding TodayListItems}">
                     <telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
                         <DataTemplate>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LocalizedResources.NoItemsText, Source={StaticResource LocalizedStrings}}" />
@@ -230,7 +262,7 @@
             </controls:PivotItem>
 
             <controls:PivotItem Header="{Binding LocalizedResources.OverdueText, Source={StaticResource LocalizedStrings}}">
-                <telerikPrimitives:RadDataBoundListBox x:Name="overdueListItemsListBox" Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemsSource="{Binding OverdueListItems}" ItemTap="ListItemsRadDataBoundListBoxItemTap">
+                <telerikPrimitives:RadDataBoundListBox x:Name="overdueListItemsListBox" Margin="-12,0,0,0" CheckBoxStyle="{StaticResource ItemCheckBoxStyle}" IsCheckModeActiveChanged="IsCheckModeActiveChanged" IsCheckModeEnabled="True" ItemCheckedPath="Selected" ItemTap="ListItemsRadDataBoundListBoxItemTap" ItemsSource="{Binding OverdueListItems}">
                     <telerikPrimitives:RadDataBoundListBox.EmptyContentTemplate>
                         <DataTemplate>
                             <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" Text="{Binding LocalizedResources.NoItemsText, Source={StaticResource LocalizedStrings}}" />
@@ -260,6 +292,6 @@
             </controls:PivotItem>
         </controls:Pivot>
 
-        <advert:AdControl x:Name="adControl" Visibility="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" IsEnabled="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="1" Width="480" Height="80" AdUnitId="10044565" ApplicationId="7c5d4828-7089-49a4-9bfd-c97b2930853e" ErrorOccurred="AdControlErrorOccurred" />
+        <advert:AdControl x:Name="adControl" Grid.Row="1" Width="480" Height="80" AdUnitId="10044565" ApplicationId="7c5d4828-7089-49a4-9bfd-c97b2930853e" ErrorOccurred="AdControlErrorOccurred" IsEnabled="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" Visibility="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>
 </phone:PhoneApplicationPage>

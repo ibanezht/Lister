@@ -450,7 +450,7 @@ namespace Heath.Lister.ViewModels
                         {
                             emailBuilder.AppendFormat("{0}, {1}", i.Title, i.DueDateTime);
                             emailBuilder.AppendLine();
-                            
+
                             if (!string.IsNullOrEmpty(i.Notes))
                             {
                                 emailBuilder.AppendFormat(" {0}", i.Notes);
@@ -486,7 +486,7 @@ namespace Heath.Lister.ViewModels
                 }
             };
 
-            RadMessageBox.Show(new[] { AppResources.EmailText, AppResources.TextText, AppResources.CancelText }, 
+            RadMessageBox.Show(new[] { AppResources.EmailText, AppResources.TextText, AppResources.CancelText },
                 AppResources.ShareText, AppResources.ShareListMessage, closedHandler: closedHandler);
         }
 

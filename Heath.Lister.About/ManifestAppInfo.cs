@@ -75,15 +75,15 @@ namespace Heath.Lister.About
         private static void LoadDesignTimeData()
         {
             _attributes = new Dictionary<string, string>
-                          {
-                              { VersionLabel, "1.2.3.4" },
-                              { ProductIdLabel, "{CF68A1E0-578C-4A7C-9278-6AC10F51EAE1}" },
-                              { TitleLabel, "My Title" },
-                              { GenreLabel, "apps.normal" },
-                              { DescriptionLabel, "Some really long sample description that exceeds the available width of the screen to test whether wrapping works correctly :-)." },
-                              { AuthorLabel, "Mr. Author" },
-                              { PublisherLabel, "My Publisher" }
-                          };
+            {
+                { VersionLabel, "1.2.3.4" },
+                { ProductIdLabel, "{CF68A1E0-578C-4A7C-9278-6AC10F51EAE1}" },
+                { TitleLabel, "My Title" },
+                { GenreLabel, "apps.normal" },
+                { DescriptionLabel, "Some really long sample description that exceeds the available width of the screen to test whether wrapping works correctly :-)." },
+                { AuthorLabel, "Mr. Author" },
+                { PublisherLabel, "My Publisher" }
+            };
         }
 
         private static void LoadData()
