@@ -1,6 +1,8 @@
 ﻿<Application 
-    x:Class="Heath.Lister.App" xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    x:Class="Heath.Lister.App" 
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:advert="clr-namespace:Microsoft.Advertising.Mobile.UI;assembly=Microsoft.Advertising.Mobile.UI" 
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:listerConverters="clr-namespace:Heath.Lister.Converters" 
     xmlns:listerInfrastructure="clr-namespace:Heath.Lister.Infrastructure;assembly=Heath.Lister.Infrastructure" 
@@ -16,6 +18,8 @@
 
         <listerLocalization:Localization x:Key="LocalizedStrings" />
 
+        <SolidColorBrush x:Key="SteelPriorityColorBrush" Color="#FF647687" />
+
         <listerConverters:BooleanToTextValueConverter x:Key="CompletedBooleanToTextValueConverter" FalseText="{Binding LocalizedResources.NoText, Source={StaticResource LocalizedStrings}}" TrueText="{Binding LocalizedResources.YesText, Source={StaticResource LocalizedStrings}}" />
         <listerConverters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
         <listerConverters:ColorToSolidColorBrushConverter x:Key="ColorToSolidColorBrushConverter" />
@@ -23,8 +27,7 @@
         <listerConverters:ListSortByToStringConverter x:Key="ListSortByToStringConverter" />
         <listerConverters:ListSortDirectionToBitmapImageConverter x:Key="ListSortDirectionToBitmapImageConverter" />
         <listerConverters:ListSortDirectionToStringConverter x:Key="ListSortDirectionToStringConverter" />
-        <listerConverters:PriorityToSolidColorBrushConverter x:Key="ForegroundDefaultPriorityToSolidColorBrushConverter" DefaultColor="{StaticResource PhoneForegroundBrush}" />
-        <listerConverters:PriorityToSolidColorBrushConverter x:Key="PhoneTextBoxForegroundDefaultPriorityToSolidColorBrushConverter" DefaultColor="{StaticResource PhoneTextBoxForegroundBrush}" />
+        <listerConverters:PriorityToSolidColorBrushConverter x:Key="SteelDefaultPriorityToSolidColorBrushConverter" DefaultColor="{StaticResource SteelPriorityColorBrush}" />
         <listerConverters:PriorityToSolidColorBrushConverter x:Key="TransparentDefaultPriorityToSolidColorBrushConverter" DefaultColor="#00000000" />
         <listerConverters:PriorityToStringConverter x:Key="PriorityToStringConverter" />
 
@@ -61,6 +64,16 @@
         <Style x:Key="ListTitleStyle" BasedOn="{StaticResource PhoneTextLargeStyle}" TargetType="TextBlock">
             <Setter Property="Margin" Value="12,0,12,12" />
         </Style>
+
+        <!--<Style TargetType="advert:AdControl">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="advert:AdControl">
+                        <StackPanel x:Name="LayoutRoot" />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style> -->
     </Application.Resources>
 
     <Application.ApplicationLifetimeObjects>

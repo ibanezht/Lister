@@ -9,10 +9,10 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone" 
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
     xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input" 
-    d:DesignHeight="768" d:DesignWidth="480" 
     DataContext="{Binding EditList, Source={StaticResource Locator}}" 
-    shell:SystemTray.IsVisible="True" 
     SupportedOrientations="Portrait" 
+    d:DesignHeight="768" d:DesignWidth="480" 
+    shell:SystemTray.IsVisible="True" 
     mc:Ignorable="d">
 
     <phone:PhoneApplicationPage.Resources>
@@ -51,7 +51,7 @@
                     </interactivity:Interaction.Behaviors>
                 </telerikInput:RadAutoCompleteBox>
 
-                <telerikInput:RadListPicker Header="{Binding LocalizedResources.TileColorText, Source={StaticResource LocalizedStrings}}" ItemsSource="{Binding Colors}" ItemTemplate="{StaticResource ColorDataTemplate}" PopupHeader="{Binding LocalizedResources.TileColorText, Source={StaticResource LocalizedStrings}}" PopupItemTemplate="{StaticResource ColorPopupDataTemplate}" SelectedItem="{Binding Color, Mode=TwoWay}" />
+                <telerikInput:RadListPicker Header="{Binding LocalizedResources.TileColorText, Source={StaticResource LocalizedStrings}}" ItemTemplate="{StaticResource ColorDataTemplate}" ItemsSource="{Binding Colors}" PopupHeader="{Binding LocalizedResources.TileColorText, Source={StaticResource LocalizedStrings}}" PopupItemTemplate="{StaticResource ColorPopupDataTemplate}" SelectedItem="{Binding Color, Mode=TwoWay}" />
             </StackPanel>
         </ScrollViewer>
     </Grid>

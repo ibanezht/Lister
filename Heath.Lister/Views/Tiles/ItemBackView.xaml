@@ -5,7 +5,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:listerConverters="clr-namespace:Heath.Lister.Converters" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-    Width="173" Height="173" 
+    Width="173" 
+    Height="173" 
     d:DataContext="{d:DesignData /SampleData/ListItemViewModelSampleData.xaml}" 
     mc:Ignorable="d">
 

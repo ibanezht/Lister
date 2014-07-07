@@ -132,13 +132,6 @@
             </StackPanel>
         </DataTemplate>
 
-        <DataTemplate x:Key="ListSortDirectionDataTemplate">
-            <StackPanel Orientation="Horizontal">
-                <Image Source="{Binding Converter={StaticResource ListSortDirectionToBitmapImageConverter}}" />
-                <TextBlock Margin="15,0,0,0" Text="{Binding Converter={StaticResource ListSortDirectionToStringConverter}}" />
-            </StackPanel>
-        </DataTemplate>
-
         <DataTemplate x:Key="TitleDataTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -161,7 +154,7 @@
                             <Grid Background="{StaticResource PhoneChromeBrush}" d:DesignHeight="768" d:DesignWidth="480">
                                 <StackPanel Margin="12,55,12,0">
                                     <telerikInput:RadListPicker Header="{Binding LocalizedResources.SortByText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemTemplate="{StaticResource ListSortByDataTemplate}" ItemsSource="{Binding ListSortBy, Converter={StaticResource EnumValuesConverter}}" SelectedItem="{Binding ListSortBy, Mode=TwoWay}" />
-                                    <telerikInput:RadListPicker Margin="12,24,12,12" Header="{Binding LocalizedResources.DirectionText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemTemplate="{StaticResource ListSortDirectionDataTemplate}" ItemsSource="{Binding ListSortDirection, Converter={StaticResource EnumValuesConverter}}" SelectedItem="{Binding ListSortDirection, Mode=TwoWay}" />
+                                    <telerikInput:RadListPicker Margin="12,24,12,12" Header="{Binding LocalizedResources.DirectionText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" ItemsSource="{Binding ListSortDirection, Converter={StaticResource EnumValuesConverter}}" SelectedItem="{Binding ListSortDirection, Mode=TwoWay}" />
                                     <telerikPrimitives:RadToggleSwitch Margin="12,24,12,12" VerticalAlignment="Top" Header="{Binding LocalizedResources.HideCompletedText, Source={StaticResource LocalizedStrings}}" HeaderTemplate="{StaticResource SortHeaderDataTemplate}" IsChecked="{Binding HideCompleted, Mode=TwoWay}">
                                         <telerikPrimitives:RadToggleSwitch.ButtonStyle>
                                             <Style TargetType="telerikToggleSwitch:ToggleSwitchButton">
@@ -292,6 +285,6 @@
             </controls:PivotItem>
         </controls:Pivot>
 
-        <advert:AdControl x:Name="adControl" Grid.Row="1" Width="480" Height="80" AdUnitId="10044565" ApplicationId="7c5d4828-7089-49a4-9bfd-c97b2930853e" ErrorOccurred="AdControlErrorOccurred" IsEnabled="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" Visibility="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" />
+        <advert:AdControl x:Name="adControl" Grid.Row="2" Width="480" Height="80" AdUnitId="10044565" ApplicationId="7c5d4828-7089-49a4-9bfd-c97b2930853e" BorderBrush="White" BorderThickness="1" ErrorOccurred="AdControlErrorOccurred" IsEnabled="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" Visibility="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>
 </phone:PhoneApplicationPage>

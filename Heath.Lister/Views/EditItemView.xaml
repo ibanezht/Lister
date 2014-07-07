@@ -11,18 +11,18 @@
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" 
     xmlns:telerikInput="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Input" 
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" 
-    d:DesignHeight="768" d:DesignWidth="480" 
     DataContext="{Binding EditItem, Source={StaticResource Locator}}" 
     IsEnabled="{Binding IsChecked, ElementName=radioButton}" 
-    shell:SystemTray.IsVisible="True" 
     SupportedOrientations="Portrait" 
+    d:DesignHeight="768" d:DesignWidth="480" 
+    shell:SystemTray.IsVisible="True" 
     telerikCore:InteractionEffectManager.IsInteractionEnabled="True" 
     mc:Ignorable="d">
 
     <phone:PhoneApplicationPage.Resources>
         <DataTemplate x:Key="PriorityDataTemplate">
             <StackPanel Orientation="Horizontal">
-                <TextBlock Text="{Binding Converter={StaticResource PriorityToStringConverter}}" Foreground="{Binding Converter={StaticResource PhoneTextBoxForegroundDefaultPriorityToSolidColorBrushConverter}}" />
+                <TextBlock Foreground="{Binding Converter={StaticResource SteelDefaultPriorityToSolidColorBrushConverter}}" Text="{Binding Converter={StaticResource PriorityToStringConverter}}" />
             </StackPanel>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
@@ -49,7 +49,7 @@
                     </interactivity:Interaction.Behaviors>
                 </telerikInput:RadAutoCompleteBox>
 
-                <telerikInput:RadListPicker Header="{Binding LocalizedResources.PriorityText, Source={StaticResource LocalizedStrings}}" ItemsSource="{Binding Priority, Converter={StaticResource EnumValuesConverter}}" ItemTemplate="{StaticResource PriorityDataTemplate}" SelectedItem="{Binding Priority, Mode=TwoWay}" />
+                <telerikInput:RadListPicker Header="{Binding LocalizedResources.PriorityText, Source={StaticResource LocalizedStrings}}" ItemTemplate="{StaticResource PriorityDataTemplate}" ItemsSource="{Binding Priority, Converter={StaticResource EnumValuesConverter}}" SelectedItem="{Binding Priority, Mode=TwoWay}" />
 
                 <TextBlock Style="{StaticResource PhoneTextSubtleStyle}" Text="{Binding LocalizedResources.DueDateText, Source={StaticResource LocalizedStrings}}" />
                 <Grid>

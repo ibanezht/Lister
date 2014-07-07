@@ -12,10 +12,10 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone" 
     xmlns:telerikCore="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Core" 
     xmlns:telerikPrimitives="clr-namespace:Telerik.Windows.Controls;assembly=Telerik.Windows.Controls.Primitives" 
-    d:DesignHeight="768" d:DesignWidth="480" 
     DataContext="{Binding Hub, Source={StaticResource Locator}}" 
-    shell:SystemTray.IsVisible="True" 
     SupportedOrientations="Portrait" 
+    d:DesignHeight="768" d:DesignWidth="480" 
+    shell:SystemTray.IsVisible="True" 
     telerikCore:InteractionEffectManager.IsInteractionEnabled="True" 
     mc:Ignorable="d">
 
@@ -29,13 +29,13 @@
             <RowDefinition />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-        
+
         <StackPanel Style="{StaticResource TitlePanelStyle}">
             <TextBlock Style="{StaticResource PhoneTextNormalStyle}" Text="{Binding ApplicationTitle}" />
         </StackPanel>
 
         <Grid Grid.Row="1" Margin="12,0,12,0">
-            <telerikPrimitives:RadDataBoundListBox x:Name="hubItemsListBox" ItemsSource="{Binding HubItems}" ItemTap="HubItemsListBoxItemTap">
+            <telerikPrimitives:RadDataBoundListBox x:Name="hubItemsListBox" ItemTap="HubItemsListBoxItemTap" ItemsSource="{Binding HubItems}">
                 <interactivity:Interaction.Triggers>
                     <interactivity:EventTrigger EventName="ItemTap">
                         <command:EventToCommand Command="{Binding ItemTappedCommand}" PassEventArgsToCommand="True" />
@@ -59,6 +59,7 @@
                 </telerikPrimitives:RadDataBoundListBox.ItemTemplate>
             </telerikPrimitives:RadDataBoundListBox>
         </Grid>
-        <advert:AdControl x:Name="adControl" Visibility="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" IsEnabled="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" Grid.Row="2" Width="480" Height="80" AdUnitId="10044565" ApplicationId="7c5d4828-7089-49a4-9bfd-c97b2930853e" ErrorOccurred="AdControlErrorOccurred" />
+
+        <advert:AdControl x:Name="adControl" Grid.Row="2" Width="480" Height="80" AdUnitId="10044565" ApplicationId="7c5d4828-7089-49a4-9bfd-c97b2930853e" BorderBrush="White" BorderThickness="1" ErrorOccurred="AdControlErrorOccurred" IsEnabled="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" Visibility="{Binding ShowAdds, Converter={StaticResource BooleanToVisibilityConverter}}" />
     </Grid>
 </phone:PhoneApplicationPage>
